@@ -121,7 +121,7 @@ std::string Timestamp::toString(bool appendTimeZone) const
   if (! appendTimeZone)
     return formattedTime;
 
-  ostrstream os;
+  std::ostrstream os;
   os << formattedTime << " (" << (_negativeTimeZone ? '-' : '+')
      << setfill('0') << setw(2) << timeZoneHours 
      << setw(2) << timeZoneMinutes << ')' << ends;
@@ -181,7 +181,7 @@ std::string TimePeriod::toString() const
       return _("not present");
     case Relative:
       {
-	ostrstream os;
+	std::ostrstream os;
 	if (_relativeTime <= 143)
 	  os << ((int)_relativeTime + 1) * 5 << _(" minutes");
 	else if (_relativeTime <= 167)
@@ -543,7 +543,7 @@ void SMSEncoder::setSemiOctets(std::string semiOctets)
 void SMSEncoder::setSemiOctetsInteger(unsigned long intValue,
 				      unsigned short length)
 {
-  ostrstream os;
+  std::ostrstream os;
   os << intValue << ends;
   char *ss = os.str();
   std::string s(ss);
