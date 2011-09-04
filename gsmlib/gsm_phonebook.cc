@@ -18,7 +18,7 @@
 #include <gsmlib/gsm_phonebook.h>
 #include <gsmlib/gsm_parser.h>
 #include <gsmlib/gsm_me_ta.h>
-#include <strstream>
+#include <sstream>
 #include <iostream>
 #include <assert.h>
 #include <ctype.h>
@@ -228,15 +228,14 @@ void Phonebook::writeEntry(int index, string telephone, string text)
   _myMeTa.setPhonebook(_phonebookName);
 
   // write entry
-  string s;
+  std::string s;
   if (telephone == "" && text == "")
   {
-    ostrstream os;
+    std::ostringstream os;
     os << "+CPBW=" << index;
     os << ends;
-    char *ss = os.str();
+    const char *ss = os.str().c_str();
     s = string(ss);
-    delete[] ss;
   }
   else
   {
@@ -245,16 +244,15 @@ void Phonebook::writeEntry(int index, string telephone, string text)
       type = UnknownNumberFormat;
     else
       type = InternationalNumberFormat;
-    string gsmText = text;
+    std::string gsmText = text;
     if (lowercase(_myMeTa.getCurrentCharSet()) == "gsm")
       gsmText = latin1ToGsm(gsmText);
-    ostrstream os;
+    std::ostringstream os;
     os << "+CPBW=" << index << ",\"" << telephone << "\"," << type
        << ",\"";
     os << ends;
-    char *ss = os.str();
+    const char *ss = os.str().c_str();
     s = string(ss);
-    delete[] ss;
     // this cannot be added with ostrstream because the gsmText can
     // contain a zero (GSM default alphabet for '@')
     s +=  gsmText + "\"";
