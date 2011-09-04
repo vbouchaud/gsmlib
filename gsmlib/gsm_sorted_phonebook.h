@@ -39,19 +39,19 @@ namespace gsmlib
     bool _useIndices;           // if phonebook from file: input file had
                                 // indices; will write indices, too
     bool _readonly;             // =true if read from stdin
-    string _filename;           // name of the file if phonebook from file
+    std::string _filename;           // name of the file if phonebook from file
     PhonebookMap _sortedPhonebook; // phonebook from file
     PhonebookRef _mePhonebook;  // phonebook if from ME
 
     // convert CR and LF in string to "\r" and "\n" respectively
-    string escapeString(string s);
+    std::string escapeString(std::string s);
 
     // convert "\r" and "\n" to CR and LF respectively
     // start parsing with pos, stop when CR, LF, 0, or '|' is encountered
-    string unescapeString(char *line, unsigned int &pos);
+    std::string unescapeString(char *line, unsigned int &pos);
 
     // initial read of phonebook file
-    void readPhonebookFile(istream &pbs, string filename) throw(GsmException);
+    void readPhonebookFile(std::istream &pbs, std::string filename) throw(GsmException);
 
     // synchronize SortedPhonebook with file (no action if in ME)
     void sync(bool fromDestructor) throw(GsmException);
@@ -67,7 +67,7 @@ namespace gsmlib
     // constructor for file-based phonebook
     // expect indices in file if useIndices == true
     // read from file
-    SortedPhonebook(string filename, bool useIndices)
+    SortedPhonebook(std::string filename, bool useIndices)
       throw(GsmException);
     // read from stdin or start empty and write to stdout
     SortedPhonebook(bool fromStdin, bool useIndices)
@@ -112,17 +112,17 @@ namespace gsmlib
     iterator insert(iterator position, const PhonebookEntryBase& x)
       throw(GsmException);
 
-    PhonebookMap::size_type count(string &key)
+    PhonebookMap::size_type count(std::string &key)
       {return _sortedPhonebook.count(PhoneMapKey(*this, lowercase(key)));}
-    iterator find(string &key)
+    iterator find(std::string &key)
       {return _sortedPhonebook.find(PhoneMapKey(*this, lowercase(key)));}
-    iterator lower_bound(string &key)
+    iterator lower_bound(std::string &key)
       {return _sortedPhonebook.lower_bound(PhoneMapKey(*this,
                                                        lowercase(key)));}
-    iterator upper_bound(string &key)
+    iterator upper_bound(std::string &key)
       {return _sortedPhonebook.upper_bound(PhoneMapKey(*this,
                                                        lowercase(key)));}
-    pair<iterator, iterator> equal_range(string &key)
+    std::pair<iterator, iterator> equal_range(std::string &key)
       {return _sortedPhonebook.equal_range(PhoneMapKey(*this,
                                                        lowercase(key)));}
 
@@ -134,10 +134,10 @@ namespace gsmlib
       {return _sortedPhonebook.lower_bound(PhoneMapKey(*this, key));}
     iterator upper_bound(int key)
       {return _sortedPhonebook.upper_bound(PhoneMapKey(*this, key));}
-    pair<iterator, iterator> equal_range(int key)
+    std::pair<iterator, iterator> equal_range(int key)
       {return _sortedPhonebook.equal_range(PhoneMapKey(*this, key));}
 
-    size_type erase(string &key) throw(GsmException);
+    size_type erase(std::string &key) throw(GsmException);
     size_type erase(int key) throw(GsmException);
     void erase(iterator position) throw(GsmException);
     void erase(iterator first, iterator last) throw(GsmException);

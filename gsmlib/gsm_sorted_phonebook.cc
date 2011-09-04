@@ -26,9 +26,9 @@ const int MAX_LINE_SIZE = 1000;
 
 using namespace gsmlib;
 
-string SortedPhonebook::escapeString(string s)
+std::string SortedPhonebook::escapeString(std::string s)
 {
-  string result;
+  std::string result;
   
   for (const char *pp = s.c_str(); *pp != 0; ++pp)
   {
@@ -46,9 +46,9 @@ string SortedPhonebook::escapeString(string s)
   return result;
 }
 
-string SortedPhonebook::unescapeString(char *line, unsigned int &pos)
+std::string SortedPhonebook::unescapeString(char *line, unsigned int &pos)
 {
-  string result;
+  std::string result;
   bool escaped = false;
 
   while (! (line[pos] == '|' && ! escaped) && line[pos] != 0 &&
@@ -79,7 +79,7 @@ string SortedPhonebook::unescapeString(char *line, unsigned int &pos)
   return result;
 }
 
-void SortedPhonebook::readPhonebookFile(istream &pbs, string filename)
+void SortedPhonebook::readPhonebookFile(std::istream &pbs, std::string filename)
   throw(GsmException)
 {
   // read entries
@@ -97,11 +97,11 @@ void SortedPhonebook::readPhonebookFile(istream &pbs, string filename)
                          OSError);
 
     // convert line to newEntry (line format : [index] '|' text '|' number
-    string text, telephone;
+    std::string text, telephone;
     unsigned int pos = 0;
 
     // parse index
-    string indexS = unescapeString(line, pos);
+    std::string indexS = unescapeString(line, pos);
     int index = -1;
     if (indexS.length() == 0)
     {
@@ -160,13 +160,13 @@ void SortedPhonebook::sync(bool fromDestructor) throw(GsmException)
     }
 
     // open stream
-    ostream *pbs = NULL;
+    std::ostream *pbs = NULL;
     try
     {
       if (_filename == "")
-        pbs = &cout;
+        pbs = &std::cout;
       else
-        pbs = new ofstream(_filename.c_str());
+        pbs = new std::ofstream(_filename.c_str());
       
       if (pbs->bad())
         throw GsmException(
@@ -180,13 +180,13 @@ void SortedPhonebook::sync(bool fromDestructor) throw(GsmException)
            i != _sortedPhonebook.end(); ++i)
       {
         // convert entry to output line
-        string line =
+        std::string line =
           (_useIndices ? intToStr(i->second->index()) : "") + "|" +
           escapeString(i->second->text()) + "|" +
           escapeString(i->second->telephone());
       
         // write out the line
-        *pbs << line << endl;
+        *pbs << line << std::endl;
         if (pbs->bad())
           throw GsmException(
             stringPrintf(_("error writing to file '%s'"),
@@ -197,11 +197,11 @@ void SortedPhonebook::sync(bool fromDestructor) throw(GsmException)
     }
     catch(GsmException &e)
     {
-      if (pbs != &cout) delete pbs;
+      if (pbs != &std::cout) delete pbs;
       throw;
     }
     // close file
-    if (pbs != &cout) delete pbs;
+    if (pbs != &std::cout) delete pbs;
 
     // reset all changed states
     _changed = false;
@@ -217,14 +217,14 @@ void SortedPhonebook::checkReadonly() throw(GsmException)
     ParameterError);
 }
 
-SortedPhonebook::SortedPhonebook(string filename, bool useIndices)
+SortedPhonebook::SortedPhonebook(std::string filename, bool useIndices)
   throw(GsmException) :
   _changed(false), _fromFile(true), _madeBackupFile(false),
   _sortOrder(ByIndex), _useIndices(useIndices), _readonly(false),
   _filename(filename)
 {
   // open the file
-  ifstream pbs(filename.c_str());
+  std::ifstream pbs(filename.c_str());
   if (pbs.bad())
     throw GsmException(stringPrintf(_("cannot open file '%s'"),
                                     filename.c_str()),
@@ -241,7 +241,7 @@ SortedPhonebook::SortedPhonebook(bool fromStdin, bool useIndices)
 {
   // read from stdin
   if (fromStdin)
-    readPhonebookFile(cin, (string)_("<STDIN>"));
+    readPhonebookFile(std::cin, (std::string)_("<STDIN>"));
 }
 
 SortedPhonebook::SortedPhonebook(PhonebookRef mePhonebook)
@@ -414,7 +414,7 @@ SortedPhonebook::insert(iterator position, const PhonebookEntryBase& x)
   return insert(x);
 }
 
-SortedPhonebook::size_type SortedPhonebook::erase(string &key)
+SortedPhonebook::size_type SortedPhonebook::erase(std::string &key)
   throw(GsmException)
 {
   // deallocate memory or remove from underlying ME phonebook

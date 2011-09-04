@@ -29,7 +29,7 @@ namespace gsmlib
 
   // maps key (see SortedSMSStore::SortOrder) to entry
   
-  typedef multimap<SMSMapKey, SMSStoreEntry*> SMSStoreMap;
+  typedef std::multimap<SMSMapKey, SMSStoreEntry*> SMSStoreMap;
 
   // iterator for SortedSMSStore that hides the "second" member of the map
   
@@ -62,14 +62,14 @@ namespace gsmlib
     SortOrder _sortOrder;       // sort order of the _sortedSMSStore
                                 // (default is ByDate)
     bool _readonly;             // =true if read from stdin
-    string _filename;           // name of the file if store from file
+    std::string _filename;           // name of the file if store from file
     SMSStoreMap _sortedSMSStore; // store from file
     SMSStoreRef _meSMSStore;    // store if from ME
 
     unsigned int _nextIndex;    // next index to use for file-based store
 
     // initial read of SMS file
-    void readSMSFile(istream &pbs, string filename) throw(GsmException);
+    void readSMSFile(std::istream &pbs, std::string filename) throw(GsmException);
     
     // synchronize SortedSMSStore with file (no action if in ME)
     void sync(bool fromDestructor) throw(GsmException);
@@ -84,7 +84,7 @@ namespace gsmlib
 
     // constructor for file-based store
     // read from file
-    SortedSMSStore(string filename) throw(GsmException);
+    SortedSMSStore(std::string filename) throw(GsmException);
     // read from stdin or start empty and write to stdout
     SortedSMSStore(bool fromStdin) throw(GsmException);
 
@@ -136,7 +136,7 @@ namespace gsmlib
         assert(_sortOrder == ByAddress);
         return _sortedSMSStore.upper_bound(SMSMapKey(*this, key));
       }
-    pair<iterator, iterator> equal_range(Address &key)
+    std::pair<iterator, iterator> equal_range(Address &key)
       {
         assert(_sortOrder == ByAddress);
         return _sortedSMSStore.equal_range(SMSMapKey(*this, key));
@@ -162,7 +162,7 @@ namespace gsmlib
         assert(_sortOrder == ByDate);
         return _sortedSMSStore.upper_bound(SMSMapKey(*this, key));
       }
-    pair<iterator, iterator> equal_range(Timestamp &key)
+    std::pair<iterator, iterator> equal_range(Timestamp &key)
       {
         assert(_sortOrder == ByDate);
         return _sortedSMSStore.equal_range(SMSMapKey(*this, key));
@@ -188,7 +188,7 @@ namespace gsmlib
         assert(_sortOrder == ByIndex || _sortOrder == ByType);
         return _sortedSMSStore.upper_bound(SMSMapKey(*this, key));
       }
-    pair<iterator, iterator> equal_range(int key)
+    std::pair<iterator, iterator> equal_range(int key)
       {
         assert(_sortOrder == ByIndex || _sortOrder == ByType);
         return _sortedSMSStore.equal_range(SMSMapKey(*this, key));

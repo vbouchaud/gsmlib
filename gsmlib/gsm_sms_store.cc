@@ -175,10 +175,10 @@ void SMSStore::readEntry(int index, SMSMessageRef &message,
 
 #ifndef NDEBUG
   if (debugLevel() >= 1)
-    cerr << "*** Reading SMS entry " << index << endl;
+    std::cerr << "*** Reading SMS entry " << index << std::endl;
 #endif // NDEBUG
 
-  string pdu;
+  std::string pdu;
   Ref<Parser> p;
   try
   {
@@ -227,16 +227,16 @@ void SMSStore::readEntry(int index, CBMessageRef &message)
 
 #ifndef NDEBUG
   if (debugLevel() >= 1)
-    cerr << "*** Reading CB entry " << index << endl;
+    std::cerr << "*** Reading CB entry " << index << std::endl;
 #endif // NDEBUG
 
-  string pdu;
+  std::string pdu;
   Ref<Parser> p;
   try
   {
     // this is just one row splitted in two part
     // (msvc6 fail with internal compiler error)
-    string s = _at->chat("+CMGR=" + intToStr(index + 1), "+CMGR:",
+    std::string s = _at->chat("+CMGR=" + intToStr(index + 1), "+CMGR:",
                          pdu, false, true, true);
     p = new Parser(s);
   }
@@ -265,14 +265,14 @@ void SMSStore::writeEntry(int &index, SMSMessageRef message)
 
 #ifndef NDEBUG
   if (debugLevel() >= 1)
-    cerr << "*** Writing SMS entry " << index << endl;
+    std::cerr << "*** Writing SMS entry " << index << std::endl;
 #endif
   
   // compute length of pdu
-  string pdu = message->encode();
+  std::string pdu = message->encode();
 
   // set message status to "RECEIVED READ" for SMS_DELIVER, SMS_STATUS_REPORT
-  string statusString;
+  std::string statusString;
 
   // Normally the ",1" sets the message status to "REC READ" (received read)
   // which is appropriate for all non-submit messages
@@ -296,7 +296,7 @@ void SMSStore::eraseEntry(int index) throw(GsmException)
 
 #ifndef NDEBUG
   if (debugLevel() >= 1)
-    cerr << "*** Erasing SMS entry " << index << endl;
+    std::cerr << "*** Erasing SMS entry " << index << std::endl;
 #endif
   
   _at->chat("+CMGD=" + intToStr(index + 1));
@@ -310,7 +310,7 @@ unsigned char SMSStore::send(int index, Ref<SMSMessage> &ackPdu)
 
   if (p.parseComma(true))
   {
-    string pdu = p.parseEol();
+    std::string pdu = p.parseEol();
 
     // add missing service centre address if required by ME
     if (! _at->getMeTa().getCapabilities()._hasSMSSCAprefix)
@@ -335,7 +335,7 @@ int SMSStore::doInsert(SMSMessageRef message)
   return index;
 }
 
-SMSStore::SMSStore(string storeName, Ref<GsmAt> at, MeTa &meTa)
+SMSStore::SMSStore(std::string storeName, Ref<GsmAt> at, MeTa &meTa)
   throw(GsmException) :
   _storeName(storeName), _at(at), _meTa(meTa), _useCache(true)
 {
@@ -481,7 +481,7 @@ void SMSStore::clear() throw(GsmException)
 
 SMSStore::~SMSStore()
 {
-  for (vector<SMSStoreEntry*>::iterator i = _store.begin();
+  for (std::vector<SMSStoreEntry*>::iterator i = _store.begin();
        i != _store.end(); ++i)
     delete *i;
 }
