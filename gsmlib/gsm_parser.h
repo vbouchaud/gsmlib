@@ -18,20 +18,18 @@
 #include <string>
 #include <vector>
 
-using namespace std;
-
 namespace gsmlib
 {
   class Parser : public RefBase
   {
   private:
     unsigned int _i;            // index into _s, next character
-    string _s;                  // string to parse
+    std::string _s;                  // std::string to parse
     bool _eos;                  // true if end-of-string reached in nextChar()
 
     // return next character or -1 if end of string
     int nextChar(bool skipWhiteSpace = true);
-    
+
     // "puts back" a character
     void putBackChar() {if (! _eos) --_i;}
 
@@ -40,21 +38,21 @@ namespace gsmlib
     // returns true if no parameter
     // or throw an GsmException if allowNoParameter == false
     bool checkEmptyParameter(bool allowNoParameter) throw(GsmException);
-    
-    // parse a string (like "string")
+
+    // parse a std::string (like "string")
     // throw an exception if not well-formed
-    string parseString2(bool stringWithQuotationMarks) throw(GsmException);
+    std::string parseString2(bool stringWithQuotationMarks) throw(GsmException);
 
     // parse a int (like 1234)
     // throw an exception if not well-formed
     int parseInt2() throw(GsmException);
 
     // throw a parser exception
-    void throwParseException(string message = "") throw(GsmException);
+    void throwParseException(std::string message = "") throw(GsmException);
 
   public:
-    Parser(string s);
-    
+    Parser(std::string s);
+
     // the following functions skip white space
     // parse a character, if absent throw a GsmException
     // return false if allowNoChar == true and character not encountered
@@ -77,7 +75,7 @@ namespace gsmlib
     vector<ParameterRange> parseParameterRangeList(bool allowNoList = false)
       throw(GsmException);
 
-    // parse a string plus its valid integer range of the
+    // parse a std::string plus its valid integer range of the
     // form "("string",(1-125))"
     // the parameter range may be absent if allowNoParameterRange == true
     ParameterRange parseParameterRange(bool allowNoParameterRange = false)
@@ -90,18 +88,18 @@ namespace gsmlib
     // then IntRange::_high is set to NOT_SET
     IntRange parseRange(bool allowNoRange = false, bool allowNonRange = false)
       throw(GsmException);
-    
+
     // parse an integer of the form "1234"
     // allow absent int if allowNoInt == true
     // then it returns NOT_SET
     int parseInt(bool allowNoInt = false) throw(GsmException);
 
-    // parse a string of the form ""string""
-    // allow absent string if allowNoString == true
+    // parse a std::string of the form ""string""
+    // allow absent std::string if allowNoString == true
     // then it returns ""
-    // if stringWithQuotationMarks == true the string may contain """
-    // the string is then parsed till the end of the line
-    string parseString(bool allowNoString = false,
+    // if stringWithQuotationMarks == true the std::string may contain """
+    // the std::string is then parsed till the end of the line
+    std::string parseString(bool allowNoString = false,
                        bool stringWithQuotationMarks = false)
       throw(GsmException);
 
@@ -109,16 +107,16 @@ namespace gsmlib
     // the comma may be absent if allowNoComma == true
     // returns true if there was a comma
     bool parseComma(bool allowNoComma = false) throw(GsmException);
-    
+
     // parse till end of line, return result without whitespace
-    string parseEol() throw(GsmException);
+    std::string parseEol() throw(GsmException);
 
     // check that end of line is reached
     void checkEol() throw(GsmException);
 
-    // return string till end of line without whitespace
+    // return std::string till end of line without whitespace
     // (does not change internal state)
-    string getEol();
+    std::string getEol();
   };
 };
 
