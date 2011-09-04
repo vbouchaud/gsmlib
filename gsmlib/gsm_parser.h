@@ -15,7 +15,7 @@
 
 #include <gsmlib/gsm_util.h>
 #include <gsmlib/gsm_error.h>
-#include <string>
+#include <std::string>
 #include <vector>
 
 namespace gsmlib
@@ -60,7 +60,7 @@ namespace gsmlib
 
     // parse a list of the form "("ABC", DEF")"
     // the list can be empty (ie. == "" ) if allowNoList == true
-    std::vector<string> parseStringList(bool allowNoList = false)
+    std::vector<std::string> parseStringList(bool allowNoList = false)
       throw(GsmException);
 
     // parse a list of the form "(12, 14)" or "(1-4, 10)"

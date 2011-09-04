@@ -145,11 +145,11 @@ bool Parser::parseChar(char c, bool allowNoChar) throw(GsmException)
   return true;
 }
 
-std::vector<string> Parser::parseStringList(bool allowNoList)
+std::vector<std::string> Parser::parseStringList(bool allowNoList)
   throw(GsmException)
 {
   // handle case of empty parameter
-  std::vector<string> result;
+  std::vector<std::string> result;
   if (checkEmptyParameter(allowNoList)) return result;
 
   parseChar('(');
