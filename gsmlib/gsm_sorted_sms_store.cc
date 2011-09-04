@@ -75,13 +75,13 @@ void SortedSMSStore::readSMSFile(istream &pbs, string filename)
 
   // check the version
   try
-  {
-    readnbytes(filename, pbs, 2, numberBuf);
-  }
+    {
+      readnbytes(filename, pbs, 2, numberBuf);
+    }
   catch (GsmException &ge)
-  {
-    // ignore error, file might be empty initially
-  }
+    {
+      // ignore error, file might be empty initially
+    }
   unsigned_int_2 version = ntohs(*((unsigned_int_2*)numberBuf));
   if (! pbs.eof() && version != SMS_STORE_FILE_FORMAT_VERSION)
     throw GsmException(stringPrintf(_("file '%s' has wrong version"),
@@ -89,43 +89,43 @@ void SortedSMSStore::readSMSFile(istream &pbs, string filename)
 
   // read entries
   while (1)
-  {
-    // read PDU length and exit loop if EOF
-    if (! readnbytes(filename, pbs, 2, numberBuf, false))
-      break;
+    {
+      // read PDU length and exit loop if EOF
+      if (! readnbytes(filename, pbs, 2, numberBuf, false))
+	break;
 
-    unsigned_int_2 pduLen = ntohs(*((unsigned_int_2*)numberBuf));
-    if (pduLen > 500)
-      throw GsmException(stringPrintf(_("corrupt SMS store file '%s'"),
-                                      filename.c_str()), ParameterError);
+      unsigned_int_2 pduLen = ntohs(*((unsigned_int_2*)numberBuf));
+      if (pduLen > 500)
+	throw GsmException(stringPrintf(_("corrupt SMS store file '%s'"),
+					filename.c_str()), ParameterError);
 
-    // read reserved integer field of message (was formerly index)
-    readnbytes(filename, pbs, 4, numberBuf);
-    //unsigned_int_4 reserved = ntohl(*((unsigned_int_4*)numberBuf));
+      // read reserved integer field of message (was formerly index)
+      readnbytes(filename, pbs, 4, numberBuf);
+      //unsigned_int_4 reserved = ntohl(*((unsigned_int_4*)numberBuf));
     
-    // read message type
-    readnbytes(filename, pbs, 1, numberBuf);
-    SMSMessage::MessageType messageType =
-      (SMSMessage::MessageType)numberBuf[0];
-    if (messageType > 2)
-      throw GsmException(stringPrintf(_("corrupt SMS store file '%s'"),
-                                      filename.c_str()), ParameterError);
+      // read message type
+      readnbytes(filename, pbs, 1, numberBuf);
+      SMSMessage::MessageType messageType =
+	(SMSMessage::MessageType)numberBuf[0];
+      if (messageType > 2)
+	throw GsmException(stringPrintf(_("corrupt SMS store file '%s'"),
+					filename.c_str()), ParameterError);
 
-    char *pduBuf = (char*)alloca(sizeof(char) * pduLen);
+      char *pduBuf = (char*)alloca(sizeof(char) * pduLen);
 
-    // read pdu
-    readnbytes(filename, pbs, pduLen, pduBuf);
-    SMSMessageRef message =
-      SMSMessage::decode(string(pduBuf, pduLen),
-                         (messageType != SMSMessage::SMS_SUBMIT));
+      // read pdu
+      readnbytes(filename, pbs, pduLen, pduBuf);
+      SMSMessageRef message =
+	SMSMessage::decode(string(pduBuf, pduLen),
+			   (messageType != SMSMessage::SMS_SUBMIT));
     
-    SMSStoreEntry *newEntry = new SMSStoreEntry(message, _nextIndex++);
-    _sortedSMSStore.insert(
-      SMSStoreMap::value_type(
-        SMSMapKey(*this, message->serviceCentreTimestamp()),
-        newEntry)
-      );
-  }
+      SMSStoreEntry *newEntry = new SMSStoreEntry(message, _nextIndex++);
+      _sortedSMSStore.insert(
+			     SMSStoreMap::value_type(
+						     SMSMapKey(*this, message->serviceCentreTimestamp()),
+						     newEntry)
+			     );
+    }
 }
 
 void SortedSMSStore::sync(bool fromDestructor) throw(GsmException)
