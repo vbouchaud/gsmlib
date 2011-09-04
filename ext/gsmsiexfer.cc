@@ -130,7 +130,7 @@ int main(int argc, char *argv[])
     string type;
     string subtype;
     int subtypeN;
-    bool verbose = false;
+    bool verbose;
     string initString = DEFAULT_INIT_STRING;
     bool swHandshake = false;
     Ref<SieMe> sourceMeTa, destMeTa;
