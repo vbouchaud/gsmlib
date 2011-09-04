@@ -55,22 +55,22 @@ static struct option longOpts[] =
 
 // convert /r and /n to CR and LF
 
-static string unescapeString(char *line)
+static std::string unescapeString(char *line)
 {
-  string result;
+  std::string result;
   bool escaped = false;
   int index = 0;
 
   while (line[index] != 0 &&
-         line[index] != CR && line[index] != LF)
+         line[index] != gsmlib::CR && line[index] != gsmlib::LF)
   {
     if (escaped)
     {
       escaped = false;
       if (line[index] == 'r')
-        result += CR;
+        result += gsmlib::CR;
       else if (line[index] == 'n')
-        result += LF;
+        result += gsmlib::LF;
       else if (line[index] == '\\')
         result += '\\';
       else
@@ -94,17 +94,17 @@ int main(int argc, char *argv[])
   try
   {
     // handle command line options
-    string device = "/dev/mobilephone";
+    std::string device = "/dev/mobilephone";
     bool test = false;
-    string baudrate;
-    Ref<GsmAt> at;
-    string initString = DEFAULT_INIT_STRING;
+    std::string baudrate;
+    gsmlib::Ref<gsmlib::GsmAt> at;
+    std::string initString = gsmlib::DEFAULT_INIT_STRING;
     bool swHandshake = false;
     bool requestStatusReport = false;
     // service centre address (set on command line)
-    string serviceCentreAddress;
-    MeTa *m = NULL;
-    string concatenatedMessageIdStr;
+    std::string serviceCentreAddress;
+    gsmlib::MeTa *m = NULL;
+    std::string concatenatedMessageIdStr;
     int concatenatedMessageId = -1;
 
     int opt;
@@ -138,106 +138,106 @@ int main(int argc, char *argv[])
         requestStatusReport = true;
         break;
       case 'v':
-        cerr << argv[0] << stringPrintf(_(": version %s [compiled %s]"),
-                                        VERSION, __DATE__) << endl;
+	std::cerr << argv[0] << gsmlib::stringPrintf(_(": version %s [compiled %s]"),
+						     VERSION, __DATE__) << std::endl;
         exit(0);
         break;
       case 'h':
-        cerr << argv[0] << _(": [-b baudrate][-c concatenatedID]"
+	std::cerr << argv[0] << _(": [-b baudrate][-c concatenatedID]"
                              "[-C sca][-d device][-h][-I init string]\n"
-                             "  [-t][-v][-X] phonenumber [text]") << endl
-             << endl
+                             "  [-t][-v][-X] phonenumber [text]") << std::endl
+             << std::endl
              << _("  -b, --baudrate    baudrate to use for device "
                   "(default: 38400)")
-             << endl
+             << std::endl
              << _("  -c, --concatenate ID for concatenated SMS messages")
-             << endl
-             << _("  -C, --sca         SMS service centre address") << endl
+             << std::endl
+             << _("  -C, --sca         SMS service centre address") << std::endl
              << _("  -d, --device      sets the destination device to connect "
-                  "to") << endl
-             << _("  -h, --help        prints this message") << endl
-             << _("  -I, --init        device AT init sequence") << endl
-             << _("  -r, --requeststat request SMS status report") << endl
+                  "to") << std::endl
+             << _("  -h, --help        prints this message") << std::endl
+             << _("  -I, --init        device AT init sequence") << std::endl
+             << _("  -r, --requeststat request SMS status report") << std::endl
              << _("  -t, --test        convert text to GSM alphabet and "
                   "vice\n"
-                  "                    versa, no SMS message is sent") << endl
+                  "                    versa, no SMS message is sent") << std::endl
              << _("  -v, --version     prints version and exits")
-             << endl
-             << _("  -X, --xonxoff     switch on software handshake") << endl
-             << endl
-             << _("  phonenumber       recipient's phone number") << endl
+             << std::endl
+             << _("  -X, --xonxoff     switch on software handshake") << std::endl
+             << std::endl
+             << _("  phonenumber       recipient's phone number") << std::endl
              << _("  text              optional text of the SMS message\n"
                   "                    if omitted: read from stdin")
-             << endl << endl;
+             << std::endl << std::endl;
         exit(0);
         break;
       case '?':
-        throw GsmException(_("unknown option"), ParameterError);
+        throw gsmlib::GsmException(_("unknown option"), gsmlib::ParameterError);
         break;
       }
 
-    if (! test)
+    if (!test)
     {
       // open the port and ME/TA
-      Ref<Port> port = new
+      gsmlib::Ref<gsmlib::Port> port = new
 #ifdef WIN32
-             Win32SerialPort
+	gsmlib::Win32SerialPort
 #else
-             UnixSerialPort
+	gsmlib::UnixSerialPort
 #endif
         (device,
-         baudrate == "" ? DEFAULT_BAUD_RATE :
-         baudRateStrToSpeed(baudrate),
+         baudrate == "" ? gsmlib::DEFAULT_BAUD_RATE :
+         gsmlib::baudRateStrToSpeed(baudrate),
          initString, swHandshake);
       // switch message service level to 1
       // this enables acknowledgement PDUs
-      m = new MeTa(port);
+      m = new gsmlib::MeTa(port);
       m->setMessageService(1);
 
-      at = new GsmAt(*m);
+      at = new gsmlib::GsmAt(*m);
     }
 
     // check parameters
     if (optind == argc)
-      throw GsmException(_("phone number and text missing"), ParameterError);
+      throw gsmlib::GsmException(_("phone number and text missing"), gsmlib::ParameterError);
 
     if (optind + 2 < argc)
-      throw GsmException(_("more than two parameters given"), ParameterError);
+      throw gsmlib::GsmException(_("more than two parameters given"), gsmlib::ParameterError);
     
     if (concatenatedMessageIdStr != "")
-      concatenatedMessageId = checkNumber(concatenatedMessageIdStr);
+      concatenatedMessageId = gsmlib::checkNumber(concatenatedMessageIdStr);
 
     // get phone number
-    string phoneNumber = argv[optind];
+    std::string phoneNumber = argv[optind];
 
     // get text
-    string text;
+    std::string text;
     if (optind + 1 == argc)
     {                           // read from stdin
       char s[1000];
-      cin.get(s, 1000);
+      std::cin.get(s, 1000);
       text = unescapeString(s);
       if (text.length() > 160)
-        throw GsmException(_("text is larger than 160 characters"),
-                           ParameterError);
+        throw gsmlib::GsmException(_("text is larger than 160 characters"),
+				   gsmlib::ParameterError);
     }
     else
       text = argv[optind + 1];
 
     if (test)
-      cout << gsmToLatin1(latin1ToGsm(text)) << endl;
+      std::cout << gsmlib::gsmToLatin1(gsmlib::latin1ToGsm(text)) << std::endl;
     else
     {
       // send SMS
-      Ref<SMSSubmitMessage> submitSMS = new SMSSubmitMessage();
+      gsmlib::Ref<gsmlib::SMSSubmitMessage> submitSMS = new gsmlib::SMSSubmitMessage();
       // set service centre address in new submit PDU if requested by user
       if (serviceCentreAddress != "")
       {
-        Address sca(serviceCentreAddress);
+	gsmlib::Address sca(serviceCentreAddress);
         submitSMS->setServiceCentreAddress(sca);
       }
       submitSMS->setStatusReportRequest(requestStatusReport);
-      Address destAddr(phoneNumber);
+      gsmlib::Address destAddr(phoneNumber);
       submitSMS->setDestinationAddress(destAddr);
       if (concatenatedMessageId == -1)
         m->sendSMSs(submitSMS, text, true);
@@ -245,9 +245,9 @@ int main(int argc, char *argv[])
         m->sendSMSs(submitSMS, text, false, concatenatedMessageId);
     }
   }
-  catch (GsmException &ge)
+  catch (gsmlib::GsmException &ge)
   {
-    cerr << argv[0] << _("[ERROR]: ") << ge.what() << endl;
+    std::cerr << argv[0] << _("[ERROR]: ") << ge.what() << std::endl;
     return 1;
   }
   return 0;
