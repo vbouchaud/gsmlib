@@ -74,12 +74,12 @@ static struct option longOpts[] =
 
 // my ME
 
-static MeTa *me = NULL;
-string receiveStoreName;        // store name for received SMSs
+static gsmlib::MeTa *me = NULL;
+std::string receiveStoreName;        // store name for received SMSs
 
 // service centre address (set on command line)
 
-static string serviceCentreAddress;
+static std::string serviceCentreAddress;
 
 // ID if concatenated messages should be sent
 
@@ -100,34 +100,34 @@ struct IncomingMessage
 {
   // used if new message is put into store
   int _index;                   // -1 means message want send directly
-  string _storeName;
+  std::string _storeName;
   // used if SMS message was sent directly to TA
-  SMSMessageRef _newSMSMessage;
+  gsmlib::SMSMessageRef _newSMSMessage;
   // used if CB message was sent directly to TA
-  CBMessageRef _newCBMessage;
+  gsmlib::CBMessageRef _newCBMessage;
   // used in both cases
-  GsmEvent::SMSMessageType _messageType;
+  gsmlib::GsmEvent::SMSMessageType _messageType;
 
   IncomingMessage() : _index(-1) {}
 };
 
-vector<IncomingMessage> newMessages;
+std::vector<IncomingMessage> newMessages;
 
-class EventHandler : public GsmEvent
+class EventHandler : public gsmlib::GsmEvent
 {
 public:
   // inherited from GsmEvent
-  void SMSReception(SMSMessageRef newMessage,
-                    SMSMessageType messageType);
-  void CBReception(CBMessageRef newMessage);
-  void SMSReceptionIndication(string storeName, unsigned int index,
-                              SMSMessageType messageType);
+  void SMSReception(gsmlib::SMSMessageRef newMessage,
+                    gsmlib::GsmEvent::SMSMessageType messageType);
+  void CBReception(gsmlib::CBMessageRef newMessage);
+  void SMSReceptionIndication(std::string storeName, unsigned int index,
+                              gsmlib::GsmEvent::SMSMessageType messageType);
 
   virtual ~EventHandler() {}
 };
 
-void EventHandler::SMSReception(SMSMessageRef newMessage,
-                                SMSMessageType messageType)
+void EventHandler::SMSReception(gsmlib::SMSMessageRef newMessage,
+                                gsmlib::GsmEvent::SMSMessageType messageType)
 {
   IncomingMessage m;
   m._messageType = messageType;
@@ -135,16 +135,16 @@ void EventHandler::SMSReception(SMSMessageRef newMessage,
   newMessages.push_back(m);
 }
 
-void EventHandler::CBReception(CBMessageRef newMessage)
+void EventHandler::CBReception(gsmlib::CBMessageRef newMessage)
 {
   IncomingMessage m;
-  m._messageType = GsmEvent::CellBroadcastSMS;
+  m._messageType = gsmlib::GsmEvent::CellBroadcastSMS;
   m._newCBMessage = newMessage;
   newMessages.push_back(m);
 }
 
-void EventHandler::SMSReceptionIndication(string storeName, unsigned int index,
-                                          SMSMessageType messageType)
+void EventHandler::SMSReceptionIndication(std::string storeName, unsigned int index,
+                                          gsmlib::GsmEvent::SMSMessageType messageType)
 {
   IncomingMessage m;
   m._index = index;
@@ -158,42 +158,42 @@ void EventHandler::SMSReceptionIndication(string storeName, unsigned int index,
   newMessages.push_back(m);
 }
 
-// execute action on string
+// execute action on std::string
 
-void doAction(string action, string result)
+void doAction(std::string action, std::string result)
 {
   if (action != "")
   {
     FILE *fd = popen(action.c_str(), "w");
     if (fd == NULL)
-      throw GsmException(stringPrintf(_("could not execute '%s'"),
-                                      action.c_str()), OSError);
+      throw gsmlib::GsmException(gsmlib::stringPrintf(_("could not execute '%s'"),
+						      action.c_str()), gsmlib::OSError);
     fputs(result.c_str(), fd);
     if (ferror(fd))
-      throw GsmException(stringPrintf(_("error writing to '%s'"),
-                                      action.c_str()), OSError);
+      throw gsmlib::GsmException(gsmlib::stringPrintf(_("error writing to '%s'"),
+						      action.c_str()), gsmlib::OSError);
     pclose(fd);
   }
   else
     // default if no action: output on stdout
-    cout << result << endl;
+    std::cout << result << std::endl;
 }
 
 // send all SMS messages in spool dir
 
 bool requestStatusReport = false;
 
-void sendSMS(string spoolDirBase, string sentDirBase, string failedDirBase,
-             unsigned int priority, bool enableSyslog, Ref<GsmAt> at)
+void sendSMS(std::string spoolDirBase, std::string sentDirBase, std::string failedDirBase,
+             unsigned int priority, bool enableSyslog, gsmlib::Ref<gsmlib::GsmAt> at)
 {
-  string spoolDir = spoolDirBase;
-  string sentDir = sentDirBase;
-  string failedDir = failedDirBase;
+  std::string spoolDir = spoolDirBase;
+  std::string sentDir = sentDirBase;
+  std::string failedDir = failedDirBase;
   if ( priority >= 1 )
   {
-    spoolDir = spoolDirBase + stringPrintf(_("%d"),priority);
-    sentDir = sentDirBase + stringPrintf(_("%d"),priority);
-    failedDir = failedDirBase + stringPrintf(_("%d"),priority);
+    spoolDir = spoolDirBase + gsmlib::stringPrintf(_("%d"),priority);
+    sentDir = sentDirBase + gsmlib::stringPrintf(_("%d"),priority);
+    failedDir = failedDirBase + gsmlib::stringPrintf(_("%d"),priority);
   }
   if ( priority > 1 )
     sendSMS(spoolDirBase, sentDirBase, failedDirBase, priority-1, enableSyslog, at);
@@ -203,17 +203,17 @@ void sendSMS(string spoolDirBase, string sentDirBase, string failedDirBase,
 #ifdef WIN32
     struct _finddata_t fileInfo;
 	long fileHandle;
-	string pattern = spoolDir + "\\*";
+	std::string pattern = spoolDir + "\\*";
     fileHandle = _findfirst(pattern.c_str(), &fileInfo);
 	bool moreFiles = fileHandle != -1L;
 #else
     DIR *dir = opendir(spoolDir.c_str());
     if (dir == (DIR*)NULL)
-      throw GsmException(
-        stringPrintf(_("error when calling opendir('%s')"
-                       "(errno: %d/%s)"), 
-                     spoolDir.c_str(), errno, strerror(errno)),
-        OSError);
+      throw gsmlib::GsmException(
+				 gsmlib::stringPrintf(_("error when calling opendir('%s')"
+							"(errno: %d/%s)"), 
+						      spoolDir.c_str(), errno, strerror(errno)),
+				 gsmlib::OSError);
 #endif
 
 #ifdef WIN32
@@ -234,38 +234,40 @@ void sendSMS(string spoolDirBase, string sentDirBase, string failedDirBase,
         // the first line is interpreted as the phone number
         // the rest is the message
 #ifdef WIN32
-        string filename = spoolDir + "\\" + fileInfo.name;
+        std::string filename = spoolDir + "\\" + fileInfo.name;
 #else
-        string filename = spoolDir + "/" + entry->d_name;
+        std::string filename = spoolDir + "/" + entry->d_name;
 #endif
-        ifstream ifs(filename.c_str());
+	std::ifstream ifs(filename.c_str());
         if (! ifs)
+	  {
 #ifndef WIN32
-          if (enableSyslog)
-          {
-            syslog(LOG_WARNING, "Could not open SMS spool file %s",
-                   filename.c_str());
-            if (failedDirBase != "") {
-              string failedfilename = failedDir + "/" + entry->d_name;
-              rename(filename.c_str(),failedfilename.c_str());
-            }
-            continue;
-          }
-          else
+	    if (enableSyslog)
+	      {
+		syslog(LOG_WARNING, "Could not open SMS spool file %s",
+		       filename.c_str());
+		if (failedDirBase != "") {
+		  std::string failedfilename = failedDir + "/" + entry->d_name;
+		  rename(filename.c_str(),failedfilename.c_str());
+		}
+		continue;
+	      }
+	    else
 #endif
-          throw GsmException(
-            stringPrintf(_("count not open SMS spool file %s"),
-                         filename.c_str()), ParameterError);
+	      throw gsmlib::GsmException(
+					 gsmlib::stringPrintf(_("count not open SMS spool file %s"),
+							      filename.c_str()), gsmlib::ParameterError);
+	  }
         char phoneBuf[1001];
         ifs.getline(phoneBuf, 1000);
-        for(int i=0;i<1000;i++)
-          if(phoneBuf[i]=='\t' || phoneBuf[i]==0)
+        for (int i=0;i<1000;i++)
+          if (phoneBuf[i]=='\t' || phoneBuf[i]==0)
           { // ignore everything after a <TAB> in the phone number
             phoneBuf[i]=0;
             break;
           }
-        string text;
-        while (! ifs.eof())
+        std::string text;
+        while (!ifs.eof())
         {
           char c;
           ifs.get(c);
@@ -279,16 +281,16 @@ void sendSMS(string spoolDirBase, string sentDirBase, string failedDirBase,
           text = text.substr(0, text.length() - 1);
 
         // send the message
-        string phoneNumber(phoneBuf);
-        Ref<SMSSubmitMessage> submitSMS = new SMSSubmitMessage();
+        std::string phoneNumber(phoneBuf);
+	gsmlib::Ref<gsmlib::SMSSubmitMessage> submitSMS = new gsmlib::SMSSubmitMessage();
         // set service centre address in new submit PDU if requested by user
         if (serviceCentreAddress != "")
         {
-          Address sca(serviceCentreAddress);
+	  gsmlib::Address sca(serviceCentreAddress);
           submitSMS->setServiceCentreAddress(sca);
         }
         submitSMS->setStatusReportRequest(requestStatusReport);
-        Address destAddr(phoneNumber);
+	gsmlib::Address destAddr(phoneNumber);
         submitSMS->setDestinationAddress(destAddr);
         try
         {
@@ -307,16 +309,16 @@ void sendSMS(string spoolDirBase, string sentDirBase, string failedDirBase,
 #endif
           if (sentDirBase != "") {
 #ifdef WIN32
-          string sentfilename = sentDir + "\\" + fileInfo.name;
+          std::string sentfilename = sentDir + "\\" + fileInfo.name;
 #else
-          string sentfilename = sentDir + "/" + entry->d_name;
+          std::string sentfilename = sentDir + "/" + entry->d_name;
 #endif
             rename(filename.c_str(),sentfilename.c_str());
           } else {
             unlink(filename.c_str());
           }
         }
-        catch (GsmException &me)
+        catch (gsmlib::GsmException &me)
         {
 #ifndef WIN32
           if (enableSyslog)
@@ -324,13 +326,13 @@ void sendSMS(string spoolDirBase, string sentDirBase, string failedDirBase,
                    filename.c_str(), me.what());
           else
 #endif
-            cerr << "Failed sending SMS to " << phoneBuf << " from "
-                 << filename << ": " << me.what() << endl;
+	    std::cerr << "Failed sending SMS to " << phoneBuf << " from "
+		      << filename << ": " << me.what() << std::endl;
           if (failedDirBase != "") {
 #ifdef WIN32
-            string failedfilename = failedDir + "\\" + fileInfo.name;
+            std::string failedfilename = failedDir + "\\" + fileInfo.name;
 #else
-            string failedfilename = failedDir + "/" + entry->d_name;
+            std::string failedfilename = failedDir + "/" + entry->d_name;
 #endif
             rename(filename.c_str(),failedfilename.c_str());
           }
@@ -362,21 +364,21 @@ int main(int argc, char *argv[])
   bool enableSyslog = false;
   try
   {
-    string device = "/dev/mobilephone";
-    string action;
-    string baudrate;
+    std::string device = "/dev/mobilephone";
+    std::string action;
+    std::string baudrate;
     bool enableSMS = true;
     bool enableCB = true;
     bool enableStat = true;
     bool flushSMS = false;
     bool onlyReceptionIndication = true;
-    string spoolDir;
-    string sentDir = "";
-    string failedDir = "";
+    std::string spoolDir;
+    std::string sentDir = "";
+    std::string failedDir = "";
     unsigned int priorities = 0;
-    string initString = DEFAULT_INIT_STRING;
+    std::string initString = gsmlib::DEFAULT_INIT_STRING;
     bool swHandshake = false;
-    string concatenatedMessageIdStr;
+    std::string concatenatedMessageIdStr;
 
     int opt;
     int dummy;
@@ -433,78 +435,78 @@ int main(int argc, char *argv[])
         baudrate = optarg;
         break;
       case 'v':
-        cerr << argv[0] << stringPrintf(_(": version %s [compiled %s]"),
-                                        VERSION, __DATE__) << endl;
+	std::cerr << argv[0] << gsmlib::stringPrintf(_(": version %s [compiled %s]"),
+						VERSION, __DATE__) << std::endl;
         exit(0);
         break;
       case 'h':
-        cerr << argv[0] << _(": [-a action][-b baudrate][-C sca][-d device]"
+	std::cerr << argv[0] << _(": [-a action][-b baudrate][-C sca][-d device]"
                              "[-f][-h][-I init string]\n"
                              "  [-s spool dir][-t][-v]{sms_type}")
-             << endl << endl
+             << std::endl << std::endl
              << _("  -a, --action      the action to execute when an SMS "
                   "arrives\n"
                   "                    (SMS is send to stdin of action)")
-             << endl
+             << std::endl
              << _("  -b, --baudrate    baudrate to use for device "
                   "(default: 38400)")
-             << endl
+             << std::endl
              << _("  -c, --concatenate start ID for concatenated SMS messages")
-             << endl
-             << _("  -C, --sca         SMS service centre address") << endl
-             << _("  -d, --device      sets the device to connect to") << endl
-             << _("  -D, --direct      enable direct routing of SMSs") << endl
-             << _("  -f, --flush       flush SMS from store") << endl
-             << _("  -F, --failed      directory to move failed SMS to,") << endl
-             << _("                    if unset, the SMS will be deleted") << endl
-             << _("  -h, --help        prints this message") << endl
-             << _("  -I, --init        device AT init sequence") << endl
+             << std::endl
+             << _("  -C, --sca         SMS service centre address") << std::endl
+             << _("  -d, --device      sets the device to connect to") << std::endl
+             << _("  -D, --direct      enable direct routing of SMSs") << std::endl
+             << _("  -f, --flush       flush SMS from store") << std::endl
+             << _("  -F, --failed      directory to move failed SMS to,") << std::endl
+             << _("                    if unset, the SMS will be deleted") << std::endl
+             << _("  -h, --help        prints this message") << std::endl
+             << _("  -I, --init        device AT init sequence") << std::endl
 #ifndef WIN32
              << _("  -L, --syslog      log errors and information to syslog")
-             << endl
+             << std::endl
 #endif
-             << _("  -P, --priorities  number of priority levels to use,") << endl
-             << _("                    (default: none)") << endl
-             << _("  -r, --requeststat request SMS status report") << endl
+             << _("  -P, --priorities  number of priority levels to use,") << std::endl
+             << _("                    (default: none)") << std::endl
+             << _("  -r, --requeststat request SMS status report") << std::endl
              << _("  -s, --spool       spool directory for outgoing SMS")
-             << endl
-             << _("  -S, --sent        directory to move sent SMS to,") << endl
-             << _("                    if unset, the SMS will be deleted") << endl
+             << std::endl
+             << _("  -S, --sent        directory to move sent SMS to,") << std::endl
+             << _("                    if unset, the SMS will be deleted") << std::endl
              << _("  -t, --store       name of SMS store to use for flush\n"
-                  "                    and/or temporary SMS storage") << endl
-             << endl
-             << _("  -v, --version     prints version and exits") << endl
-             << _("  -X, --xonxoff     switch on software handshake") << endl
-             << endl
-             << _("  sms_type may be any combination of") << endl << endl
+                  "                    and/or temporary SMS storage") << std::endl
+             << std::endl
+             << _("  -v, --version     prints version and exits") << std::endl
+             << _("  -X, --xonxoff     switch on software handshake") << std::endl
+             << std::endl
+             << _("  sms_type may be any combination of") << std::endl << std::endl
              << _("    sms, no_sms     controls reception of normal SMS")
-             << endl
+             << std::endl
              << _("    cb, no_cb       controls reception of cell broadcast"
-                  " messages") << endl
+                  " messages") << std::endl
              << _("    stat, no_stat   controls reception of status reports")
-             << endl << endl
-             << _("  default is \"sms cb stat\"") << endl << endl
+             << std::endl << std::endl
+             << _("  default is \"sms cb stat\"") << std::endl << std::endl
              << _("If no action is given, the SMS is printed to stdout")
-             << endl << endl
-             << _("If -P is given, it activates the priority system and sets the") << endl
-             << _("number or levels to use. For every level, there must be directories") << endl
-             << _("named <spool directory>+<priority level>.") << endl
-             << _("For example \"-P 2 -s queue -S send -F failed\" needs the following") <<endl
-             << _("directories: queue1/ queue2/ send1/ send2/ failed1/ failed2/") <<endl
-             << _("Before sending one SMS from queue2, all pending SMS from queue1") <<endl
-             << _("will be sent.") <<endl
-             << endl << endl;
+             << std::endl << std::endl
+             << _("If -P is given, it activates the priority system and sets the") << std::endl
+             << _("number or levels to use. For every level, there must be directories") << std::endl
+             << _("named <spool directory>+<priority level>.") << std::endl
+             << _("For example \"-P 2 -s queue -S send -F failed\" needs the following") <<std::endl
+             << _("directories: queue1/ queue2/ send1/ send2/ failed1/ failed2/") <<std::endl
+             << _("Before sending one SMS from queue2, all pending SMS from queue1") <<std::endl
+             << _("will be sent.") <<std::endl
+             << std::endl << std::endl;
         exit(0);
         break;
       case '?':
-        throw GsmException(_("unknown option"), ParameterError);
+        throw gsmlib::GsmException(_("unknown option"), gsmlib::ParameterError);
         break;
       }
   
     // find out which kind of message to route
     for (int i = optind; i < argc; ++i)
     {
-      string s = lowercase(argv[i]);
+      std::string s = gsmlib::lowercase(argv[i]);
       if (s == "sms")
         enableSMS = true;
       else if (s == "no_sms")
@@ -521,7 +523,7 @@ int main(int argc, char *argv[])
 
     // check parameters
     if (concatenatedMessageIdStr != "")
-      concatenatedMessageId = checkNumber(concatenatedMessageIdStr);
+      concatenatedMessageId = gsmlib::checkNumber(concatenatedMessageIdStr);
     
     // register signal handler for terminate signal
 #ifndef WIN32
@@ -535,45 +537,45 @@ int main(int argc, char *argv[])
     if(signal(SIGINT, terminateHandler) == SIG_ERR ||
         signal(SIGTERM, terminateHandler) == SIG_ERR)
 #endif
-      throw GsmException(
-        stringPrintf(_("error when calling sigaction() (errno: %d/%s)"), 
-                     errno, strerror(errno)),
-        OSError);
+      throw gsmlib::GsmException(
+				 gsmlib::stringPrintf(_("error when calling sigaction() (errno: %d/%s)"), 
+						      errno, strerror(errno)),
+				 gsmlib::OSError);
 
     // open GSM device
-    me = new MeTa(new
+    me = new gsmlib::MeTa(new
 #ifdef WIN32
-                  Win32SerialPort
+			  gsmlib::Win32SerialPort
 #else
-                  UnixSerialPort
+			  gsmlib::UnixSerialPort
 #endif
-                  (device,
-                   baudrate == "" ? DEFAULT_BAUD_RATE :
-                   baudRateStrToSpeed(baudrate), initString,
-                   swHandshake));
+			  (device,
+			   baudrate == "" ? gsmlib::DEFAULT_BAUD_RATE :
+			   gsmlib::baudRateStrToSpeed(baudrate), initString,
+			   swHandshake));
 
     // if flush option is given get all SMS from store and dispatch them
     if (flushSMS)
     {
       if (receiveStoreName == "")
-        throw GsmException(_("store name must be given for flush option"),
-                           ParameterError);
+        throw gsmlib::GsmException(_("store name must be given for flush option"),
+				   gsmlib::ParameterError);
       
-      SMSStoreRef store = me->getSMSStore(receiveStoreName);
+      gsmlib::SMSStoreRef store = me->getSMSStore(receiveStoreName);
 
-      for (SMSStore::iterator s = store->begin(); s != store->end(); ++s)
+      for (gsmlib::SMSStore::iterator s = store->begin(); s != store->end(); ++s)
         if (! s->empty())
         {
-          string result = _("Type of message: ");
+          std::string result = _("Type of message: ");
           switch (s->message()->messageType())
           {
-          case SMSMessage::SMS_DELIVER:
+          case gsmlib::SMSMessage::SMS_DELIVER:
             result += _("SMS message\n");
             break;
-          case SMSMessage::SMS_SUBMIT_REPORT:
+          case gsmlib::SMSMessage::SMS_SUBMIT_REPORT:
             result += _("submit report message\n");
             break;
-          case SMSMessage::SMS_STATUS_REPORT:
+          case gsmlib::SMSMessage::SMS_STATUS_REPORT:
             result += _("status report message\n");
             break;
           }
@@ -587,7 +589,7 @@ int main(int argc, char *argv[])
     // read from ME otherwise
     if (receiveStoreName == "")
     {
-      string dummy1, dummy2;
+      std::string dummy1, dummy2;
       me->getSMSStore(dummy1, dummy2, receiveStoreName );
     }
     else
@@ -623,38 +625,38 @@ int main(int argc, char *argv[])
       while (newMessages.size() > 0)
       {
         // get first new message and remove it from the vector
-        SMSMessageRef newSMSMessage = newMessages.begin()->_newSMSMessage;
-        CBMessageRef newCBMessage = newMessages.begin()->_newCBMessage;
-        GsmEvent::SMSMessageType messageType =
+	gsmlib::SMSMessageRef newSMSMessage = newMessages.begin()->_newSMSMessage;
+	gsmlib::CBMessageRef newCBMessage = newMessages.begin()->_newCBMessage;
+	gsmlib::GsmEvent::SMSMessageType messageType =
           newMessages.begin()->_messageType;
         int index = newMessages.begin()->_index;
-        string storeName = newMessages.begin()->_storeName;
+        std::string storeName = newMessages.begin()->_storeName;
         newMessages.erase(newMessages.begin());
 
         // process the new message
-        string result = _("Type of message: ");
+        std::string result = _("Type of message: ");
         switch (messageType)
         {
-        case GsmEvent::NormalSMS:
+        case gsmlib::GsmEvent::NormalSMS:
           result += _("SMS message\n");
           break;
-        case GsmEvent::CellBroadcastSMS:
+        case gsmlib::GsmEvent::CellBroadcastSMS:
           result += _("cell broadcast message\n");
           break;
-        case GsmEvent::StatusReportSMS:
+        case gsmlib::GsmEvent::StatusReportSMS:
           result += _("status report message\n");
           break;
         }
-        if (! newSMSMessage.isnull())
+        if (!newSMSMessage.isnull())
           result += newSMSMessage->toString();
         else if (! newCBMessage.isnull())
           result += newCBMessage->toString();
         else
         {
-          SMSStoreRef store = me->getSMSStore(storeName);
+	  gsmlib::SMSStoreRef store = me->getSMSStore(storeName);
           store->setCaching(false);
 
-          if (messageType == GsmEvent::CellBroadcastSMS)
+          if (messageType == gsmlib::GsmEvent::CellBroadcastSMS)
             result += (*store.getptr())[index].cbMessage()->toString();
           else
             result += (*store.getptr())[index].message()->toString();
@@ -679,7 +681,7 @@ int main(int argc, char *argv[])
         {
           me->setSMSRoutingToTA(false, false, false);
         }
-        catch (GsmException &ge)
+        catch (gsmlib::GsmException &ge)
         {
           // some phones (e.g. Motorola Timeport 260) don't allow to switch
           // off SMS routing which results in an error. Just ignore this.
@@ -689,17 +691,17 @@ int main(int argc, char *argv[])
       }
 
       // send spooled SMS
-      if (! terminateSent)
+      if (!terminateSent)
         sendSMS(spoolDir, sentDir, failedDir, priorities, enableSyslog, me->getAt());
     }
   }
-  catch (GsmException &ge)
+  catch (gsmlib::GsmException &ge)
   {
-    cerr << argv[0] << _("[ERROR]: ") << ge.what() << endl;
-    if (ge.getErrorClass() == MeTaCapabilityError)
-      cerr << argv[0] << _("[ERROR]: ")
+    std::cerr << argv[0] << _("[ERROR]: ") << ge.what() << std::endl;
+    if (ge.getErrorClass() == gsmlib::MeTaCapabilityError)
+      std::cerr << argv[0] << _("[ERROR]: ")
            << _("(try setting sms_type, please refer to gsmsmsd manpage)")
-           << endl;
+           << std::endl;
     // switch off message routing, so that following invocations of gsmsmd
     // are not swamped with message deliveries while they start up
     if (me != NULL)
@@ -708,7 +710,7 @@ int main(int argc, char *argv[])
       {
         me->setSMSRoutingToTA(false, false, false);
       }
-      catch (GsmException &ge)
+      catch (gsmlib::GsmException &ge)
       {
         // some phones (e.g. Motorola Timeport 260) don't allow to switch
         // off SMS routing which results in an error. Just ignore this.

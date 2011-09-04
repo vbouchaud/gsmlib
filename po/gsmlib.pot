@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-04 18:02+0200\n"
+"POT-Creation-Date: 2011-09-04 18:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -37,205 +37,205 @@ msgstr ""
 msgid "error when calling opendir('%s')(errno: %d/%s)"
 msgstr ""
 
-#: apps/gsmsmsd.cc:257
+#: apps/gsmsmsd.cc:258
 #, c-format
 msgid "count not open SMS spool file %s"
 msgstr ""
 
-#: apps/gsmsmsd.cc:436 apps/gsmsendsms.cc:141 apps/gsmpb.cc:308
+#: apps/gsmsmsd.cc:438 apps/gsmsendsms.cc:141 apps/gsmpb.cc:308
 #: apps/gsmctl.cc:376 apps/gsmsmsstore.cc:176
 #, c-format
 msgid ": version %s [compiled %s]"
 msgstr ""
 
-#: apps/gsmsmsd.cc:441
+#: apps/gsmsmsd.cc:443
 msgid ""
 ": [-a action][-b baudrate][-C sca][-d device][-f][-h][-I init string]\n"
 "  [-s spool dir][-t][-v]{sms_type}"
 msgstr ""
 
-#: apps/gsmsmsd.cc:445
+#: apps/gsmsmsd.cc:447
 msgid ""
 "  -a, --action      the action to execute when an SMS arrives\n"
 "                    (SMS is send to stdin of action)"
 msgstr ""
 
-#: apps/gsmsmsd.cc:449 apps/gsmsendsms.cc:150 apps/gsmpb.cc:319
+#: apps/gsmsmsd.cc:451 apps/gsmsendsms.cc:150 apps/gsmpb.cc:319
 #: apps/gsmctl.cc:385 apps/gsmsmsstore.cc:191
 msgid "  -b, --baudrate    baudrate to use for device (default: 38400)"
 msgstr ""
 
-#: apps/gsmsmsd.cc:452
+#: apps/gsmsmsd.cc:454
 msgid "  -c, --concatenate start ID for concatenated SMS messages"
 msgstr ""
 
-#: apps/gsmsmsd.cc:454 apps/gsmsendsms.cc:155 apps/gsmsmsstore.cc:197
+#: apps/gsmsmsd.cc:456 apps/gsmsendsms.cc:155 apps/gsmsmsstore.cc:197
 msgid "  -C, --sca         SMS service centre address"
 msgstr ""
 
-#: apps/gsmsmsd.cc:455
+#: apps/gsmsmsd.cc:457
 msgid "  -d, --device      sets the device to connect to"
 msgstr ""
 
-#: apps/gsmsmsd.cc:456
+#: apps/gsmsmsd.cc:458
 msgid "  -D, --direct      enable direct routing of SMSs"
 msgstr ""
 
-#: apps/gsmsmsd.cc:457
+#: apps/gsmsmsd.cc:459
 msgid "  -f, --flush       flush SMS from store"
 msgstr ""
 
-#: apps/gsmsmsd.cc:458
+#: apps/gsmsmsd.cc:460
 msgid "  -F, --failed      directory to move failed SMS to,"
 msgstr ""
 
-#: apps/gsmsmsd.cc:459 apps/gsmsmsd.cc:472
+#: apps/gsmsmsd.cc:461 apps/gsmsmsd.cc:474
 msgid "                    if unset, the SMS will be deleted"
 msgstr ""
 
-#: apps/gsmsmsd.cc:460 apps/gsmsendsms.cc:158 apps/gsmpb.cc:329
+#: apps/gsmsmsd.cc:462 apps/gsmsendsms.cc:158 apps/gsmpb.cc:329
 #: apps/gsmctl.cc:390 apps/gsmsmsstore.cc:201
 msgid "  -h, --help        prints this message"
 msgstr ""
 
-#: apps/gsmsmsd.cc:461 apps/gsmsendsms.cc:159 apps/gsmpb.cc:332
+#: apps/gsmsmsd.cc:463 apps/gsmsendsms.cc:159 apps/gsmpb.cc:332
 #: apps/gsmctl.cc:391 apps/gsmsmsstore.cc:202
 msgid "  -I, --init        device AT init sequence"
 msgstr ""
 
-#: apps/gsmsmsd.cc:463
+#: apps/gsmsmsd.cc:465
 msgid "  -L, --syslog      log errors and information to syslog"
 msgstr ""
 
-#: apps/gsmsmsd.cc:466
+#: apps/gsmsmsd.cc:468
 msgid "  -P, --priorities  number of priority levels to use,"
 msgstr ""
 
-#: apps/gsmsmsd.cc:467
+#: apps/gsmsmsd.cc:469
 msgid "                    (default: none)"
 msgstr ""
 
-#: apps/gsmsmsd.cc:468 apps/gsmsendsms.cc:160
+#: apps/gsmsmsd.cc:470 apps/gsmsendsms.cc:160
 msgid "  -r, --requeststat request SMS status report"
 msgstr ""
 
-#: apps/gsmsmsd.cc:469
+#: apps/gsmsmsd.cc:471
 msgid "  -s, --spool       spool directory for outgoing SMS"
 msgstr ""
 
-#: apps/gsmsmsd.cc:471
+#: apps/gsmsmsd.cc:473
 msgid "  -S, --sent        directory to move sent SMS to,"
 msgstr ""
 
-#: apps/gsmsmsd.cc:473
+#: apps/gsmsmsd.cc:475
 msgid ""
 "  -t, --store       name of SMS store to use for flush\n"
 "                    and/or temporary SMS storage"
 msgstr ""
 
-#: apps/gsmsmsd.cc:476 apps/gsmsendsms.cc:164 apps/gsmpb.cc:340
+#: apps/gsmsmsd.cc:478 apps/gsmsendsms.cc:164 apps/gsmpb.cc:340
 #: apps/gsmctl.cc:395 apps/gsmsmsstore.cc:210
 msgid "  -v, --version     prints version and exits"
 msgstr ""
 
-#: apps/gsmsmsd.cc:477 apps/gsmsendsms.cc:166 apps/gsmpb.cc:343
+#: apps/gsmsmsd.cc:479 apps/gsmsendsms.cc:166 apps/gsmpb.cc:343
 #: apps/gsmctl.cc:396 apps/gsmsmsstore.cc:215
 msgid "  -X, --xonxoff     switch on software handshake"
 msgstr ""
 
-#: apps/gsmsmsd.cc:479
+#: apps/gsmsmsd.cc:481
 msgid "  sms_type may be any combination of"
 msgstr ""
 
-#: apps/gsmsmsd.cc:480
+#: apps/gsmsmsd.cc:482
 msgid "    sms, no_sms     controls reception of normal SMS"
 msgstr ""
 
-#: apps/gsmsmsd.cc:482
+#: apps/gsmsmsd.cc:484
 msgid "    cb, no_cb       controls reception of cell broadcast messages"
 msgstr ""
 
-#: apps/gsmsmsd.cc:484
+#: apps/gsmsmsd.cc:486
 msgid "    stat, no_stat   controls reception of status reports"
 msgstr ""
 
-#: apps/gsmsmsd.cc:486
+#: apps/gsmsmsd.cc:488
 msgid "  default is \"sms cb stat\""
 msgstr ""
 
-#: apps/gsmsmsd.cc:487
+#: apps/gsmsmsd.cc:489
 msgid "If no action is given, the SMS is printed to stdout"
 msgstr ""
 
-#: apps/gsmsmsd.cc:489
+#: apps/gsmsmsd.cc:491
 msgid "If -P is given, it activates the priority system and sets the"
 msgstr ""
 
-#: apps/gsmsmsd.cc:490
+#: apps/gsmsmsd.cc:492
 msgid "number or levels to use. For every level, there must be directories"
 msgstr ""
 
-#: apps/gsmsmsd.cc:491
+#: apps/gsmsmsd.cc:493
 msgid "named <spool directory>+<priority level>."
 msgstr ""
 
-#: apps/gsmsmsd.cc:492
+#: apps/gsmsmsd.cc:494
 msgid "For example \"-P 2 -s queue -S send -F failed\" needs the following"
 msgstr ""
 
-#: apps/gsmsmsd.cc:493
+#: apps/gsmsmsd.cc:495
 msgid "directories: queue1/ queue2/ send1/ send2/ failed1/ failed2/"
 msgstr ""
 
-#: apps/gsmsmsd.cc:494
+#: apps/gsmsmsd.cc:496
 msgid "Before sending one SMS from queue2, all pending SMS from queue1"
 msgstr ""
 
-#: apps/gsmsmsd.cc:495
+#: apps/gsmsmsd.cc:497
 msgid "will be sent."
 msgstr ""
 
-#: apps/gsmsmsd.cc:500 apps/gsmsendsms.cc:175 apps/gsmpb.cc:351
+#: apps/gsmsmsd.cc:502 apps/gsmsendsms.cc:175 apps/gsmpb.cc:351
 #: apps/gsmctl.cc:410 apps/gsmsmsstore.cc:220
 msgid "unknown option"
 msgstr ""
 
-#: apps/gsmsmsd.cc:539
+#: apps/gsmsmsd.cc:541
 #, c-format
 msgid "error when calling sigaction() (errno: %d/%s)"
 msgstr ""
 
-#: apps/gsmsmsd.cc:559
+#: apps/gsmsmsd.cc:561
 msgid "store name must be given for flush option"
 msgstr ""
 
 #. process the new message
-#: apps/gsmsmsd.cc:567 apps/gsmsmsd.cc:635
+#: apps/gsmsmsd.cc:569 apps/gsmsmsd.cc:637
 msgid "Type of message: "
 msgstr ""
 
-#: apps/gsmsmsd.cc:571 apps/gsmsmsd.cc:639
+#: apps/gsmsmsd.cc:573 apps/gsmsmsd.cc:641
 msgid "SMS message\n"
 msgstr ""
 
-#: apps/gsmsmsd.cc:574
+#: apps/gsmsmsd.cc:576
 msgid "submit report message\n"
 msgstr ""
 
-#: apps/gsmsmsd.cc:577 apps/gsmsmsd.cc:645
+#: apps/gsmsmsd.cc:579 apps/gsmsmsd.cc:647
 msgid "status report message\n"
 msgstr ""
 
-#: apps/gsmsmsd.cc:642
+#: apps/gsmsmsd.cc:644
 msgid "cell broadcast message\n"
 msgstr ""
 
-#: apps/gsmsmsd.cc:698 apps/gsmsmsd.cc:700 apps/gsmsendsms.cc:250
+#: apps/gsmsmsd.cc:700 apps/gsmsmsd.cc:702 apps/gsmsendsms.cc:250
 #: apps/gsmpb.cc:500 apps/gsmctl.cc:627 apps/gsmsmsstore.cc:431
 msgid "[ERROR]: "
 msgstr ""
 
-#: apps/gsmsmsd.cc:701
+#: apps/gsmsmsd.cc:703
 msgid "(try setting sms_type, please refer to gsmsmsd manpage)"
 msgstr ""
 
