@@ -11,7 +11,7 @@
 // *************************************************************************
 
 #ifdef HAVE_CONFIG_H
-#include <gsm_config.h>
+  #include <gsm_config.h>
 #endif
 #include <gsmlib/gsm_nls.h>
 #include <gsmlib/gsm_sysdep.h>
@@ -21,11 +21,11 @@
 #include <strstream>
 #include <iomanip>
 #ifdef HAVE_STRING_H
-#include <string.h>
+  #include <string.h>
 #endif
 #include <climits>
 #include <string>
-using namespace std;
+
 using namespace gsmlib;
 
 // Address members
@@ -34,15 +34,15 @@ Address::Address(string number) : _plan(ISDN_Telephone)
 {
   number = removeWhiteSpace(number);
   if (number.length() > 0 && number[0] == '+')
-  {
-    _type = International;
-    _number = number.substr(1, number.length() - 1);
-  }
+    {
+      _type = International;
+      _number = number.substr(1, number.length() - 1);
+    }
   else
-  {
-    _type = Unknown;
-    _number = number;
-  }
+    {
+      _type = Unknown;
+      _number = number;
+    }
 }
 
 string Address::toString() const
@@ -64,18 +64,18 @@ bool gsmlib::operator<(const Address &x, const Address &y)
 
   if (x._type == Address::International) xnumber = "+" + xnumber;
   if (y._type == Address::International) ynumber = "+" + ynumber;
-  
+
   while (xnumber.length() != ynumber.length())
     if (xnumber.length() < ynumber.length())
-    {
-      int diff = ynumber.length() - xnumber.length();
-      xnumber += twenty0s.substr(0, (diff > 20 ? 20 : diff));
-    }
+      {
+	int diff = ynumber.length() - xnumber.length();
+	xnumber += twenty0s.substr(0, (diff > 20 ? 20 : diff));
+      }
     else
-    {
-      int diff = xnumber.length() - ynumber.length();
-      ynumber += twenty0s.substr(0, (diff > 20 ? 20 : diff));
-    }
+      {
+	int diff = xnumber.length() - ynumber.length();
+	ynumber += twenty0s.substr(0, (diff > 20 ? 20 : diff));
+      }
 
   return xnumber < ynumber;
 }
@@ -174,39 +174,39 @@ bool gsmlib::operator==(const Timestamp &x, const Timestamp &y)
     x._hour == y._hour && x._minute == y._minute && x._seconds == y._seconds;
 }
 
-// TimePeriod members
+  // TimePeriod members
 
 string TimePeriod::toString() const
 {
   switch (_format)
-  {
-  case NotPresent:
-    return _("not present");
-  case Relative:
-  {
-    ostrstream os;
-    if (_relativeTime <= 143)
-      os << ((int)_relativeTime + 1) * 5 << _(" minutes");
-    else if (_relativeTime <= 167)
-      os << 12 * 60 + ((int)_relativeTime - 143) * 30 << _(" minutes");
-    else if (_relativeTime <= 196)
-      os << (int)_relativeTime - 166 << _(" days");
-    else if (_relativeTime <= 143)
-      os << (int)_relativeTime - 192 << _(" weeks");
-    os << ends;
-    char *ss = os.str();
-    string result(ss);
-    delete[] ss;
-    return result;
-  }
-  case Absolute:
-    return _absoluteTime.toString();
-  default:
-    return _("unknown");
-  }
+    {
+    case NotPresent:
+      return _("not present");
+    case Relative:
+      {
+	ostrstream os;
+	if (_relativeTime <= 143)
+	  os << ((int)_relativeTime + 1) * 5 << _(" minutes");
+	else if (_relativeTime <= 167)
+	  os << 12 * 60 + ((int)_relativeTime - 143) * 30 << _(" minutes");
+	else if (_relativeTime <= 196)
+	  os << (int)_relativeTime - 166 << _(" days");
+	else if (_relativeTime <= 143)
+	  os << (int)_relativeTime - 192 << _(" weeks");
+	os << ends;
+	char *ss = os.str();
+	string result(ss);
+	delete[] ss;
+	return result;
+      }
+    case Absolute:
+      return _absoluteTime.toString();
+    default:
+      return _("unknown");
+    }
 }
 
-// DataCodingScheme members
+  // DataCodingScheme members
 
 string DataCodingScheme::toString() const
 {
@@ -214,40 +214,40 @@ string DataCodingScheme::toString() const
   if (compressed()) result += _("compressed   ");
   if (messageWaitingIndication())
     switch (getMessageWaitingType())
-    {
-    case DCS_VOICEMAIL_MESSAGE_WAITING:
-      result += _("voicemail message waiting");
-      break;
-    case DCS_FAX_MESSAGE_WAITING:
-      result += _("fax message waiting");
-      break;
-    case DCS_ELECTRONIC_MAIL_MESSAGE_WAITING:
-      result += _("electronic mail message waiting");
-      break;
-    case DCS_OTHER_MESSAGE_WAITING:
-      result += _("other message waiting");
-      break;
-    }
+      {
+      case DCS_VOICEMAIL_MESSAGE_WAITING:
+	result += _("voicemail message waiting");
+	break;
+      case DCS_FAX_MESSAGE_WAITING:
+	result += _("fax message waiting");
+	break;
+      case DCS_ELECTRONIC_MAIL_MESSAGE_WAITING:
+	result += _("electronic mail message waiting");
+	break;
+      case DCS_OTHER_MESSAGE_WAITING:
+	result += _("other message waiting");
+	break;
+      }
   else
     switch (getAlphabet())
-    {
-    case DCS_DEFAULT_ALPHABET:
-      result += _("default alphabet");
-      break;
-    case DCS_EIGHT_BIT_ALPHABET:
-      result += _("8-bit alphabet");
-      break;
-    case DCS_SIXTEEN_BIT_ALPHABET:
-      result += _("16-bit alphabet");
-      break;
-    case DCS_RESERVED_ALPHABET:
-      result += _("reserved alphabet");
-      break;
-    }
+      {
+      case DCS_DEFAULT_ALPHABET:
+	result += _("default alphabet");
+	break;
+      case DCS_EIGHT_BIT_ALPHABET:
+	result += _("8-bit alphabet");
+	break;
+      case DCS_SIXTEEN_BIT_ALPHABET:
+	result += _("16-bit alphabet");
+	break;
+      case DCS_RESERVED_ALPHABET:
+	result += _("reserved alphabet");
+	break;
+      }
   return result;
 }
 
-// SMSDecoder members
+  // SMSDecoder members
 
 SMSDecoder::SMSDecoder(string pdu) : _bi(0), _septetStart(NULL)
 {
@@ -261,18 +261,18 @@ SMSDecoder::SMSDecoder(string pdu) : _bi(0), _septetStart(NULL)
 void SMSDecoder::alignOctet()
 {
   if (_bi != 0)
-  {
-    _bi = 0;
-    ++_op;
-  }
+    {
+      _bi = 0;
+      ++_op;
+    }
 }
-    
+
 void SMSDecoder::alignSeptet()
 {
   assert(_septetStart != NULL);
   while (((_op - _septetStart) * 8 + _bi) % 7 != 0) getBit();
 }
-    
+
 unsigned char SMSDecoder::get2Bits()
 {
   unsigned char result = getBit();
@@ -291,68 +291,68 @@ void SMSDecoder::getOctets(unsigned char* octets, unsigned short length)
 {
   alignOctet();
   for (unsigned short i = 0; i < length; ++i)
-  {
-    if (_op >= _maxop)
-      throw GsmException(_("premature end of PDU"), SMSFormatError);
-    *octets++ = *_op++;
-  }
+    {
+      if (_op >= _maxop)
+	throw GsmException(_("premature end of PDU"), SMSFormatError);
+      *octets++ = *_op++;
+    }
 }
 
-string SMSDecoder::getSemiOctets(unsigned short length)
-{
-  string result;
-  result.reserve(length);
-  alignOctet();
-  for (unsigned short i = 0; i < length; ++i)
+  string SMSDecoder::getSemiOctets(unsigned short length)
   {
-    if (_bi == 0)
-    {
-      if (_op >= _maxop)
-        throw GsmException(_("premature end of PDU"), SMSFormatError);
-      // bits 0..3 are most significant
-      result += '0' + (*_op & 0xf);
-      _bi = 4;
-    }
-    else
-    {
-      if (_op >= _maxop)
-        throw GsmException(_("premature end of PDU"), SMSFormatError);
-      // bits 4..7 are least significant, skip 0xf digit
-      if ((*_op & 0xf0) != 0xf0)
-        result += '0' + (*_op >> 4);
-      _bi = 0;
-      ++_op;
-    }
+    string result;
+    result.reserve(length);
+    alignOctet();
+    for (unsigned short i = 0; i < length; ++i)
+      {
+	if (_bi == 0)
+	  {
+	    if (_op >= _maxop)
+	      throw GsmException(_("premature end of PDU"), SMSFormatError);
+	    // bits 0..3 are most significant
+	    result += '0' + (*_op & 0xf);
+	    _bi = 4;
+	  }
+	else
+	  {
+	    if (_op >= _maxop)
+	      throw GsmException(_("premature end of PDU"), SMSFormatError);
+	    // bits 4..7 are least significant, skip 0xf digit
+	    if ((*_op & 0xf0) != 0xf0)
+	      result += '0' + (*_op >> 4);
+	    _bi = 0;
+	    ++_op;
+	  }
+      }
+    alignOctet();
+    return result;
   }
-  alignOctet();
-  return result;
-}
 
 unsigned long SMSDecoder::getSemiOctetsInteger(unsigned short length)
 {
   unsigned long result = 0;
   alignOctet();
   for (unsigned short i = 0; i < length; ++i)
-  {
-    if (_bi == 0)
     {
-      if (_op >= _maxop)
-        throw GsmException(_("premature end of PDU"), SMSFormatError);
-      // bits 0..3 are most significant
-      result = result * 10 + (*_op & 0xf);
-      _bi = 4;
+      if (_bi == 0)
+	{
+	  if (_op >= _maxop)
+	    throw GsmException(_("premature end of PDU"), SMSFormatError);
+	  // bits 0..3 are most significant
+	  result = result * 10 + (*_op & 0xf);
+	  _bi = 4;
+	}
+      else
+	{
+	  if (_op >= _maxop)
+	    throw GsmException(_("premature end of PDU"), SMSFormatError);
+	  // bits 4..7 are least significant, skip 0xf digit
+	  if ((*_op & 0xf0) != 0xf0)
+	    result = result * 10 + (*_op >> 4);
+	  _bi = 0;
+	  ++_op;
+	}
     }
-    else
-    {
-      if (_op >= _maxop)
-        throw GsmException(_("premature end of PDU"), SMSFormatError);
-      // bits 4..7 are least significant, skip 0xf digit
-      if ((*_op & 0xf0) != 0xf0)
-        result = result * 10 + (*_op >> 4);
-      _bi = 0;
-      ++_op;
-    }
-  }
   alignOctet();
   return result;
 }
@@ -404,12 +404,12 @@ string SMSDecoder::getString(unsigned short length)
   string result;
   alignSeptet();
   for (unsigned short i = 0; i < length; ++i)
-  {
-    unsigned char c = 0;
-    for (unsigned short j = 0; j < 7; ++j)
-      c |= getBit() << j;
-    result += c;
-  }
+    {
+      unsigned char c = 0;
+      for (unsigned short j = 0; j < 7; ++j)
+	c |= getBit() << j;
+      result += c;
+    }
   return result;
 }
 
@@ -428,17 +428,17 @@ Address SMSDecoder::getAddress(bool scAddressFormat)
 
   // get address
   if (result._type == Address::Alphanumeric)
-  {
-    markSeptet();
-    // addressLength is number of semi-octets
-    // (addressLength / 2) * 8 is number of available bits
-    // divided by 7 is number of 7-bit characters
-    result._number = gsmToLatin1(getString(addressLength * 4 / 7));
-    alignOctet();
-  }
+    {
+      markSeptet();
+      // addressLength is number of semi-octets
+      // (addressLength / 2) * 8 is number of available bits
+      // divided by 7 is number of 7-bit characters
+      result._number = gsmToLatin1(getString(addressLength * 4 / 7));
+      alignOctet();
+    }
   else
     result._number = getSemiOctets(scAddressFormat ?
-                                   (addressLength - 1) * 2 : addressLength);
+				   (addressLength - 1) * 2 : addressLength);
   return result;
 }
 
@@ -461,19 +461,19 @@ TimePeriod SMSDecoder::getTimePeriod(TimePeriod::Format format)
   TimePeriod result;
   result._format = format;
   switch (format)
-  {
-  case TimePeriod::NotPresent:
-    break;
-  case TimePeriod::Relative:
-    result._relativeTime = getOctet();
-    break;
-  case TimePeriod::Absolute:
-    result._absoluteTime = getTimestamp();
-    break;
-  default:
-    throw GsmException(_("unknown time period format"), SMSFormatError);
-    break;
-  }
+    {
+    case TimePeriod::NotPresent:
+      break;
+    case TimePeriod::Relative:
+      result._relativeTime = getOctet();
+      break;
+    case TimePeriod::Absolute:
+      result._absoluteTime = getTimestamp();
+      break;
+    default:
+      throw GsmException(_("unknown time period format"), SMSFormatError);
+      break;
+    }
   return result;
 }
 
@@ -482,7 +482,7 @@ SMSDecoder::~SMSDecoder()
   delete _p;
 }
 
-// SMSEncoder members
+  // SMSEncoder members
 
 SMSEncoder::SMSEncoder() : _bi(0), _op(_p)
 {
@@ -492,17 +492,17 @@ SMSEncoder::SMSEncoder() : _bi(0), _op(_p)
 void SMSEncoder::alignOctet()
 {
   if (_bi != 0)
-  {
-    _bi = 0;
-    ++_op;
-  }
+    {
+      _bi = 0;
+      ++_op;
+    }
 }
-    
+
 void SMSEncoder::alignSeptet()
 {
   while (((_op - _septetStart) * 8 + _bi) % 7 != 0) setBit();
 }
-    
+
 void SMSEncoder::set2Bits(unsigned char twoBits)
 {
   setBit(twoBits & 1);
@@ -526,25 +526,25 @@ void SMSEncoder::setSemiOctets(string semiOctets)
 {
   alignOctet();
   for (unsigned int i = 0; i < semiOctets.length(); ++i)
-  {
-    if (_bi == 0)
     {
-      *_op = semiOctets[i] - '0';
-      _bi = 4;
+      if (_bi == 0)
+	{
+	  *_op = semiOctets[i] - '0';
+	  _bi = 4;
+	}
+      else
+	{
+	  *_op++ |= (semiOctets[i] - '0') << 4;
+	  _bi = 0;
+	}
     }
-    else
-    {
-      *_op++ |= (semiOctets[i] - '0') << 4;
-      _bi = 0;
-    }
-  }
   if (_bi == 4)
     *_op++ |= 0xf0;
   _bi = 0;
 }
 
 void SMSEncoder::setSemiOctetsInteger(unsigned long intValue,
-                                      unsigned short length)
+				      unsigned short length)
 {
   ostrstream os;
   os << intValue << ends;
@@ -573,11 +573,11 @@ void SMSEncoder::setString(string stringValue)
 {
   alignSeptet();
   for (unsigned int i = 0; i < stringValue.length(); ++i)
-  {
-    unsigned char c = stringValue[i];
-    for (unsigned short j = 0; j < 7; ++j)
-      setBit(((1 << j) & c) != 0);
-  }
+    {
+      unsigned char c = stringValue[i];
+      for (unsigned short j = 0; j < 7; ++j)
+	setBit(((1 << j) & c) != 0);
+    }
 }
 
 void SMSEncoder::setAddress(Address &address, bool scAddressFormat)
@@ -648,16 +648,16 @@ void SMSEncoder::setTimePeriod(TimePeriod period)
     }
 }
 
-string SMSEncoder::getHexString()
-{
-  short bi = _bi;
-  unsigned char *op = _op;
-  alignOctet();
-  string result = bufToHex(_p, _op - _p);
-  _bi = bi;
-  _op = op;
-  return result;
-}
+  string SMSEncoder::getHexString()
+  {
+    short bi = _bi;
+    unsigned char *op = _op;
+    alignOctet();
+    string result = bufToHex(_p, _op - _p);
+    _bi = bi;
+    _op = op;
+    return result;
+  }
 
 unsigned int SMSEncoder::getLength()
 {
