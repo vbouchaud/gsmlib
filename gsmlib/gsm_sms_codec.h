@@ -328,7 +328,7 @@ namespace gsmlib
     unsigned int length() const {return _udh.length();}
 
     // return user data header as octet string
-    operator string() const {return _udh;}
+    operator std::string() const {return _udh;}
   };
 };
 

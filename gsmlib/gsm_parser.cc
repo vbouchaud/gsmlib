@@ -30,30 +30,32 @@ int Parser::nextChar(bool skipWhiteSpace)
     while (_i < _s.length() && isspace(_s[_i])) ++_i;
 
   if (_i == _s.length())
-  {
-    _eos = true;
-    return -1;
-  }
+    {
+      _eos = true;
+      return -1;
+    }
 
   return _s[_i++];
 }
-    
+
 bool Parser::checkEmptyParameter(bool allowNoParameter) throw(GsmException)
 {
   int c = nextChar();
   if (c == ',' || c == -1)
-    if (allowNoParameter)
     {
-      putBackChar();
-      return true;
-    }
-    else
-      throwParseException(_("expected parameter"));
+      if (allowNoParameter)
+	{
+	  putBackChar();
+	  return true;
+	}
+      else
+	throwParseException(_("expected parameter"));
 
-  putBackChar();
+      putBackChar();
+    }
   return false;
 }
-    
+
 string Parser::parseString2(bool stringWithQuotationMarks)
   throw(GsmException)
 {
@@ -61,38 +63,38 @@ string Parser::parseString2(bool stringWithQuotationMarks)
   string result;
   if (parseChar('"', true))  // OK, string starts and ends with quotation mark
     if (stringWithQuotationMarks)
-    {
-      // read till end of line
-      while ((c = nextChar(false)) != -1)
-        result += c;
-      
-      // check for """ at end of line
-      if (result.length() == 0 || result[result.length() - 1]  != '"')
-        throwParseException(_("expected '\"'"));
-      
-      // remove """ at the end
-      result.resize(result.length() - 1);
-    }
+      {
+	// read till end of line
+	while ((c = nextChar(false)) != -1)
+	  result += c;
+
+	// check for """ at end of line
+	if (result.length() == 0 || result[result.length() - 1]  != '"')
+	  throwParseException(_("expected '\"'"));
+
+	// remove """ at the end
+	result.resize(result.length() - 1);
+      }
     else
-    {
-      // read till next """
-      while ((c = nextChar(false)) != '"')
-        if (c == -1)
-          throwParseException();
-        else
-          result += c;
-    }
+      {
+	// read till next """
+	while ((c = nextChar(false)) != '"')
+	  if (c == -1)
+	    throwParseException();
+	  else
+	    result += c;
+      }
   else                          // string ends with "," or EOL
-  {
-    c = nextChar(false);
-    while (c != ',' && c != -1)
     {
-      result += c;
       c = nextChar(false);
+      while (c != ',' && c != -1)
+	{
+	  result += c;
+	  c = nextChar(false);
+	}
+      if (c == ',') putBackChar();
     }
-    if (c == ',') putBackChar();
-  }
-    
+
   return result;
 }
 
@@ -132,13 +134,15 @@ Parser::Parser(string s) : _i(0), _s(s), _eos(false)
 bool Parser::parseChar(char c, bool allowNoChar) throw(GsmException)
 {
   if (nextChar() != c)
-    if (allowNoChar)
     {
-      putBackChar();
-      return false;
+      if (allowNoChar)
+	{
+	  putBackChar();
+	  return false;
+	}
+      else
+	throwParseException(stringPrintf(_("expected '%c'"), c));
     }
-    else
-      throwParseException(stringPrintf(_("expected '%c'"), c));
   return true;
 }
 
@@ -151,21 +155,21 @@ vector<string> Parser::parseStringList(bool allowNoList)
 
   parseChar('(');
   if (nextChar() != ')')
-  {
-    putBackChar();
-    while (1)
     {
-      result.push_back(parseString());
-      int c = nextChar();
-      if (c == ')')
-      break;
-      if (c == -1)
-        throwParseException();
-      if (c != ',')
-        throwParseException(_("expected ')' or ','"));
+      putBackChar();
+      while (1)
+	{
+	  result.push_back(parseString());
+	  int c = nextChar();
+	  if (c == ')')
+	    break;
+	  if (c == -1)
+	    throwParseException();
+	  if (c != ',')
+	    throwParseException(_("expected ')' or ','"));
+	}
     }
-  }
-  
+
   return result;
 }
 
@@ -183,83 +187,83 @@ vector<bool> Parser::parseIntList(bool allowNoList)
   // check for the case of a integer list consisting of only one parameter
   // some TAs omit the parentheses in this case
   if (isdigit(nextChar()))
-  {
-    putBackChar();
-    int num = parseInt();
-    result.resize(num + 1, false);
-    result[num] = true;
-    return result;
-  }
+    {
+      putBackChar();
+      int num = parseInt();
+      result.resize(num + 1, false);
+      result[num] = true;
+      return result;
+    }
   putBackChar();
 
   // run in two passes
   // pass 0: find capacity needed for result
   // pass 1: resize result and fill it in
   for (int pass = 0; pass < 2; ++pass)
-  {
-    if (pass == 1)
     {
-      _i = saveI;
-      result.resize(resultCapacity + 1, false);
+      if (pass == 1)
+	{
+	  _i = saveI;
+	  result.resize(resultCapacity + 1, false);
+	}
+
+      parseChar('(');
+      if (nextChar() != ')')
+	{
+	  putBackChar();
+	  int lastInt = -1;
+	  while (1)
+	    {
+	      int thisInt = parseInt();
+
+	      if (isRange)
+		{
+		  assert(lastInt != -1);
+		  if (lastInt <= thisInt)
+		    for (int i = lastInt; i < thisInt; ++i)
+		      {
+			if (i > resultCapacity)
+			  resultCapacity = i;
+			if (pass == 1)
+			  result[i] = true;
+		      }
+		  else
+		    for (int i = thisInt; i < lastInt; ++i)
+		      {
+			if (i > resultCapacity)
+			  resultCapacity = i;
+			if (pass == 1)
+			  result[i] = true;
+		      }
+		  isRange = false;
+		}
+
+	      if (thisInt > resultCapacity)
+		resultCapacity = thisInt;
+	      if (pass == 1)
+		result[thisInt] = true;
+	      lastInt = thisInt;
+
+	      int c = nextChar();
+	      if (c == ')')
+		break;
+
+	      if (c == -1)
+		throwParseException();
+
+	      if (c != ',' && c != '-')
+		throwParseException(_("expected ')', ',' or '-'"));
+
+	      if (c == ',')
+		isRange = false;
+	      else                      // is '-'
+		if (isRange)
+		  throwParseException(_("range of the form a-b-c not allowed"));
+		else
+		  isRange = true;
+	    }
+	}
     }
-
-    parseChar('(');
-    if (nextChar() != ')')
-    {
-      putBackChar();
-      int lastInt = -1;
-      while (1)
-      {
-        int thisInt = parseInt();
-
-        if (isRange)
-        {
-          assert(lastInt != -1);
-          if (lastInt <= thisInt)
-            for (int i = lastInt; i < thisInt; ++i)
-            {
-              if (i > resultCapacity)
-                resultCapacity = i;
-              if (pass == 1)
-                result[i] = true;
-            }
-          else
-            for (int i = thisInt; i < lastInt; ++i)
-            {
-              if (i > resultCapacity)
-                resultCapacity = i;
-              if (pass == 1)
-                result[i] = true;
-            }
-          isRange = false;
-        }
-
-        if (thisInt > resultCapacity)
-          resultCapacity = thisInt;
-        if (pass == 1)
-          result[thisInt] = true;
-        lastInt = thisInt;
-      
-        int c = nextChar();
-        if (c == ')')
-          break;
-
-        if (c == -1)
-          throwParseException();
-
-        if (c != ',' && c != '-')
-          throwParseException(_("expected ')', ',' or '-'"));
-
-        if (c == ',')
-          isRange = false;
-        else                      // is '-'
-          if (isRange)
-            throwParseException(_("range of the form a-b-c not allowed"));
-          else
-            isRange = true;
-      }
-    }
-  }
   if (isRange)
     throwParseException(_("range of the form a- no allowed"));
   return result;
@@ -274,10 +278,10 @@ vector<ParameterRange> Parser::parseParameterRangeList(bool allowNoList)
 
   result.push_back(parseParameterRange());
   while (parseComma(true))
-  {
-    result.push_back(parseParameterRange());
-  }
-  
+    {
+      result.push_back(parseParameterRange());
+    }
+
   return result;
 }
 
@@ -341,13 +345,15 @@ string Parser::parseString(bool allowNoString,
 bool Parser::parseComma(bool allowNoComma) throw(GsmException)
 {
   if (nextChar() != ',')
-    if(allowNoComma)
     {
-      putBackChar();
-      return false;
+      if(allowNoComma)
+	{
+	  putBackChar();
+	  return false;
+	}
+      else
+	throwParseException(_("expected comma"));
     }
-    else
-      throwParseException(_("expected comma"));
   return true;
 }
 
@@ -355,6 +361,7 @@ string Parser::parseEol() throw(GsmException)
 {
   string result;
   int c;
+
   while ((c = nextChar()) != -1) result += c;
   return result;
 }
@@ -362,10 +369,10 @@ string Parser::parseEol() throw(GsmException)
 void Parser::checkEol() throw(GsmException)
 {
   if (nextChar() != -1)
-  {
-    putBackChar();
-    throwParseException(_("expected end of line"));
-  }
+    {
+      putBackChar();
+      throwParseException(_("expected end of line"));
+    }
 }
 
 string Parser::getEol()
@@ -374,6 +381,7 @@ string Parser::getEol()
   int c;
   unsigned int saveI = _i;
   bool saveEos = _eos;
+
   while ((c = nextChar()) != -1) result += c;
   _i = saveI;
   _eos = saveEos;
