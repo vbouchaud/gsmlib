@@ -1,3 +1,5 @@
+FORK ON GITHUB
+
 gsmlib-1.10
      - reactivated code in gsm_at to retry sending PDU after
        unsolicited result code 
@@ -72,7 +74,7 @@ gsmlib-1.8
 
      - extended gsm_phonebook preload mechanism to batch-load phonebooks
        where the index does not start with 1
-     
+
      - Added workaround for Motorola Timeport 260 to write back
        deliver messages to the ME
 
@@ -182,7 +184,7 @@ gsmlib-1.5
      - fixed %files section .spec file to correctly include manual pages
 
      - fixed some bugs in terminal line setup (gsm_unix_serial) regarding
-       software/hardware handshake 
+       software/hardware handshake
 
      - added new "--sca" option to SMS-related apps to set the SMS
        service centre address on the command line (useful if default is not
@@ -272,7 +274,7 @@ gsmlib-1.1
      - Set SMS routing:
        allow mode 3 (special in-band technique) when setting routing
        to TA (gsmlib should not be active when phone is switched to data mode
-       anyway) 
+       anyway)
 
     -  Set SMS routing:
        handle buffer mode but only if it was reported by the +CNMI=? command

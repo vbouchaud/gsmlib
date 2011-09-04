@@ -141,10 +141,9 @@ BUGS
      combination please send a complete trace of the compilation or the
      program execution that did fail. Make sure to compile with debugging
      information enabled. Otherwise it will not be possible for me to do
-     much about the problem. Send bug reports to the mailing list or
-     to software@pxh.de. I promise not to publish telephone numbers or other
-     private information that might be contained in the execution traces
-     that you send me.
+     much about the problem. Send bug reports to v@bouchaud.org. I promise
+     not to publish telephone numbers or other private information that
+     might be contained in the execution traces that you send me.
 
 
 AUTHOR
