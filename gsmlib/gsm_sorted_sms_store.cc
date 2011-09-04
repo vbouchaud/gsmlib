@@ -18,6 +18,7 @@
 #include <gsmlib/gsm_sorted_sms_store.h>
 #include <iostream>
 #include <fstream>
+#include <cstring>
 #ifdef HAVE_NETINET_IN_H
 #include <netinet/in.h>
 #endif
@@ -81,8 +82,10 @@ void SortedSMSStore::readSMSFile(std::istream &pbs, std::string filename)
     {
       // ignore error, file might be empty initially
     }
-  unsigned_int_2 version = ntohs(*((unsigned_int_2*)numberBuf));
-  if (! pbs.eof() && version != SMS_STORE_FILE_FORMAT_VERSION)
+  unsigned_int_2 version;
+  memcpy(&version, numberBuf, sizeof(*numberBuf));
+  version = ntohs(version);
+  if (!pbs.eof() && version != SMS_STORE_FILE_FORMAT_VERSION)
     throw GsmException(stringPrintf(_("file '%s' has wrong version"),
                                     filename.c_str()), ParameterError);
 
@@ -93,7 +96,10 @@ void SortedSMSStore::readSMSFile(std::istream &pbs, std::string filename)
       if (! readnbytes(filename, pbs, 2, numberBuf, false))
 	break;
 
-      unsigned_int_2 pduLen = ntohs(*((unsigned_int_2*)numberBuf));
+      unsigned_int_2 pduLen;
+      memcpy(&pduLen, numberBuf, sizeof(*numberBuf));
+      pduLen = ntohs(pduLen);
+
       if (pduLen > 500)
 	throw GsmException(stringPrintf(_("corrupt SMS store file '%s'"),
 					filename.c_str()), ParameterError);

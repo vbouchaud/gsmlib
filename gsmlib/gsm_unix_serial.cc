@@ -414,7 +414,7 @@ UnixSerialPort::~UnixSerialPort()
     close(_fd);
 }
 
-speed_t baudRateStrToSpeed(std::string baudrate) throw(GsmException)
+speed_t gsmlib::baudRateStrToSpeed(std::string baudrate) throw(GsmException)
 {
   if (baudrate == "300")
     return B300;
