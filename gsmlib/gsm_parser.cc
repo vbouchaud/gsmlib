@@ -59,8 +59,8 @@ string Parser::parseString2(bool stringWithQuotationMarks)
   throw(GsmException)
 {
   int c;
-  string result;
-  if (parseChar('"', true))  // OK, string starts and ends with quotation mark
+  std::string result;
+  if (parseChar('"', true))  // OK, std::string starts and ends with quotation mark
     if (stringWithQuotationMarks)
       {
 	// read till end of line
@@ -83,7 +83,7 @@ string Parser::parseString2(bool stringWithQuotationMarks)
 	  else
 	    result += c;
       }
-  else                          // string ends with "," or EOL
+  else                          // std::string ends with "," or EOL
     {
       c = nextChar(false);
       while (c != ',' && c != -1)
@@ -99,7 +99,7 @@ string Parser::parseString2(bool stringWithQuotationMarks)
 
 int Parser::parseInt2() throw(GsmException)
 {
-  string s;
+  std::string s;
   int c;
   int result;
 
@@ -114,19 +114,19 @@ int Parser::parseInt2() throw(GsmException)
   return result;
 }
 
-void Parser::throwParseException(string message) throw(GsmException)
+void Parser::throwParseException(std::string message) throw(GsmException)
 {
   ostrstream os;
   if (message.length() == 0)
-    throw GsmException(stringPrintf(_("unexpected end of string '%s'"),
+    throw GsmException(stringPrintf(_("unexpected end of std::string '%s'"),
                                     _s.c_str()), ParserError);
   else
     throw GsmException(message +
-                       stringPrintf(_(" (at position %d of string '%s')"), _i,
+                       stringPrintf(_(" (at position %d of std::string '%s')"), _i,
                                     _s.c_str()), ParserError);
 }
 
-Parser::Parser(string s) : _i(0), _s(s), _eos(false)
+Parser::Parser(std::string s) : _i(0), _s(s), _eos(false)
 {
 }
 
@@ -145,11 +145,11 @@ bool Parser::parseChar(char c, bool allowNoChar) throw(GsmException)
   return true;
 }
 
-vector<string> Parser::parseStringList(bool allowNoList)
+std::vector<std::string> Parser::parseStringList(bool allowNoList)
   throw(GsmException)
 {
   // handle case of empty parameter
-  vector<string> result;
+  std::vector<std::string> result;
   if (checkEmptyParameter(allowNoList)) return result;
 
   parseChar('(');
@@ -172,12 +172,12 @@ vector<string> Parser::parseStringList(bool allowNoList)
   return result;
 }
 
-vector<bool> Parser::parseIntList(bool allowNoList)
+std::vector<bool> Parser::parseIntList(bool allowNoList)
   throw(GsmException)
 {
   // handle case of empty parameter
   bool isRange = false;
-  vector<bool> result;
+  std::vector<bool> result;
   int resultCapacity = 0;
   unsigned int saveI = _i;
 
@@ -268,11 +268,11 @@ vector<bool> Parser::parseIntList(bool allowNoList)
   return result;
 }
 
-vector<ParameterRange> Parser::parseParameterRangeList(bool allowNoList)
+std::vector<ParameterRange> Parser::parseParameterRangeList(bool allowNoList)
   throw(GsmException)
 {
   // handle case of empty parameter
-  vector<ParameterRange> result;
+  std::vector<ParameterRange> result;
   if (checkEmptyParameter(allowNoList)) return result;
 
   result.push_back(parseParameterRange());
@@ -333,7 +333,7 @@ string Parser::parseString(bool allowNoString,
   throw(GsmException)
 {
   // handle case of empty parameter
-  string result;
+  std::string result;
   if (checkEmptyParameter(allowNoString)) return result;
 
   result = parseString2(stringWithQuotationMarks);
@@ -358,7 +358,7 @@ bool Parser::parseComma(bool allowNoComma) throw(GsmException)
 
 string Parser::parseEol() throw(GsmException)
 {
-  string result;
+  std::string result;
   int c;
 
   while ((c = nextChar()) != -1) result += c;
@@ -376,7 +376,7 @@ void Parser::checkEol() throw(GsmException)
 
 string Parser::getEol()
 {
-  string result;
+  std::string result;
   int c;
   unsigned int saveI = _i;
   bool saveEos = _eos;

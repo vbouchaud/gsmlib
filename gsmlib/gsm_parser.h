@@ -60,19 +60,19 @@ namespace gsmlib
 
     // parse a list of the form "("ABC", DEF")"
     // the list can be empty (ie. == "" ) if allowNoList == true
-    vector<string> parseStringList(bool allowNoList = false)
+    std::vector<std::string> parseStringList(bool allowNoList = false)
       throw(GsmException);
 
     // parse a list of the form "(12, 14)" or "(1-4, 10)"
     // the result is returned as a bit vector where for each integer
     // in the list and/or range(s) a bit is set
     // the list can be empty (ie. == "") if allowNoList == true
-    vector<bool> parseIntList(bool allowNoList = false)
+    std::vector<bool> parseIntList(bool allowNoList = false)
       throw(GsmException);
 
     // parse a list of parameter ranges (see below)
     // the list can be empty (ie. == "" ) if allowNoList == true
-    vector<ParameterRange> parseParameterRangeList(bool allowNoList = false)
+    std::vector<ParameterRange> parseParameterRangeList(bool allowNoList = false)
       throw(GsmException);
 
     // parse a std::string plus its valid integer range of the
