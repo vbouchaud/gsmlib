@@ -24,7 +24,6 @@
 
 const int MAX_LINE_SIZE = 1000;
 
-using namespace std;
 using namespace gsmlib;
 
 string SortedPhonebook::escapeString(string s)

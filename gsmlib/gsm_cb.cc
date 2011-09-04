@@ -18,7 +18,6 @@
 #include <gsmlib/gsm_nls.h>
 #include <strstream>
 
-using namespace std;
 using namespace gsmlib;
 
 // local constants

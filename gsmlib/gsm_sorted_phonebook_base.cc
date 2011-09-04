@@ -23,7 +23,6 @@
 
 #include <assert.h>
 
-using namespace std;
 using namespace gsmlib;
 
 // PhonebookEntryBase members

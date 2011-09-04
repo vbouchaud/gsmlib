@@ -25,7 +25,7 @@
 #endif
 #include <climits>
 #include <string>
-using namespace std;
+
 using namespace gsmlib;
 
 // Address members

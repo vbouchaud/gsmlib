@@ -17,8 +17,6 @@
 #include <string>
 #include <vector>
 
-using namespace std;
-
 namespace gsmlib
 {
   // forward declarations

@@ -17,8 +17,6 @@
 #include <gsmlib/gsm_util.h>
 #include <string>
 
-using namespace std;
-
 namespace gsmlib
 {
   // representation of DataCodingScheme

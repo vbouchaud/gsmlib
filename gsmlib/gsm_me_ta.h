@@ -24,8 +24,6 @@
 #include <string>
 #include <vector>
 
-using namespace std;
-
 namespace gsmlib
 {
   // *** phone capability description (you could also call it phone quirks)

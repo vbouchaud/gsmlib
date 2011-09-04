@@ -20,8 +20,6 @@
 #define WIN32_MEAN_AND_LEAN
 #include <windows.h>
 
-using namespace std;
-
 namespace gsmlib
 {
   class Win32SerialPort : public Port

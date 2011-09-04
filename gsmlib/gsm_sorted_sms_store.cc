@@ -22,7 +22,6 @@
 #include <netinet/in.h>
 #endif
 
-using namespace std;
 using namespace gsmlib;
 
 // SMS message file format:

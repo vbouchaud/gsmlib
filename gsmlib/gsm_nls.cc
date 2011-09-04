@@ -17,8 +17,6 @@
 #include <gsmlib/gsm_nls.h>
 #include <string>
 
-using namespace std;
-
 #ifdef ENABLE_NLS
 
 using namespace gsmlib;

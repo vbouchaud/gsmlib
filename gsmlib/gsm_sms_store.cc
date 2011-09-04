@@ -19,7 +19,6 @@
 #include <gsmlib/gsm_me_ta.h>
 #include <iostream>
 
-using namespace std;
 using namespace gsmlib;
 
 // SMSStoreEntry members

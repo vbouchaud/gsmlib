@@ -20,8 +20,6 @@
 #include <sys/types.h>
 #include <termios.h>
 
-using namespace std;
-
 namespace gsmlib
 {
   class UnixSerialPort : public Port

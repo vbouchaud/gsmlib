@@ -16,8 +16,6 @@
 #include <gsmlib/gsm_sms.h>
 #include <gsmlib/gsm_cb.h>
 
-using namespace std;
-
 namespace gsmlib
 {
   // forward declarations

@@ -18,7 +18,6 @@
 #include <gsmlib/gsm_util.h>
 #include <strstream>
 
-using namespace std;
 using namespace gsmlib;
 
 string gsmlib::getMEErrorText(const int errorCode) throw(GsmException)

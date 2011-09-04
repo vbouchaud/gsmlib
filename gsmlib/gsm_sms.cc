@@ -23,7 +23,6 @@
 #include <strstream>
 #include <string>
 
-using namespace std;
 using namespace gsmlib;
 
 // local constants

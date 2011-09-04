@@ -21,7 +21,6 @@
 
 #include <cstdlib>
 
-using namespace std;
 using namespace gsmlib;
 
 // Capabilities members

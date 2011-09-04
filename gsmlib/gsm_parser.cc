@@ -19,7 +19,6 @@
 #include <assert.h>
 #include <strstream>
 
-using namespace std;
 using namespace gsmlib;
 
 // Parser members

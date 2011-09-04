@@ -20,8 +20,6 @@
 #include <map>
 #include <assert.h>
 
-using namespace std;
-
 namespace gsmlib
 {
   // MapKey for SortedSMSStore
