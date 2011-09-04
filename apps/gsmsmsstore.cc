@@ -33,9 +33,6 @@
 #include <gsmlib/gsm_sorted_sms_store.h>
 #include <iostream>
 
-using namespace std;
-using namespace gsmlib;
-
 #ifdef HAVE_GETOPT_LONG
 static struct option longOpts[] =
 {
@@ -71,25 +68,25 @@ enum Operation {CopyOp = 'c', BackupOp = 'k', DeleteOp = 'x',
 
 // aux function, insert entry only if not already present in dest
 
-void backup(SortedSMSStoreRef destStore, SMSStoreEntry &entry)
+void backup(gsmlib::SortedSMSStoreRef destStore, gsmlib::SMSStoreEntry &entry)
 {
   // the following only works because we know that the default sort order
   // is by date
-  assert(destStore->sortOrder() == ByDate);
+  assert(destStore->sortOrder() == gsmlib::ByDate);
 
-  Timestamp date = entry.message()->serviceCentreTimestamp();
-  pair<SortedSMSStore::iterator, SortedSMSStore::iterator> range =
+  gsmlib::Timestamp date = entry.message()->serviceCentreTimestamp();
+  std::pair<gsmlib::SortedSMSStore::iterator, gsmlib::SortedSMSStore::iterator> range =
     destStore->equal_range(date);
           
-  for (SortedSMSStore::iterator j = range.first;
+  for (gsmlib::SortedSMSStore::iterator j = range.first;
        j != range.second; ++j)
     if (entry == *j)
       // do nothing if the entry is already present in the destination
       return;
 
   if (verbose)
-    cout << stringPrintf(_("inserting entry #%d from source into destination"),
-                         entry.index()) << endl
+    std::cout << gsmlib::stringPrintf(_("inserting entry #%d from source into destination"),
+                         entry.index()) << std::endl
          << entry.message()->toString();
   destStore->insert(entry);     // insert
 }
@@ -99,9 +96,9 @@ void backup(SortedSMSStoreRef destStore, SMSStoreEntry &entry)
 void checkNoOp(Operation operation, int opt)
 {
   if (operation != NoOp)
-    throw GsmException(stringPrintf(_("incompatible options '%c' and '%c'"),
-                                    (char)operation, (char)opt),
-                       ParameterError);
+    throw gsmlib::GsmException(gsmlib::stringPrintf(_("incompatible options '%c' and '%c'"),
+					    (char)operation, (char)opt),
+			       gsmlib::ParameterError);
 }
 
 // *** main program
@@ -111,18 +108,18 @@ int main(int argc, char *argv[])
   try
   {
     // handle command line options
-    string destination;
-    string source;
-    string baudrate;
-    string storeName;
+    std::string destination;
+    std::string source;
+    std::string baudrate;
+    std::string storeName;
     char operation = NoOp;
-    SortedSMSStoreRef sourceStore, destStore;
+    gsmlib::SortedSMSStoreRef sourceStore, destStore;
     bool useIndices = false;    // use indices in delete, copy, backup op
-    string initString = DEFAULT_INIT_STRING;
+    std::string initString = gsmlib::DEFAULT_INIT_STRING;
     bool swHandshake = false;
     // service centre address (set on command line)
-    string serviceCentreAddress;
-    Ref<MeTa> sourceMeTa, destMeTa;
+    std::string serviceCentreAddress;
+    gsmlib::Ref<gsmlib::MeTa> sourceMeTa, destMeTa;
 
     int opt;
     int dummy;
@@ -176,74 +173,74 @@ int main(int argc, char *argv[])
         operation = BackupOp;
         break;
       case 'v':
-        cerr << argv[0] << stringPrintf(_(": version %s [compiled %s]"),
-                                        VERSION, __DATE__) << endl;
+	std::cerr << argv[0] << gsmlib::stringPrintf(_(": version %s [compiled %s]"),
+						     VERSION, __DATE__) << std::endl;
         exit(0);
         break;
       case 'h':
-        cerr << argv[0] << _(": [-a][-b baudrate][-c][-C sca]"
-                             "[-d device or file]\n"
-                             "  [-h][-I init string][-k][-l]"
-                             "[-s device or file]"
-                             "[-t SMS store name]\n  [-v][-V][-x][-X]"
-                             "{indices}|[phonenumber text]") << endl
-             << endl
-             << _("  -a, --add         add new SMS submit message\n"
-                  "                    (phonenumber and text) to destination")
-             << endl
-             << _("  -b, --baudrate    baudrate to use for device "
-                  "(default: 38400)")
-             << endl
-             << _("  -c, --copy        copy source entries to destination\n"
-                  "                    (if indices are given, "
-                  "copy only these entries)") << endl
-             << _("  -C, --sca         SMS service centre address") << endl
-             << _("  -d, --destination sets the destination device to\n"
-                  "                    connect to, or the file to write to")
-             << endl
-             << _("  -h, --help        prints this message") << endl
-             << _("  -I, --init        device AT init sequence") << endl
-             << _("  -k, --backup      backup new entries to destination\n"
-                  "                    (if indices are given, "
-                  "copy only these entries)") << endl
-             << _("  -l, --list        list source to stdout") << endl
-             << _("  -s, --source      sets the source device to connect to,\n"
-                  "                    or the file to read") << endl
-             << _("  -t, --store       name of SMS store to use") << endl
-             << _("  -v, --version     prints version and exits") << endl
-             << _("  -V, --verbose     print detailed progress messages")
-             << endl
-             << _("  -x, --delete      delete entries denoted by indices")
-             << endl
-             << _("  -X, --xonxoff     switch on software handshake") << endl
-             << endl;
+	std::cerr << argv[0] << _(": [-a][-b baudrate][-c][-C sca]"
+				  "[-d device or file]\n"
+				  "  [-h][-I init string][-k][-l]"
+				  "[-s device or file]"
+				  "[-t SMS store name]\n  [-v][-V][-x][-X]"
+				  "{indices}|[phonenumber text]") << std::endl
+		  << std::endl
+		  << _("  -a, --add         add new SMS submit message\n"
+		       "                    (phonenumber and text) to destination")
+		  << std::endl
+		  << _("  -b, --baudrate    baudrate to use for device "
+		       "(default: 38400)")
+		  << std::endl
+		  << _("  -c, --copy        copy source entries to destination\n"
+		       "                    (if indices are given, "
+		       "copy only these entries)") << std::endl
+		  << _("  -C, --sca         SMS service centre address") << std::endl
+		  << _("  -d, --destination sets the destination device to\n"
+		       "                    connect to, or the file to write to")
+		  << std::endl
+		  << _("  -h, --help        prints this message") << std::endl
+		  << _("  -I, --init        device AT init sequence") << std::endl
+		  << _("  -k, --backup      backup new entries to destination\n"
+		       "                    (if indices are given, "
+		       "copy only these entries)") << std::endl
+		  << _("  -l, --list        list source to stdout") << std::endl
+		  << _("  -s, --source      sets the source device to connect to,\n"
+		       "                    or the file to read") << std::endl
+		  << _("  -t, --store       name of SMS store to use") << std::endl
+		  << _("  -v, --version     prints version and exits") << std::endl
+		  << _("  -V, --verbose     print detailed progress messages")
+		  << std::endl
+		  << _("  -x, --delete      delete entries denoted by indices")
+		  << std::endl
+		  << _("  -X, --xonxoff     switch on software handshake") << std::endl
+		  << std::endl;
         exit(0);
         break;
       case '?':
-        throw GsmException(_("unknown option"), ParameterError);
+        throw gsmlib::GsmException(_("unknown option"), gsmlib::ParameterError);
         break;
       }
 
     // check if parameters are complete
     if (operation == NoOp)
-      throw GsmException(_("no operation option given"), ParameterError);
+      throw gsmlib::GsmException(_("no operation option given"), gsmlib::ParameterError);
     if (operation == BackupOp || operation == CopyOp)
       if (destination.length() == 0 || source.length() == 0)
-        throw GsmException(_("both source and destination required"),
-                           ParameterError);
+        throw gsmlib::GsmException(_("both source and destination required"),
+                           gsmlib::ParameterError);
     if (operation == ListOp)
     {
       if (destination.length() != 0)
-        throw GsmException(_("destination must not be given"), ParameterError);
+        throw gsmlib::GsmException(_("destination must not be given"), gsmlib::ParameterError);
       if (source.length() == 0)
-        throw GsmException(_("source required"), ParameterError);
+        throw gsmlib::GsmException(_("source required"), gsmlib::ParameterError);
     }
     if (operation == AddOp || operation == DeleteOp)
     {
       if (source.length() != 0)
-        throw GsmException(_("source must not be given"), ParameterError);
+        throw gsmlib::GsmException(_("source must not be given"), gsmlib::ParameterError);
       if (destination.length() == 0)
-        throw GsmException(_("destination required"), ParameterError);
+        throw gsmlib::GsmException(_("destination required"), gsmlib::ParameterError);
     }
     if (operation == CopyOp || operation == DeleteOp || operation == BackupOp)
     {
@@ -251,46 +248,46 @@ int main(int argc, char *argv[])
       for (int i = optind; i < argc; ++i)
         for (char *pp = argv[i]; *pp != 0; ++pp)
           if (! isdigit(*pp))
-            throw GsmException(stringPrintf(_("expected number, got '%s'"),
-                                            argv[i]), ParameterError);
+            throw gsmlib::GsmException(gsmlib::stringPrintf(_("expected number, got '%s'"),
+                                            argv[i]), gsmlib::ParameterError);
       useIndices = optind != argc;
     }
     else if (operation == AddOp)
     {
       if (optind + 2 < argc)
-        throw GsmException(_("more than two parameters given"),
-                           ParameterError);
+        throw gsmlib::GsmException(_("more than two parameters given"),
+                           gsmlib::ParameterError);
       if (optind + 2 > argc)
-        throw GsmException(_("not enough parameters given"),
-                           ParameterError);
+        throw gsmlib::GsmException(_("not enough parameters given"),
+                           gsmlib::ParameterError);
     }
     else
       if (optind != argc)
-        throw GsmException(_("unexpected parameters"), ParameterError);
+        throw gsmlib::GsmException(_("unexpected parameters"), gsmlib::ParameterError);
     
     // start accessing source store or file if required by operation
     if (operation == CopyOp || operation == BackupOp || operation == ListOp)
       {
 	if (source == "-")
-	  sourceStore = new SortedSMSStore(true);
-	else if (isFile(source))
-	  sourceStore = new SortedSMSStore(source);
+	  sourceStore = new gsmlib::SortedSMSStore(true);
+	else if (gsmlib::isFile(source))
+	  sourceStore = new gsmlib::SortedSMSStore(source);
 	else
 	  {
 	    if (storeName == "")
-	      throw GsmException(_("store name must be given"), ParameterError);
+	      throw gsmlib::GsmException(_("store name must be given"), gsmlib::ParameterError);
 	    
-	    sourceMeTa = new MeTa(new
+	    sourceMeTa = new gsmlib::MeTa(new
 #ifdef WIN32
-				  Win32SerialPort
+					  gsmlib::Win32SerialPort
 #else
-				  UnixSerialPort
+					  gsmlib::UnixSerialPort
 #endif
-				  (source,
-				   baudrate == "" ? DEFAULT_BAUD_RATE :
-				   baudRateStrToSpeed(baudrate), initString,
-				   swHandshake));
-	    sourceStore = new SortedSMSStore(sourceMeTa->getSMSStore(storeName));
+					  (source,
+					   baudrate == "" ? gsmlib::DEFAULT_BAUD_RATE :
+					   gsmlib::baudRateStrToSpeed(baudrate), initString,
+					   swHandshake));
+	    sourceStore = new gsmlib::SortedSMSStore(sourceMeTa->getSMSStore(storeName));
 	  }
       }
       
@@ -299,32 +296,32 @@ int main(int argc, char *argv[])
     // return value cos we don't care (yet) whether it's a device or a
     // regular file.
     if (destination != "")
-      isFile(destination);
+      gsmlib::isFile(destination);
 
     // start accessing destination store or file
     if (operation == CopyOp || operation == BackupOp || operation == AddOp ||
         operation == DeleteOp)
       {
 	if (destination == "-")
-	  destStore = new SortedSMSStore(false);
-	else if (isFile(destination))
-	  destStore = new SortedSMSStore(destination);
+	  destStore = new gsmlib::SortedSMSStore(false);
+	else if (gsmlib::isFile(destination))
+	  destStore = new gsmlib::SortedSMSStore(destination);
 	else
 	  {
 	    if (storeName == "")
-	      throw GsmException(_("store name must be given"), ParameterError);
+	      throw gsmlib::GsmException(_("store name must be given"), gsmlib::ParameterError);
 	    
-	    destMeTa = new MeTa(new
+	    destMeTa = new gsmlib::MeTa(new
 #ifdef WIN32
-				Win32SerialPort
+					gsmlib::Win32SerialPort
 #else
-				UnixSerialPort
+					gsmlib::UnixSerialPort
 #endif
-				(destination,
-				 baudrate == "" ? DEFAULT_BAUD_RATE :
-				 baudRateStrToSpeed(baudrate), initString,
-				 swHandshake));
-	    destStore = new SortedSMSStore(destMeTa->getSMSStore(storeName));      
+					(destination,
+					 baudrate == "" ? gsmlib::DEFAULT_BAUD_RATE :
+					 gsmlib::baudRateStrToSpeed(baudrate), initString,
+					 swHandshake));
+	    destStore = new gsmlib::SortedSMSStore(destMeTa->getSMSStore(storeName));      
 	  }
       }
 
@@ -333,19 +330,19 @@ int main(int argc, char *argv[])
     {
     case BackupOp:
     {
-      sourceStore->setSortOrder(ByIndex); // needed in loop
+      sourceStore->setSortOrder(gsmlib::ByIndex); // needed in loop
 
       if (useIndices)
         for (int i = optind; i < argc; ++i)
         {
-          SortedSMSStore::iterator j = sourceStore->find(atoi(argv[i]));
+          gsmlib::SortedSMSStore::iterator j = sourceStore->find(atoi(argv[i]));
           if (j == sourceStore->end())
-            throw GsmException(stringPrintf(_("no index '%s' in source"),
-                                            argv[i]), ParameterError);
+            throw gsmlib::GsmException(gsmlib::stringPrintf(_("no index '%s' in source"),
+                                            argv[i]), gsmlib::ParameterError);
           backup(destStore, *j);
         }
       else
-        for (SortedSMSStore::iterator i = sourceStore->begin();
+        for (gsmlib::SortedSMSStore::iterator i = sourceStore->begin();
              i != sourceStore->end(); ++i)
           backup(destStore, *i);
       break;
@@ -355,29 +352,29 @@ int main(int argc, char *argv[])
       destStore->clear();
       if (! useIndices)         // copy all entries
       {
-        for (SortedSMSStore::iterator i = sourceStore->begin();
+        for (gsmlib::SortedSMSStore::iterator i = sourceStore->begin();
              i != sourceStore->end(); ++i)
         {
           if (verbose)
-            cout << stringPrintf(_("inserting entry #%d from source "
-                                   "into destination"), i->index()) << endl
+            std::cout << gsmlib::stringPrintf(_("inserting entry #%d from source "
+                                   "into destination"), i->index()) << std::endl
                  << i->message()->toString();
           destStore->insert(*i);
         }
       }
       else                      // copy indexed entries
       {
-        sourceStore->setSortOrder(ByIndex); // needed in loop
+        sourceStore->setSortOrder(gsmlib::ByIndex); // needed in loop
 
         for (int i = optind; i < argc; ++i)
         {
-          SortedSMSStore::iterator j = sourceStore->find(atoi(argv[i]));
+          gsmlib::SortedSMSStore::iterator j = sourceStore->find(atoi(argv[i]));
           if (j == sourceStore->end())
-            throw GsmException(stringPrintf(_("no index '%s' in source"),
-                                            argv[i]), ParameterError);
+            throw gsmlib::GsmException(gsmlib::stringPrintf(_("no index '%s' in source"),
+                                            argv[i]), gsmlib::ParameterError);
           if (verbose)
-            cout << stringPrintf(_("inserting entry #%d from source into "
-                                   "destination"), j->index()) << endl
+            std::cout << gsmlib::stringPrintf(_("inserting entry #%d from source into "
+                                   "destination"), j->index()) << std::endl
                  << j->message()->toString();
           destStore->insert(*j);
         }
@@ -386,52 +383,52 @@ int main(int argc, char *argv[])
     }
     case ListOp:
     {
-      for (SortedSMSStore::iterator i = sourceStore->begin();
+      for (gsmlib::SortedSMSStore::iterator i = sourceStore->begin();
            i != sourceStore->end(); ++i)
-        cout << stringPrintf(_("index #%d"), i->index()) << endl
+        std::cout << gsmlib::stringPrintf(_("index #%d"), i->index()) << std::endl
              << i->message()->toString();
       break;
     }
     case AddOp:
     {
-      SMSMessageRef sms = new SMSSubmitMessage(argv[optind + 1], argv[optind]);
+      gsmlib::SMSMessageRef sms = new gsmlib::SMSSubmitMessage(argv[optind + 1], argv[optind]);
       // set service centre address in new submit PDU if requested by user
       if (serviceCentreAddress != "")
-      {
-        Address sca(serviceCentreAddress);
-        sms->setServiceCentreAddress(sca);
-      }
+	{
+	  gsmlib::Address sca(serviceCentreAddress);
+	  sms->setServiceCentreAddress(sca);
+	}
       if (verbose)
-        cout << _("inserting new entry into destination") << endl
-             << sms->toString();
+        std::cout << _("inserting new entry into destination") << std::endl
+		  << sms->toString();
       destStore->insert(sms);
       break;
     }
     case DeleteOp:
     {
-      destStore->setSortOrder(ByIndex);
+      destStore->setSortOrder(gsmlib::ByIndex);
       for (int i = optind; i < argc; ++i)
       {
         int index = atoi(argv[i]);
         if (verbose)
         {
-          SortedSMSStore::iterator e = destStore->find(index);
+          gsmlib::SortedSMSStore::iterator e = destStore->find(index);
           if (e != destStore->end())
-            cout << stringPrintf(_("deleting entry #%d from destination"),
-                                 index) << endl
-                 << e->message()->toString();
+            std::cout << gsmlib::stringPrintf(_("deleting entry #%d from destination"),
+					      index) << std::endl
+		      << e->message()->toString();
         }
         if (destStore->erase(index) != 1)
-          throw GsmException(stringPrintf(_("no index '%s' in destination"),
-                                          argv[i]), ParameterError);
+          throw gsmlib::GsmException(gsmlib::stringPrintf(_("no index '%s' in destination"),
+							  argv[i]), gsmlib::ParameterError);
       }
       break;
     }
     }
   }
-  catch (GsmException &ge)
+  catch (gsmlib::GsmException &ge)
   {
-    cerr << argv[0] << _("[ERROR]: ") << ge.what() << endl;
+    std::cerr << argv[0] << _("[ERROR]: ") << ge.what() << std::endl;
     return 1;
   }
   return 0;
