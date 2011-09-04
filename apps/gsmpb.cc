@@ -60,14 +60,14 @@ static struct option longOpts[] =
 // insert those entries from sourcePhonebook into destPhonebook
 // that are not already present in destPhonebook
 
-void insertNotPresent(SortedPhonebookRef sourcePhonebook,
-                      SortedPhonebookRef destPhonebook,
+void insertNotPresent(gsmlib::SortedPhonebookRef sourcePhonebook,
+                      gsmlib::SortedPhonebookRef destPhonebook,
                       bool indexed, bool verbose)
 {
-  for (SortedPhonebookBase::iterator i = sourcePhonebook->begin();
+  for (gsmlib::SortedPhonebookBase::iterator i = sourcePhonebook->begin();
        i != sourcePhonebook->end(); ++i)
   {
-    pair<SortedPhonebookBase::iterator, SortedPhonebookBase::iterator> range;
+    std::pair<gsmlib::SortedPhonebookBase::iterator, gsmlib::SortedPhonebookBase::iterator> range;
     if (indexed)
     {
       int index = i->index();
@@ -75,13 +75,13 @@ void insertNotPresent(SortedPhonebookRef sourcePhonebook,
     }
     else
     {
-      string text = i->text();
+      std::string text = i->text();
       range = destPhonebook->equal_range(text);
     }
 
     // do nothing if the entry is already present in the destination
     bool alreadyPresent = false;
-    for (SortedPhonebookBase::iterator j = range.first;
+    for (gsmlib::SortedPhonebookBase::iterator j = range.first;
          j != range.second; ++j)
     {
       i->setUseIndex(indexed);
@@ -92,15 +92,15 @@ void insertNotPresent(SortedPhonebookRef sourcePhonebook,
       }
     }
     // ... else insert it
-    if (! alreadyPresent)
+    if (!alreadyPresent)
     {
       if (verbose)
       {
-        cout << stringPrintf(_("inserting '%s' tel# %s"),
+	std::cout << gsmlib::stringPrintf(_("inserting '%s' tel# %s"),
                              i->text().c_str(), i->telephone().c_str());
         if (indexed)
-          cout << stringPrintf(_(" (index #%d)"), i->index());
-        cout << endl;
+	  std::cout << gsmlib::stringPrintf(_(" (index #%d)"), i->index());
+	std::cout << std::endl;
       }
       i->setUseIndex(indexed);
       destPhonebook->insert(*i); // insert
@@ -115,34 +115,34 @@ void insertNotPresent(SortedPhonebookRef sourcePhonebook,
 // the case of several entries having the same in the sourcePhonebook
 // is handled - only the first is considered for updating
 
-void updateEntries(SortedPhonebookRef sourcePhonebook,
-                   SortedPhonebookRef destPhonebook,
+void updateEntries(gsmlib::SortedPhonebookRef sourcePhonebook,
+                   gsmlib::SortedPhonebookRef destPhonebook,
                    bool verbose)
 {
   bool firstLoop = true;
-  string lastText;
+  std::string lastText;
 
-  for (SortedPhonebookBase::iterator i = sourcePhonebook->begin();
+  for (gsmlib::SortedPhonebookBase::iterator i = sourcePhonebook->begin();
        i != sourcePhonebook->end(); ++i)
   {
-    string text = i->text();
-    if (! firstLoop && text != lastText)
+    std::string text = i->text();
+    if (!firstLoop && text != lastText)
     {
-      pair<SortedPhonebookBase::iterator,
-        SortedPhonebookBase::iterator> range =
+      std::pair<gsmlib::SortedPhonebookBase::iterator,
+		 gsmlib::SortedPhonebookBase::iterator> range =
         destPhonebook->equal_range(text);
       
-      SortedPhonebookBase::iterator first = range.first;
+      gsmlib::SortedPhonebookBase::iterator first = range.first;
       if (first != destPhonebook->end() && range.second == ++first)
       {                         // just one text in the destPhonebook
-        if (! (*range.first == *i)) // overwrite if different in destination
+        if (!(*range.first == *i)) // overwrite if different in destination
         {
           if (verbose)
-            cout << stringPrintf(_("updating '%s' tel# %s to new tel# %s"),
-                                 range.first->text().c_str(),
-                                 range.first->telephone().c_str(),
-                                 i->telephone().c_str())
-                 << endl;
+	    std::cout << gsmlib::stringPrintf(_("updating '%s' tel# %s to new tel# %s"),
+					      range.first->text().c_str(),
+					      range.first->telephone().c_str(),
+					      i->telephone().c_str())
+		      << std::endl;
           
           *range.first = *i;
         }
@@ -155,29 +155,28 @@ void updateEntries(SortedPhonebookRef sourcePhonebook,
 
 // the same but for indexed phonebooks
 
-void updateEntriesIndexed(SortedPhonebookRef sourcePhonebook,
-                          SortedPhonebookRef destPhonebook,
+void updateEntriesIndexed(gsmlib::SortedPhonebookRef sourcePhonebook,
+                          gsmlib::SortedPhonebookRef destPhonebook,
                           bool verbose)
 {
-  for (SortedPhonebookBase::iterator i = sourcePhonebook->begin();
+  for (gsmlib::SortedPhonebookBase::iterator i = sourcePhonebook->begin();
        i != sourcePhonebook->end(); ++i)
   {
     int index = i->index();
     
-    SortedPhonebookBase::iterator j = destPhonebook->find(index);
+    gsmlib::SortedPhonebookBase::iterator j = destPhonebook->find(index);
     
     if (j != destPhonebook->end())
     {                           // index present in the destPhonebook
       if (! (*j == *i))         // overwrite if different in destination
       {
         if (verbose)
-          cout << stringPrintf(_("updating '%s' tel# %s to new tel# %s"
-                                 "(index %d)"),
-                               j->text().c_str(),
-                               j->telephone().c_str(),
-                               i->telephone().c_str(), i->index())
-               << endl;
-        
+	  std::cout << gsmlib::stringPrintf(_("updating '%s' tel# %s to new tel# %s"
+					      "(index %d)"),
+					    j->text().c_str(),
+					    j->telephone().c_str(),
+					    i->telephone().c_str(), i->index())
+		    << std::endl;
         *j = *i;
       }
     }
@@ -187,14 +186,14 @@ void updateEntriesIndexed(SortedPhonebookRef sourcePhonebook,
 // delete those entries from destPhonebook, that are not present
 // in sourcePhonebook
 
-void deleteNotPresent(SortedPhonebookRef sourcePhonebook,
-                      SortedPhonebookRef destPhonebook,
+void deleteNotPresent(gsmlib::SortedPhonebookRef sourcePhonebook,
+                      gsmlib::SortedPhonebookRef destPhonebook,
                       bool indexed, bool verbose)
 {
-  for (SortedPhonebookBase::iterator i = destPhonebook->begin();
+  for (gsmlib::SortedPhonebookBase::iterator i = destPhonebook->begin();
        i != destPhonebook->end(); ++i)
   {
-    pair<SortedPhonebookBase::iterator, SortedPhonebookBase::iterator> range;
+    std::pair<gsmlib::SortedPhonebookBase::iterator, gsmlib::SortedPhonebookBase::iterator> range;
     if (indexed)
     {
       int index = i->index();
@@ -202,12 +201,12 @@ void deleteNotPresent(SortedPhonebookRef sourcePhonebook,
     }
     else
     {
-      string text = i->text();
+      std::string text = i->text();
       range = sourcePhonebook->equal_range(text);
     }
         
     bool found = false;
-    for (SortedPhonebookBase::iterator j = range.first;
+    for (gsmlib::SortedPhonebookBase::iterator j = range.first;
          j != range.second; ++j)
     {
       i->setUseIndex(indexed);
@@ -217,15 +216,15 @@ void deleteNotPresent(SortedPhonebookRef sourcePhonebook,
         break;
       }
     }
-    if (! found)
+    if (!found)
     {
       if (verbose)
       {
-        cout << stringPrintf(_("deleting '%s' tel# %s"),
+	std::cout << gsmlib::stringPrintf(_("deleting '%s' tel# %s"),
                              i->text().c_str(), i->telephone().c_str());
         if (indexed)
-          cout << stringPrintf(_(" (index #%d)"), i->index());
-        cout << endl;
+	  std::cout << gsmlib::stringPrintf(_(" (index #%d)"), i->index());
+	std::cout << std::endl;
       }
       destPhonebook->erase(i);
 #ifdef BUGGY_MAP_ERASE
@@ -243,20 +242,20 @@ int main(int argc, char *argv[])
   try
   {
     // handle command line options
-    string destination;
-    string source;
-    string destinationBackend;
-    string sourceBackend;
-    string baudrate;
+    std::string destination;
+    std::string source;
+    std::string destinationBackend;
+    std::string sourceBackend;
+    std::string baudrate;
     bool doSynchronize = true;
-    string phonebook;
-    SortedPhonebookRef sourcePhonebook, destPhonebook;
+    std::string phonebook;
+    gsmlib::SortedPhonebookRef sourcePhonebook, destPhonebook;
     bool verbose = false;
     bool indexed = false;
-    string initString = DEFAULT_INIT_STRING;
+    std::string initString = gsmlib::DEFAULT_INIT_STRING;
     bool swHandshake = false;
-    string charSet;
-    Ref<MeTa> sourceMeTa, destMeTa;
+    std::string charSet;
+    gsmlib::Ref<gsmlib::MeTa> sourceMeTa, destMeTa;
 
     int opt;
     int dummy;
@@ -305,149 +304,149 @@ int main(int argc, char *argv[])
         doSynchronize = true;
         break;
       case 'v':
-        cerr << argv[0] << stringPrintf(_(": version %s [compiled %s]"),
-                                        VERSION, __DATE__) << endl;
+	std::cerr << argv[0] << gsmlib::stringPrintf(_(": version %s [compiled %s]"),
+						     VERSION, __DATE__) << std::endl;
         exit(0);
         break;
       case 'h':
-        cerr << argv[0] << _(": [-b baudrate][-c][-d device or file][-h]"
+	std::cerr << argv[0] << _(": [-b baudrate][-c][-d device or file][-h]"
                              "[-I init string]\n"
                              "  [-p phonebook name][-s device or file]"
                              "[-t charset][-v]"
-                             "[-V][-y][-X]") << endl
-             << endl
+                             "[-V][-y][-X]") << std::endl
+             << std::endl
              << _("  -b, --baudrate    baudrate to use for device "
                   "(default: 38400)")
-             << endl
+             << std::endl
              << _("  -c, --copy        copy source entries to destination")
-             << endl
+             << std::endl
              << _("  -d, --destination sets the destination device to "
                   "connect \n"
-                  "                    to, or the file to write") << endl
+                  "                    to, or the file to write") << std::endl
              << _("  -D, --destination-backend sets the destination backend")
-             << endl
-             << _("  -h, --help        prints this message") << endl
+             << std::endl
+             << _("  -h, --help        prints this message") << std::endl
              << _("  -i, --index       takes index positions into account")
-             << endl
-             << _("  -I, --init        device AT init sequence") << endl
-             << _("  -p, --phonebook   name of phonebook to use") << endl
+             << std::endl
+             << _("  -I, --init        device AT init sequence") << std::endl
+             << _("  -p, --phonebook   name of phonebook to use") << std::endl
              << _("  -s, --source      sets the source device to connect to,\n"
-                  "                    or the file to read") << endl
+                  "                    or the file to read") << std::endl
              << _("  -t, --charset     sets the character set to use for\n"
-                  "                    phonebook entries") << endl
+                  "                    phonebook entries") << std::endl
              << _("  -S, --source-backend sets the source backend")
-             << endl
-             << _("  -v, --version     prints version and exits") << endl
+             << std::endl
+             << _("  -v, --version     prints version and exits") << std::endl
              << _("  -V, --verbose     print detailed progress messages")
-             << endl
-             << _("  -X, --xonxoff     switch on software handshake") << endl
+             << std::endl
+             << _("  -X, --xonxoff     switch on software handshake") << std::endl
              << _("  -y, --synchronize synchronize destination with source\n"
                   "                    entries (destination is overwritten)\n"
                   "                    (see gsmpb(1) for details)")
-             << endl << endl;
+             << std::endl << std::endl;
         exit(0);
         break;
       case '?':
-        throw GsmException(_("unknown option"), ParameterError);
+        throw gsmlib::GsmException(_("unknown option"), gsmlib::ParameterError);
         break;
       }
 
     // check if all parameters all present
     if (destination == "" || source == "")
-      throw GsmException(_("both source and destination must be given"),
-                         ParameterError);
+      throw gsmlib::GsmException(_("both source and destination must be given"),
+				 gsmlib::ParameterError);
 
     // start accessing source mobile phone or file
     if (sourceBackend != "")
       sourcePhonebook =
-        CustomPhonebookRegistry::createPhonebook(sourceBackend, source);
+        gsmlib::CustomPhonebookRegistry::createPhonebook(sourceBackend, source);
     else if (source == "-")
-      sourcePhonebook = new SortedPhonebook(true, indexed);
-    else if (isFile(source))
-      sourcePhonebook = new SortedPhonebook(source, indexed);
+      sourcePhonebook = new gsmlib::SortedPhonebook(true, indexed);
+    else if (gsmlib::isFile(source))
+      sourcePhonebook = new gsmlib::SortedPhonebook(source, indexed);
     else
     {
       if (phonebook == "")
-        throw GsmException(_("phonebook name must be given"), ParameterError);
+        throw gsmlib::GsmException(_("phonebook name must be given"), gsmlib::ParameterError);
 
-      sourceMeTa = new MeTa(new
+      sourceMeTa = new gsmlib::MeTa(new
 #ifdef WIN32
-                            Win32SerialPort
+				    gsmlib::Win32SerialPort
 #else
-                            UnixSerialPort
+				    gsmlib::UnixSerialPort
 #endif
-                            (source,
-                             baudrate == "" ? DEFAULT_BAUD_RATE :
-                             baudRateStrToSpeed(baudrate), initString,
-                             swHandshake));
+				    (source,
+				     baudrate == "" ? gsmlib::DEFAULT_BAUD_RATE :
+				     gsmlib::baudRateStrToSpeed(baudrate), initString,
+				     swHandshake));
       if (charSet != "")
         sourceMeTa->setCharSet(charSet);
       sourcePhonebook =
-        new SortedPhonebook(sourceMeTa->getPhonebook(phonebook));
+        new gsmlib::SortedPhonebook(sourceMeTa->getPhonebook(phonebook));
     }
 
     // make sure destination.c_str file exists
 	if (destination != "")
 	{
-      try
-	  {
-        ofstream f(destination.c_str(), ios::out | ios::app);
-	  }
-      catch (exception)
-	  {
-	  }
+	  try
+	    {
+	      std::ofstream f(destination.c_str(), std::ios::out | std::ios::app);
+	    }
+	  catch (std::exception)
+	    {
+	    }
 	}
 
     // start accessing destination mobile phone or file
     if (destinationBackend != "")
       destPhonebook =
-        CustomPhonebookRegistry::createPhonebook(destinationBackend,
+        gsmlib::CustomPhonebookRegistry::createPhonebook(destinationBackend,
                                                  destination);
     else if (destination == "-")
-      destPhonebook = new SortedPhonebook(false, indexed);
-    else if (isFile(destination))
-      destPhonebook = new SortedPhonebook(destination, indexed);
+      destPhonebook = new gsmlib::SortedPhonebook(false, indexed);
+    else if (gsmlib::isFile(destination))
+      destPhonebook = new gsmlib::SortedPhonebook(destination, indexed);
     else
     {
       if (phonebook == "")
-        throw GsmException(_("phonebook name must be given"), ParameterError);
+        throw gsmlib::GsmException(_("phonebook name must be given"), gsmlib::ParameterError);
 
-      destMeTa = new MeTa(new 
+      destMeTa = new gsmlib::MeTa(new 
 #ifdef WIN32
-                          Win32SerialPort
+				  gsmlib::Win32SerialPort
 #else
-                          UnixSerialPort
+				  gsmlib::UnixSerialPort
 #endif
-                          (destination,
-                           baudrate == "" ? DEFAULT_BAUD_RATE :
-                           baudRateStrToSpeed(baudrate), initString,
-                           swHandshake));
+				  (destination,
+				   baudrate == "" ? gsmlib::DEFAULT_BAUD_RATE :
+				   gsmlib::baudRateStrToSpeed(baudrate), initString,
+				   swHandshake));
       if (charSet != "")
         destMeTa->setCharSet(charSet);
-      PhonebookRef destPb = destMeTa->getPhonebook(phonebook);
+      gsmlib::PhonebookRef destPb = destMeTa->getPhonebook(phonebook);
 
       // check maximum lengths of source text and phonenumber when writing to
       // mobile phone
       unsigned int maxTextLen = destPb->getMaxTextLen();
       unsigned int maxTelLen = destPb->getMaxTelephoneLen();
 
-      for (SortedPhonebookBase::iterator i = sourcePhonebook->begin();
+      for (gsmlib::SortedPhonebookBase::iterator i = sourcePhonebook->begin();
            i != sourcePhonebook->end(); ++i)
         if (i->text().length() > maxTextLen)
-          throw GsmException(
-            stringPrintf(_("text '%s' is too large to fit into destination "
-                           "(maximum size %d characters)"),
-                         i->text().c_str(), maxTextLen),
-            ParameterError);
+          throw gsmlib::GsmException(
+				     gsmlib::stringPrintf(_("text '%s' is too large to fit into destination "
+							    "(maximum size %d characters)"),
+							  i->text().c_str(), maxTextLen),
+				     gsmlib::ParameterError);
         else if (i->telephone().length() > maxTelLen)
-          throw GsmException(
-            stringPrintf(_("phone number '%s' is too large to fit into "
-                           "destination (maximum size %d characters)"),
-                         i->telephone().c_str(), maxTelLen),
-            ParameterError);
+          throw gsmlib::GsmException(
+				     gsmlib::stringPrintf(_("phone number '%s' is too large to fit into "
+							    "destination (maximum size %d characters)"),
+							  i->telephone().c_str(), maxTelLen),
+				     gsmlib::ParameterError);
 
       // read phonebook
-      destPhonebook = new SortedPhonebook(destPb);      
+      destPhonebook = new gsmlib::SortedPhonebook(destPb);      
     }
 
     // now do the actual work
@@ -455,8 +454,8 @@ int main(int argc, char *argv[])
     {                           // synchronizing
       if (indexed)
       {
-        sourcePhonebook->setSortOrder(ByIndex);
-        destPhonebook->setSortOrder(ByIndex);
+        sourcePhonebook->setSortOrder(gsmlib::ByIndex);
+        destPhonebook->setSortOrder(gsmlib::ByIndex);
         // for an explanation see below
         updateEntriesIndexed(sourcePhonebook, destPhonebook, verbose);
         deleteNotPresent(sourcePhonebook, destPhonebook, true, verbose);
@@ -464,8 +463,8 @@ int main(int argc, char *argv[])
       }
       else
       {
-        sourcePhonebook->setSortOrder(ByText);
-        destPhonebook->setSortOrder(ByText);
+        sourcePhonebook->setSortOrder(gsmlib::ByText);
+        destPhonebook->setSortOrder(gsmlib::ByText);
         // the following is done to avoid superfluous writes to the TA
         // (that takes time) and keep updated (ie. telephone number changed)
         // entries at the same place
@@ -480,24 +479,24 @@ int main(int argc, char *argv[])
     else
     {                           // copying
       destPhonebook->clear();
-      for (SortedPhonebookBase::iterator i = sourcePhonebook->begin();
+      for (gsmlib::SortedPhonebookBase::iterator i = sourcePhonebook->begin();
            i != sourcePhonebook->end(); ++i)
       {
         if (verbose)
         {
-          cout << stringPrintf(_("inserting '%s' tel# %s"),
-                               i->text().c_str(), i->telephone().c_str());
+	  std::cout << gsmlib::stringPrintf(_("inserting '%s' tel# %s"),
+				    i->text().c_str(), i->telephone().c_str());
           if (indexed)
-            cout << stringPrintf(_(" (index #%d)"), i->index());
-          cout << endl;
+	    std::cout << gsmlib::stringPrintf(_(" (index #%d)"), i->index());
+	  std::cout << std::endl;
         }
         destPhonebook->insert(*i);
       }
     }
   }
-  catch (GsmException &ge)
+  catch (gsmlib::GsmException &ge)
   {
-    cerr << argv[0] << _("[ERROR]: ") << ge.what() << endl;
+    std::cerr << argv[0] << _("[ERROR]: ") << ge.what() << std::endl;
     return 1;
   }
   return 0;
