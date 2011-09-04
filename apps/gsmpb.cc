@@ -32,9 +32,6 @@
 #include <gsmlib/gsm_sorted_phonebook.h>
 #include <iostream>
 
-using namespace std;
-using namespace gsmlib;
-
 #ifdef HAVE_GETOPT_LONG
 static struct option longOpts[] =
 {

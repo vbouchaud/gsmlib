@@ -42,9 +42,6 @@
 #include <gsmlib/gsm_event.h>
 #include <cstring>
 
-using namespace std;
-using namespace gsmlib;
-
 #ifdef HAVE_GETOPT_LONG
 static struct option longOpts[] =
 {

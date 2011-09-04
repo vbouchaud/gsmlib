@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-04 17:09+0200\n"
+"POT-Creation-Date: 2011-09-04 18:02+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,552 +17,552 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: apps/gsmsmsd.cc:172
+#: apps/gsmsmsd.cc:169
 #, c-format
 msgid "could not execute '%s'"
 msgstr ""
 
-#: apps/gsmsmsd.cc:176
+#: apps/gsmsmsd.cc:173
 #, c-format
 msgid "error writing to '%s'"
 msgstr ""
 
-#: apps/gsmsmsd.cc:197 apps/gsmsmsd.cc:198 apps/gsmsmsd.cc:199
+#: apps/gsmsmsd.cc:194 apps/gsmsmsd.cc:195 apps/gsmsmsd.cc:196
 #, c-format
 msgid "%d"
 msgstr ""
 
-#: apps/gsmsmsd.cc:216
+#: apps/gsmsmsd.cc:213
 #, c-format
 msgid "error when calling opendir('%s')(errno: %d/%s)"
 msgstr ""
 
-#: apps/gsmsmsd.cc:260
+#: apps/gsmsmsd.cc:257
 #, c-format
 msgid "count not open SMS spool file %s"
 msgstr ""
 
-#: apps/gsmsmsd.cc:439 apps/gsmsendsms.cc:144 apps/gsmpb.cc:311
-#: apps/gsmctl.cc:380 apps/gsmsmsstore.cc:179
+#: apps/gsmsmsd.cc:436 apps/gsmsendsms.cc:141 apps/gsmpb.cc:308
+#: apps/gsmctl.cc:376 apps/gsmsmsstore.cc:176
 #, c-format
 msgid ": version %s [compiled %s]"
 msgstr ""
 
-#: apps/gsmsmsd.cc:444
+#: apps/gsmsmsd.cc:441
 msgid ""
 ": [-a action][-b baudrate][-C sca][-d device][-f][-h][-I init string]\n"
 "  [-s spool dir][-t][-v]{sms_type}"
 msgstr ""
 
-#: apps/gsmsmsd.cc:448
+#: apps/gsmsmsd.cc:445
 msgid ""
 "  -a, --action      the action to execute when an SMS arrives\n"
 "                    (SMS is send to stdin of action)"
 msgstr ""
 
-#: apps/gsmsmsd.cc:452 apps/gsmsendsms.cc:153 apps/gsmpb.cc:322
-#: apps/gsmctl.cc:389 apps/gsmsmsstore.cc:194
+#: apps/gsmsmsd.cc:449 apps/gsmsendsms.cc:150 apps/gsmpb.cc:319
+#: apps/gsmctl.cc:385 apps/gsmsmsstore.cc:191
 msgid "  -b, --baudrate    baudrate to use for device (default: 38400)"
 msgstr ""
 
-#: apps/gsmsmsd.cc:455
+#: apps/gsmsmsd.cc:452
 msgid "  -c, --concatenate start ID for concatenated SMS messages"
 msgstr ""
 
-#: apps/gsmsmsd.cc:457 apps/gsmsendsms.cc:158 apps/gsmsmsstore.cc:200
+#: apps/gsmsmsd.cc:454 apps/gsmsendsms.cc:155 apps/gsmsmsstore.cc:197
 msgid "  -C, --sca         SMS service centre address"
 msgstr ""
 
-#: apps/gsmsmsd.cc:458
+#: apps/gsmsmsd.cc:455
 msgid "  -d, --device      sets the device to connect to"
 msgstr ""
 
-#: apps/gsmsmsd.cc:459
+#: apps/gsmsmsd.cc:456
 msgid "  -D, --direct      enable direct routing of SMSs"
 msgstr ""
 
-#: apps/gsmsmsd.cc:460
+#: apps/gsmsmsd.cc:457
 msgid "  -f, --flush       flush SMS from store"
 msgstr ""
 
-#: apps/gsmsmsd.cc:461
+#: apps/gsmsmsd.cc:458
 msgid "  -F, --failed      directory to move failed SMS to,"
 msgstr ""
 
-#: apps/gsmsmsd.cc:462 apps/gsmsmsd.cc:475
+#: apps/gsmsmsd.cc:459 apps/gsmsmsd.cc:472
 msgid "                    if unset, the SMS will be deleted"
 msgstr ""
 
-#: apps/gsmsmsd.cc:463 apps/gsmsendsms.cc:161 apps/gsmpb.cc:332
-#: apps/gsmctl.cc:394 apps/gsmsmsstore.cc:204
+#: apps/gsmsmsd.cc:460 apps/gsmsendsms.cc:158 apps/gsmpb.cc:329
+#: apps/gsmctl.cc:390 apps/gsmsmsstore.cc:201
 msgid "  -h, --help        prints this message"
 msgstr ""
 
-#: apps/gsmsmsd.cc:464 apps/gsmsendsms.cc:162 apps/gsmpb.cc:335
-#: apps/gsmctl.cc:395 apps/gsmsmsstore.cc:205
+#: apps/gsmsmsd.cc:461 apps/gsmsendsms.cc:159 apps/gsmpb.cc:332
+#: apps/gsmctl.cc:391 apps/gsmsmsstore.cc:202
 msgid "  -I, --init        device AT init sequence"
 msgstr ""
 
-#: apps/gsmsmsd.cc:466
+#: apps/gsmsmsd.cc:463
 msgid "  -L, --syslog      log errors and information to syslog"
 msgstr ""
 
-#: apps/gsmsmsd.cc:469
+#: apps/gsmsmsd.cc:466
 msgid "  -P, --priorities  number of priority levels to use,"
 msgstr ""
 
-#: apps/gsmsmsd.cc:470
+#: apps/gsmsmsd.cc:467
 msgid "                    (default: none)"
 msgstr ""
 
-#: apps/gsmsmsd.cc:471 apps/gsmsendsms.cc:163
+#: apps/gsmsmsd.cc:468 apps/gsmsendsms.cc:160
 msgid "  -r, --requeststat request SMS status report"
 msgstr ""
 
-#: apps/gsmsmsd.cc:472
+#: apps/gsmsmsd.cc:469
 msgid "  -s, --spool       spool directory for outgoing SMS"
 msgstr ""
 
-#: apps/gsmsmsd.cc:474
+#: apps/gsmsmsd.cc:471
 msgid "  -S, --sent        directory to move sent SMS to,"
 msgstr ""
 
-#: apps/gsmsmsd.cc:476
+#: apps/gsmsmsd.cc:473
 msgid ""
 "  -t, --store       name of SMS store to use for flush\n"
 "                    and/or temporary SMS storage"
 msgstr ""
 
-#: apps/gsmsmsd.cc:479 apps/gsmsendsms.cc:167 apps/gsmpb.cc:343
-#: apps/gsmctl.cc:399 apps/gsmsmsstore.cc:213
+#: apps/gsmsmsd.cc:476 apps/gsmsendsms.cc:164 apps/gsmpb.cc:340
+#: apps/gsmctl.cc:395 apps/gsmsmsstore.cc:210
 msgid "  -v, --version     prints version and exits"
 msgstr ""
 
-#: apps/gsmsmsd.cc:480 apps/gsmsendsms.cc:169 apps/gsmpb.cc:346
-#: apps/gsmctl.cc:400 apps/gsmsmsstore.cc:218
+#: apps/gsmsmsd.cc:477 apps/gsmsendsms.cc:166 apps/gsmpb.cc:343
+#: apps/gsmctl.cc:396 apps/gsmsmsstore.cc:215
 msgid "  -X, --xonxoff     switch on software handshake"
 msgstr ""
 
-#: apps/gsmsmsd.cc:482
+#: apps/gsmsmsd.cc:479
 msgid "  sms_type may be any combination of"
 msgstr ""
 
-#: apps/gsmsmsd.cc:483
+#: apps/gsmsmsd.cc:480
 msgid "    sms, no_sms     controls reception of normal SMS"
 msgstr ""
 
-#: apps/gsmsmsd.cc:485
+#: apps/gsmsmsd.cc:482
 msgid "    cb, no_cb       controls reception of cell broadcast messages"
 msgstr ""
 
-#: apps/gsmsmsd.cc:487
+#: apps/gsmsmsd.cc:484
 msgid "    stat, no_stat   controls reception of status reports"
 msgstr ""
 
-#: apps/gsmsmsd.cc:489
+#: apps/gsmsmsd.cc:486
 msgid "  default is \"sms cb stat\""
 msgstr ""
 
-#: apps/gsmsmsd.cc:490
+#: apps/gsmsmsd.cc:487
 msgid "If no action is given, the SMS is printed to stdout"
 msgstr ""
 
-#: apps/gsmsmsd.cc:492
+#: apps/gsmsmsd.cc:489
 msgid "If -P is given, it activates the priority system and sets the"
 msgstr ""
 
-#: apps/gsmsmsd.cc:493
+#: apps/gsmsmsd.cc:490
 msgid "number or levels to use. For every level, there must be directories"
 msgstr ""
 
-#: apps/gsmsmsd.cc:494
+#: apps/gsmsmsd.cc:491
 msgid "named <spool directory>+<priority level>."
 msgstr ""
 
-#: apps/gsmsmsd.cc:495
+#: apps/gsmsmsd.cc:492
 msgid "For example \"-P 2 -s queue -S send -F failed\" needs the following"
 msgstr ""
 
-#: apps/gsmsmsd.cc:496
+#: apps/gsmsmsd.cc:493
 msgid "directories: queue1/ queue2/ send1/ send2/ failed1/ failed2/"
 msgstr ""
 
-#: apps/gsmsmsd.cc:497
+#: apps/gsmsmsd.cc:494
 msgid "Before sending one SMS from queue2, all pending SMS from queue1"
 msgstr ""
 
-#: apps/gsmsmsd.cc:498
+#: apps/gsmsmsd.cc:495
 msgid "will be sent."
 msgstr ""
 
-#: apps/gsmsmsd.cc:503 apps/gsmsendsms.cc:178 apps/gsmpb.cc:354
-#: apps/gsmctl.cc:414 apps/gsmsmsstore.cc:223
+#: apps/gsmsmsd.cc:500 apps/gsmsendsms.cc:175 apps/gsmpb.cc:351
+#: apps/gsmctl.cc:410 apps/gsmsmsstore.cc:220
 msgid "unknown option"
 msgstr ""
 
-#: apps/gsmsmsd.cc:542
+#: apps/gsmsmsd.cc:539
 #, c-format
 msgid "error when calling sigaction() (errno: %d/%s)"
 msgstr ""
 
-#: apps/gsmsmsd.cc:562
+#: apps/gsmsmsd.cc:559
 msgid "store name must be given for flush option"
 msgstr ""
 
 #. process the new message
-#: apps/gsmsmsd.cc:570 apps/gsmsmsd.cc:638
+#: apps/gsmsmsd.cc:567 apps/gsmsmsd.cc:635
 msgid "Type of message: "
 msgstr ""
 
-#: apps/gsmsmsd.cc:574 apps/gsmsmsd.cc:642
+#: apps/gsmsmsd.cc:571 apps/gsmsmsd.cc:639
 msgid "SMS message\n"
 msgstr ""
 
-#: apps/gsmsmsd.cc:577
+#: apps/gsmsmsd.cc:574
 msgid "submit report message\n"
 msgstr ""
 
-#: apps/gsmsmsd.cc:580 apps/gsmsmsd.cc:648
+#: apps/gsmsmsd.cc:577 apps/gsmsmsd.cc:645
 msgid "status report message\n"
 msgstr ""
 
-#: apps/gsmsmsd.cc:645
+#: apps/gsmsmsd.cc:642
 msgid "cell broadcast message\n"
 msgstr ""
 
-#: apps/gsmsmsd.cc:701 apps/gsmsmsd.cc:703 apps/gsmsendsms.cc:253
-#: apps/gsmpb.cc:503 apps/gsmctl.cc:631 apps/gsmsmsstore.cc:434
+#: apps/gsmsmsd.cc:698 apps/gsmsmsd.cc:700 apps/gsmsendsms.cc:250
+#: apps/gsmpb.cc:500 apps/gsmctl.cc:627 apps/gsmsmsstore.cc:431
 msgid "[ERROR]: "
 msgstr ""
 
-#: apps/gsmsmsd.cc:704
+#: apps/gsmsmsd.cc:701
 msgid "(try setting sms_type, please refer to gsmsmsd manpage)"
 msgstr ""
 
-#: apps/gsmsendsms.cc:149
+#: apps/gsmsendsms.cc:146
 msgid ""
 ": [-b baudrate][-c concatenatedID][-C sca][-d device][-h][-I init string]\n"
 "  [-t][-v][-X] phonenumber [text]"
 msgstr ""
 
-#: apps/gsmsendsms.cc:156
+#: apps/gsmsendsms.cc:153
 msgid "  -c, --concatenate ID for concatenated SMS messages"
 msgstr ""
 
-#: apps/gsmsendsms.cc:159 apps/gsmctl.cc:392
+#: apps/gsmsendsms.cc:156 apps/gsmctl.cc:388
 msgid "  -d, --device      sets the destination device to connect to"
 msgstr ""
 
-#: apps/gsmsendsms.cc:164
+#: apps/gsmsendsms.cc:161
 msgid ""
 "  -t, --test        convert text to GSM alphabet and vice\n"
 "                    versa, no SMS message is sent"
 msgstr ""
 
-#: apps/gsmsendsms.cc:171
+#: apps/gsmsendsms.cc:168
 msgid "  phonenumber       recipient's phone number"
 msgstr ""
 
-#: apps/gsmsendsms.cc:172
+#: apps/gsmsendsms.cc:169
 msgid ""
 "  text              optional text of the SMS message\n"
 "                    if omitted: read from stdin"
 msgstr ""
 
-#: apps/gsmsendsms.cc:205
+#: apps/gsmsendsms.cc:202
 msgid "phone number and text missing"
 msgstr ""
 
-#: apps/gsmsendsms.cc:208 apps/gsmsmsstore.cc:261
+#: apps/gsmsendsms.cc:205 apps/gsmsmsstore.cc:258
 msgid "more than two parameters given"
 msgstr ""
 
-#: apps/gsmsendsms.cc:224
+#: apps/gsmsendsms.cc:221
 msgid "text is larger than 160 characters"
 msgstr ""
 
-#: apps/gsmpb.cc:102 apps/gsmpb.cc:491
+#: apps/gsmpb.cc:99 apps/gsmpb.cc:488
 #, c-format
 msgid "inserting '%s' tel# %s"
 msgstr ""
 
-#: apps/gsmpb.cc:105 apps/gsmpb.cc:230 apps/gsmpb.cc:494
+#: apps/gsmpb.cc:102 apps/gsmpb.cc:227 apps/gsmpb.cc:491
 #, c-format
 msgid " (index #%d)"
 msgstr ""
 
-#: apps/gsmpb.cc:144
+#: apps/gsmpb.cc:141
 #, c-format
 msgid "updating '%s' tel# %s to new tel# %s"
 msgstr ""
 
-#: apps/gsmpb.cc:177
+#: apps/gsmpb.cc:174
 #, c-format
 msgid "updating '%s' tel# %s to new tel# %s(index %d)"
 msgstr ""
 
-#: apps/gsmpb.cc:227
+#: apps/gsmpb.cc:224
 #, c-format
 msgid "deleting '%s' tel# %s"
 msgstr ""
 
-#: apps/gsmpb.cc:316
+#: apps/gsmpb.cc:313
 msgid ""
 ": [-b baudrate][-c][-d device or file][-h][-I init string]\n"
 "  [-p phonebook name][-s device or file][-t charset][-v][-V][-y][-X]"
 msgstr ""
 
-#: apps/gsmpb.cc:325
+#: apps/gsmpb.cc:322
 msgid "  -c, --copy        copy source entries to destination"
 msgstr ""
 
-#: apps/gsmpb.cc:327
+#: apps/gsmpb.cc:324
 msgid ""
 "  -d, --destination sets the destination device to connect \n"
 "                    to, or the file to write"
 msgstr ""
 
-#: apps/gsmpb.cc:330
+#: apps/gsmpb.cc:327
 msgid "  -D, --destination-backend sets the destination backend"
 msgstr ""
 
-#: apps/gsmpb.cc:333
+#: apps/gsmpb.cc:330
 msgid "  -i, --index       takes index positions into account"
 msgstr ""
 
-#: apps/gsmpb.cc:336
+#: apps/gsmpb.cc:333
 msgid "  -p, --phonebook   name of phonebook to use"
 msgstr ""
 
-#: apps/gsmpb.cc:337 apps/gsmsmsstore.cc:210
+#: apps/gsmpb.cc:334 apps/gsmsmsstore.cc:207
 msgid ""
 "  -s, --source      sets the source device to connect to,\n"
 "                    or the file to read"
 msgstr ""
 
-#: apps/gsmpb.cc:339
+#: apps/gsmpb.cc:336
 msgid ""
 "  -t, --charset     sets the character set to use for\n"
 "                    phonebook entries"
 msgstr ""
 
-#: apps/gsmpb.cc:341
+#: apps/gsmpb.cc:338
 msgid "  -S, --source-backend sets the source backend"
 msgstr ""
 
-#: apps/gsmpb.cc:344 apps/gsmsmsstore.cc:214
+#: apps/gsmpb.cc:341 apps/gsmsmsstore.cc:211
 msgid "  -V, --verbose     print detailed progress messages"
 msgstr ""
 
-#: apps/gsmpb.cc:347
+#: apps/gsmpb.cc:344
 msgid ""
 "  -y, --synchronize synchronize destination with source\n"
 "                    entries (destination is overwritten)\n"
 "                    (see gsmpb(1) for details)"
 msgstr ""
 
-#: apps/gsmpb.cc:360
+#: apps/gsmpb.cc:357
 msgid "both source and destination must be given"
 msgstr ""
 
-#: apps/gsmpb.cc:374 apps/gsmpb.cc:416
+#: apps/gsmpb.cc:371 apps/gsmpb.cc:413
 msgid "phonebook name must be given"
 msgstr ""
 
-#: apps/gsmpb.cc:441
+#: apps/gsmpb.cc:438
 #, c-format
 msgid ""
 "text '%s' is too large to fit into destination (maximum size %d characters)"
 msgstr ""
 
-#: apps/gsmpb.cc:447
+#: apps/gsmpb.cc:444
 #, c-format
 msgid ""
 "phone number '%s' is too large to fit into destination (maximum size %d "
 "characters)"
 msgstr ""
 
-#: apps/gsmctl.cc:90
+#: apps/gsmctl.cc:86
 msgid "active "
 msgstr ""
 
-#: apps/gsmctl.cc:90
+#: apps/gsmctl.cc:86
 msgid "inactive "
 msgstr ""
 
-#: apps/gsmctl.cc:91
+#: apps/gsmctl.cc:87
 msgid "number: "
 msgstr ""
 
-#: apps/gsmctl.cc:92
+#: apps/gsmctl.cc:88
 msgid "  subaddr: "
 msgstr ""
 
-#: apps/gsmctl.cc:93
+#: apps/gsmctl.cc:89
 msgid "  time: "
 msgstr ""
 
-#: apps/gsmctl.cc:105
+#: apps/gsmctl.cc:101
 msgid "<ME0>  Manufacturer: "
 msgstr ""
 
-#: apps/gsmctl.cc:106
+#: apps/gsmctl.cc:102
 msgid "<ME1>  Model: "
 msgstr ""
 
-#: apps/gsmctl.cc:107
+#: apps/gsmctl.cc:103
 msgid "<ME2>  Revision: "
 msgstr ""
 
-#: apps/gsmctl.cc:108
+#: apps/gsmctl.cc:104
 msgid "<ME3>  Serial Number: "
 msgstr ""
 
-#: apps/gsmctl.cc:116 apps/gsmctl.cc:118
+#: apps/gsmctl.cc:112 apps/gsmctl.cc:114
 msgid "<FUN>  Functionality Level: "
 msgstr ""
 
-#: apps/gsmctl.cc:118
+#: apps/gsmctl.cc:114
 msgid "unsupported"
 msgstr ""
 
-#: apps/gsmctl.cc:128
+#: apps/gsmctl.cc:124
 msgid ">  Status: "
 msgstr ""
 
-#: apps/gsmctl.cc:131 gsmlib/gsm_error.cc:102 gsmlib/gsm_sms.cc:430
+#: apps/gsmctl.cc:127 gsmlib/gsm_error.cc:102 gsmlib/gsm_sms.cc:430
 #: gsmlib/gsm_sms_codec.cc:197
 msgid "unknown"
 msgstr ""
 
-#: apps/gsmctl.cc:132
+#: apps/gsmctl.cc:128
 msgid "current"
 msgstr ""
 
-#: apps/gsmctl.cc:133
+#: apps/gsmctl.cc:129
 msgid "available"
 msgstr ""
 
-#: apps/gsmctl.cc:134
+#: apps/gsmctl.cc:130
 msgid "forbidden"
 msgstr ""
 
-#: apps/gsmctl.cc:136 apps/gsmctl.cc:147
+#: apps/gsmctl.cc:132 apps/gsmctl.cc:143
 msgid "  Long name: '"
 msgstr ""
 
-#: apps/gsmctl.cc:137 apps/gsmctl.cc:148
+#: apps/gsmctl.cc:133 apps/gsmctl.cc:144
 msgid "  Short name: '"
 msgstr ""
 
-#: apps/gsmctl.cc:138 apps/gsmctl.cc:149
+#: apps/gsmctl.cc:134 apps/gsmctl.cc:145
 msgid "  Numeric name: "
 msgstr ""
 
-#: apps/gsmctl.cc:150
+#: apps/gsmctl.cc:146
 msgid "  Mode: "
 msgstr ""
 
-#: apps/gsmctl.cc:153
+#: apps/gsmctl.cc:149
 msgid "automatic"
 msgstr ""
 
-#: apps/gsmctl.cc:154
+#: apps/gsmctl.cc:150
 msgid "manual"
 msgstr ""
 
-#: apps/gsmctl.cc:155
+#: apps/gsmctl.cc:151
 msgid "deregister"
 msgstr ""
 
-#: apps/gsmctl.cc:156
+#: apps/gsmctl.cc:152
 msgid "manual/automatic"
 msgstr ""
 
-#: apps/gsmctl.cc:172 apps/gsmctl.cc:247
+#: apps/gsmctl.cc:168 apps/gsmctl.cc:243
 msgid "  Voice"
 msgstr ""
 
-#: apps/gsmctl.cc:176 apps/gsmctl.cc:185 apps/gsmctl.cc:194
+#: apps/gsmctl.cc:172 apps/gsmctl.cc:181 apps/gsmctl.cc:190
 msgid "  unknown"
 msgstr ""
 
-#: apps/gsmctl.cc:181 apps/gsmctl.cc:249
+#: apps/gsmctl.cc:177 apps/gsmctl.cc:245
 msgid "  Data"
 msgstr ""
 
-#: apps/gsmctl.cc:190 apps/gsmctl.cc:251
+#: apps/gsmctl.cc:186 apps/gsmctl.cc:247
 msgid "  Fax"
 msgstr ""
 
-#: apps/gsmctl.cc:229
+#: apps/gsmctl.cc:225
 msgid "on"
 msgstr ""
 
-#: apps/gsmctl.cc:229
+#: apps/gsmctl.cc:225
 msgid "off"
 msgstr ""
 
-#: apps/gsmctl.cc:239
+#: apps/gsmctl.cc:235
 msgid "UnconditionalReason"
 msgstr ""
 
-#: apps/gsmctl.cc:240
+#: apps/gsmctl.cc:236
 msgid "MobileBusyReason"
 msgstr ""
 
-#: apps/gsmctl.cc:241
+#: apps/gsmctl.cc:237
 msgid "NoReplyReason"
 msgstr ""
 
-#: apps/gsmctl.cc:242
+#: apps/gsmctl.cc:238
 msgid "NotReachableReason"
 msgstr ""
 
-#: apps/gsmctl.cc:261
+#: apps/gsmctl.cc:257
 msgid "0 ME is powered by the battery"
 msgstr ""
 
-#: apps/gsmctl.cc:262
+#: apps/gsmctl.cc:258
 msgid "1 ME has a battery connected, but is not powered by it"
 msgstr ""
 
-#: apps/gsmctl.cc:264
+#: apps/gsmctl.cc:260
 msgid "2 ME does not have a battery connected"
 msgstr ""
 
-#: apps/gsmctl.cc:266
+#: apps/gsmctl.cc:262
 msgid "3 Recognized power fault, calls inhibited"
 msgstr ""
 
-#: apps/gsmctl.cc:323
+#: apps/gsmctl.cc:319
 #, c-format
 msgid "unknown facility class parameter '%c'"
 msgstr ""
 
-#: apps/gsmctl.cc:336
+#: apps/gsmctl.cc:332
 #, c-format
 msgid "not enough parameters, minimum number of parameters is %d"
 msgstr ""
 
-#: apps/gsmctl.cc:340
+#: apps/gsmctl.cc:336
 #, c-format
 msgid "too many parameters, maximum number of parameters is %d"
 msgstr ""
 
-#: apps/gsmctl.cc:385
+#: apps/gsmctl.cc:381
 msgid ""
 ": [-b baudrate][-d device][-h][-I init string][-o operation]\n"
 "  [-v][-X]{parameters}"
 msgstr ""
 
-#: apps/gsmctl.cc:396
+#: apps/gsmctl.cc:392
 msgid ""
 "  -o, --operation   operation to perform on the mobile \n"
 "                    phone with the specified parameters"
 msgstr ""
 
-#: apps/gsmctl.cc:402
+#: apps/gsmctl.cc:398
 msgid ""
 "  parameters        parameters to use for the operation\n"
 "                    (if an operation is given) or\n"
@@ -570,150 +570,150 @@ msgid ""
 "                    information to read from the mobile phone"
 msgstr ""
 
-#: apps/gsmctl.cc:408
+#: apps/gsmctl.cc:404
 msgid ""
 "Refer to gsmctl(1) for details on the available parameters and operations."
 msgstr ""
 
-#: apps/gsmctl.cc:471
+#: apps/gsmctl.cc:467
 #, c-format
 msgid "unknown information parameter '%s'"
 msgstr ""
 
-#: apps/gsmctl.cc:520
+#: apps/gsmctl.cc:516
 #, c-format
 msgid "unknown opmode parameter '%s'"
 msgstr ""
 
-#: apps/gsmctl.cc:588
+#: apps/gsmctl.cc:584
 #, c-format
 msgid "unknown forward reason parameter '%s'"
 msgstr ""
 
-#: apps/gsmctl.cc:604
+#: apps/gsmctl.cc:600
 #, c-format
 msgid "unknown forward mode parameter '%s'"
 msgstr ""
 
-#: apps/gsmctl.cc:625
+#: apps/gsmctl.cc:621
 #, c-format
 msgid "unknown operation '%s'"
 msgstr ""
 
-#: apps/gsmsmsstore.cc:91 apps/gsmsmsstore.cc:362 apps/gsmsmsstore.cc:379
+#: apps/gsmsmsstore.cc:88 apps/gsmsmsstore.cc:359 apps/gsmsmsstore.cc:376
 #, c-format
 msgid "inserting entry #%d from source into destination"
 msgstr ""
 
-#: apps/gsmsmsstore.cc:102
+#: apps/gsmsmsstore.cc:99
 #, c-format
 msgid "incompatible options '%c' and '%c'"
 msgstr ""
 
-#: apps/gsmsmsstore.cc:184
+#: apps/gsmsmsstore.cc:181
 msgid ""
 ": [-a][-b baudrate][-c][-C sca][-d device or file]\n"
 "  [-h][-I init string][-k][-l][-s device or file][-t SMS store name]\n"
 "  [-v][-V][-x][-X]{indices}|[phonenumber text]"
 msgstr ""
 
-#: apps/gsmsmsstore.cc:191
+#: apps/gsmsmsstore.cc:188
 msgid ""
 "  -a, --add         add new SMS submit message\n"
 "                    (phonenumber and text) to destination"
 msgstr ""
 
-#: apps/gsmsmsstore.cc:197
+#: apps/gsmsmsstore.cc:194
 msgid ""
 "  -c, --copy        copy source entries to destination\n"
 "                    (if indices are given, copy only these entries)"
 msgstr ""
 
-#: apps/gsmsmsstore.cc:201
+#: apps/gsmsmsstore.cc:198
 msgid ""
 "  -d, --destination sets the destination device to\n"
 "                    connect to, or the file to write to"
 msgstr ""
 
-#: apps/gsmsmsstore.cc:206
+#: apps/gsmsmsstore.cc:203
 msgid ""
 "  -k, --backup      backup new entries to destination\n"
 "                    (if indices are given, copy only these entries)"
 msgstr ""
 
-#: apps/gsmsmsstore.cc:209
+#: apps/gsmsmsstore.cc:206
 msgid "  -l, --list        list source to stdout"
 msgstr ""
 
-#: apps/gsmsmsstore.cc:212
+#: apps/gsmsmsstore.cc:209
 msgid "  -t, --store       name of SMS store to use"
 msgstr ""
 
-#: apps/gsmsmsstore.cc:216
+#: apps/gsmsmsstore.cc:213
 msgid "  -x, --delete      delete entries denoted by indices"
 msgstr ""
 
-#: apps/gsmsmsstore.cc:229
+#: apps/gsmsmsstore.cc:226
 msgid "no operation option given"
 msgstr ""
 
-#: apps/gsmsmsstore.cc:232
+#: apps/gsmsmsstore.cc:229
 msgid "both source and destination required"
 msgstr ""
 
-#: apps/gsmsmsstore.cc:237
+#: apps/gsmsmsstore.cc:234
 msgid "destination must not be given"
 msgstr ""
 
-#: apps/gsmsmsstore.cc:239
+#: apps/gsmsmsstore.cc:236
 msgid "source required"
 msgstr ""
 
-#: apps/gsmsmsstore.cc:244
+#: apps/gsmsmsstore.cc:241
 msgid "source must not be given"
 msgstr ""
 
-#: apps/gsmsmsstore.cc:246
+#: apps/gsmsmsstore.cc:243
 msgid "destination required"
 msgstr ""
 
-#: apps/gsmsmsstore.cc:254 gsmlib/gsm_util.cc:288
+#: apps/gsmsmsstore.cc:251 gsmlib/gsm_util.cc:288
 #, c-format
 msgid "expected number, got '%s'"
 msgstr ""
 
-#: apps/gsmsmsstore.cc:264
+#: apps/gsmsmsstore.cc:261
 msgid "not enough parameters given"
 msgstr ""
 
-#: apps/gsmsmsstore.cc:269
+#: apps/gsmsmsstore.cc:266
 msgid "unexpected parameters"
 msgstr ""
 
-#: apps/gsmsmsstore.cc:281 apps/gsmsmsstore.cc:315
+#: apps/gsmsmsstore.cc:278 apps/gsmsmsstore.cc:312
 msgid "store name must be given"
 msgstr ""
 
-#: apps/gsmsmsstore.cc:343 apps/gsmsmsstore.cc:376
+#: apps/gsmsmsstore.cc:340 apps/gsmsmsstore.cc:373
 #, c-format
 msgid "no index '%s' in source"
 msgstr ""
 
-#: apps/gsmsmsstore.cc:391
+#: apps/gsmsmsstore.cc:388
 #, c-format
 msgid "index #%d"
 msgstr ""
 
-#: apps/gsmsmsstore.cc:405
+#: apps/gsmsmsstore.cc:402
 msgid "inserting new entry into destination"
 msgstr ""
 
-#: apps/gsmsmsstore.cc:420
+#: apps/gsmsmsstore.cc:417
 #, c-format
 msgid "deleting entry #%d from destination"
 msgstr ""
 
-#: apps/gsmsmsstore.cc:425
+#: apps/gsmsmsstore.cc:422
 #, c-format
 msgid "no index '%s' in destination"
 msgstr ""
@@ -1637,17 +1637,17 @@ msgstr ""
 msgid "line '%s' has invalid format"
 msgstr ""
 
-#: gsmlib/gsm_sorted_phonebook.cc:173 gsmlib/gsm_sorted_sms_store.cc:158
+#: gsmlib/gsm_sorted_phonebook.cc:173 gsmlib/gsm_sorted_sms_store.cc:164
 #, c-format
 msgid "error opening file '%s' for writing"
 msgstr ""
 
 #: gsmlib/gsm_sorted_phonebook.cc:174 gsmlib/gsm_sorted_phonebook.cc:193
-#: gsmlib/gsm_sorted_sms_store.cc:66 gsmlib/gsm_sorted_sms_store.cc:159
+#: gsmlib/gsm_sorted_sms_store.cc:67 gsmlib/gsm_sorted_sms_store.cc:165
 msgid "<STDOUT>"
 msgstr ""
 
-#: gsmlib/gsm_sorted_phonebook.cc:192 gsmlib/gsm_sorted_sms_store.cc:65
+#: gsmlib/gsm_sorted_phonebook.cc:192 gsmlib/gsm_sorted_sms_store.cc:66
 #, c-format
 msgid "error writing to file '%s'"
 msgstr ""
@@ -1656,13 +1656,13 @@ msgstr ""
 msgid "attempt to change phonebook read from <STDIN>"
 msgstr ""
 
-#: gsmlib/gsm_sorted_phonebook.cc:229 gsmlib/gsm_sorted_sms_store.cc:214
+#: gsmlib/gsm_sorted_phonebook.cc:229 gsmlib/gsm_sorted_sms_store.cc:220
 #, c-format
 msgid "cannot open file '%s'"
 msgstr ""
 
-#: gsmlib/gsm_sorted_phonebook.cc:244 gsmlib/gsm_sorted_sms_store.cc:54
-#: gsmlib/gsm_sorted_sms_store.cc:227
+#: gsmlib/gsm_sorted_phonebook.cc:244 gsmlib/gsm_sorted_sms_store.cc:55
+#: gsmlib/gsm_sorted_sms_store.cc:233
 msgid "<STDIN>"
 msgstr ""
 
@@ -1670,21 +1670,21 @@ msgstr ""
 msgid "indices must be unique in phonebook"
 msgstr ""
 
-#: gsmlib/gsm_sorted_sms_store.cc:53
+#: gsmlib/gsm_sorted_sms_store.cc:54
 #, c-format
 msgid "error reading from file '%s'"
 msgstr ""
 
-#: gsmlib/gsm_sorted_sms_store.cc:86
+#: gsmlib/gsm_sorted_sms_store.cc:89
 #, c-format
 msgid "file '%s' has wrong version"
 msgstr ""
 
-#: gsmlib/gsm_sorted_sms_store.cc:98 gsmlib/gsm_sorted_sms_store.cc:110
+#: gsmlib/gsm_sorted_sms_store.cc:104 gsmlib/gsm_sorted_sms_store.cc:116
 #, c-format
 msgid "corrupt SMS store file '%s'"
 msgstr ""
 
-#: gsmlib/gsm_sorted_sms_store.cc:203
+#: gsmlib/gsm_sorted_sms_store.cc:209
 msgid "attempt to change SMS store read from <STDIN>"
 msgstr ""

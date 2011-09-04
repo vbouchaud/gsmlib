@@ -18,7 +18,6 @@
 #if defined(HAVE_GETOPT_LONG) || defined(WIN32)
 #include <getopt.h>
 #endif
-#include <strstream>
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
@@ -33,12 +32,9 @@
 #endif
 #include <iostream>
 
-using namespace std;
-using namespace gsmlib;
-
 // my ME
 
-static MeTa *m;
+static gsmlib::MeTa *m;
 
 // information parameters
 
@@ -84,13 +80,13 @@ static struct option longOpts[] =
 
 // helper function, prints forwarding info
 
-void printForwardReason(string s, ForwardInfo &info)
+void printForwardReason(std::string s, gsmlib::ForwardInfo &info)
 {
-  cout << s << "  "
+  std::cout << s << "  "
        << (info._active ? _("active ") : _("inactive "))
        << _("number: ") << info._number
        << _("  subaddr: ") << info._subAddr
-       << _("  time: ") << info._time << endl;
+       << _("  time: ") << info._time << std::endl;
 }
 
 // print information
@@ -101,11 +97,11 @@ static void printInfo(InfoParameter ip)
   {
   case MeInfo:
   {
-    MEInfo mei = m->getMEInfo();
-    cout << _("<ME0>  Manufacturer: ") << mei._manufacturer << endl
-         << _("<ME1>  Model: ") << mei._model << endl
-         << _("<ME2>  Revision: ") << mei._revision << endl
-         << _("<ME3>  Serial Number: ") << mei._serialNumber << endl;
+    gsmlib::MEInfo mei = m->getMEInfo();
+    std::cout << _("<ME0>  Manufacturer: ") << mei._manufacturer << std::endl
+         << _("<ME1>  Model: ") << mei._model << std::endl
+         << _("<ME2>  Revision: ") << mei._revision << std::endl
+         << _("<ME3>  Serial Number: ") << mei._serialNumber << std::endl;
     break;
   }
   case FunctionalityInfo:
@@ -113,127 +109,127 @@ static void printInfo(InfoParameter ip)
     try {
       int fun;
       fun = m->getFunctionalityLevel();
-      cout << _("<FUN>  Functionality Level: ") << fun << endl;
-    } catch (GsmException &x) { 
-      cout << _("<FUN>  Functionality Level: ") << _("unsupported") << endl;
+      std::cout << _("<FUN>  Functionality Level: ") << fun << std::endl;
+    } catch (gsmlib::GsmException &x) { 
+      std::cout << _("<FUN>  Functionality Level: ") << _("unsupported") << std::endl;
     }
     break;
   }
   case OperatorInfo:
   {
     int count = 0;
-    vector<OPInfo> opis = m->getAvailableOPInfo();
-    for (vector<OPInfo>::iterator i = opis.begin(); i != opis.end(); ++i)
+    std::vector<gsmlib::OPInfo> opis = m->getAvailableOPInfo();
+    for (std::vector<gsmlib::OPInfo>::iterator i = opis.begin(); i != opis.end(); ++i)
     {
-      cout << "<OP" << count << _(">  Status: ");
+      std::cout << "<OP" << count << _(">  Status: ");
       switch (i->_status)
       {
-      case UnknownOPStatus: cout << _("unknown"); break;
-      case CurrentOPStatus: cout << _("current"); break;
-      case AvailableOPStatus: cout << _("available"); break;
-      case ForbiddenOPStatus: cout << _("forbidden"); break;
+      case gsmlib::UnknownOPStatus: std::cout << _("unknown"); break;
+      case gsmlib::CurrentOPStatus: std::cout << _("current"); break;
+      case gsmlib::AvailableOPStatus: std::cout << _("available"); break;
+      case gsmlib::ForbiddenOPStatus: std::cout << _("forbidden"); break;
       }
-      cout << _("  Long name: '") << i->_longName << "' "
+      std::cout << _("  Long name: '") << i->_longName << "' "
            << _("  Short name: '") << i->_shortName << "' "
-           << _("  Numeric name: ") << i->_numericName << endl;
+           << _("  Numeric name: ") << i->_numericName << std::endl;
       ++count;
     }
     break;
   }
   case CurrentOperatorInfo:
   {
-    OPInfo opi = m->getCurrentOPInfo();
-    cout << "<CURROP0>"
+    gsmlib::OPInfo opi = m->getCurrentOPInfo();
+    std::cout << "<CURROP0>"
          << _("  Long name: '") << opi._longName << "' "
          << _("  Short name: '") << opi._shortName << "' "
          << _("  Numeric name: ") << opi._numericName
          << _("  Mode: ");
     switch (opi._mode)
     {
-    case AutomaticOPMode: cout << _("automatic"); break;
-    case ManualOPMode: cout << _("manual"); break;
-    case DeregisterOPMode: cout << _("deregister"); break;
-    case ManualAutomaticOPMode: cout << _("manual/automatic"); break;
+    case gsmlib::AutomaticOPMode: std::cout << _("automatic"); break;
+    case gsmlib::ManualOPMode: std::cout << _("manual"); break;
+    case gsmlib::DeregisterOPMode: std::cout << _("deregister"); break;
+    case gsmlib::ManualAutomaticOPMode: std::cout << _("manual/automatic"); break;
     }
-    cout << endl;
+    std::cout << std::endl;
     break;
   }
   case FacilityLockStateInfo:
   {
     int count = 0;
-    vector<string> fclc = m->getFacilityLockCapabilities();
-    for (vector<string>::iterator i = fclc.begin(); i != fclc.end(); ++i)
+    std::vector<std::string> fclc = m->getFacilityLockCapabilities();
+    for (std::vector<std::string>::iterator i = fclc.begin(); i != fclc.end(); ++i)
       if (*i != "AB" && *i != "AG" && *i != "AC")
       {
-        cout << "<FLSTAT" << count <<  ">  '" << *i << "'";
+        std::cout << "<FLSTAT" << count <<  ">  '" << *i << "'";
         try
         {
-          if (m->getFacilityLockStatus(*i, VoiceFacility))
-            cout << _("  Voice");
+          if (m->getFacilityLockStatus(*i, gsmlib::VoiceFacility))
+            std::cout << _("  Voice");
         }
-        catch (GsmException &e)
-        {
-          cout << _("  unknown");
-        }
-        try
-        {
-        if (m->getFacilityLockStatus(*i, DataFacility))
-          cout << _("  Data");
-        }
-        catch (GsmException &e)
-        {
-          cout << _("  unknown");
+        catch (gsmlib::GsmException &e)
+	  {
+          std::cout << _("  unknown");
         }
         try
         {
-        if (m->getFacilityLockStatus(*i, FaxFacility))
-          cout << _("  Fax");
+	  if (m->getFacilityLockStatus(*i, gsmlib::DataFacility))
+	    std::cout << _("  Data");
         }
-        catch (GsmException &e)
-        {
-          cout << _("  unknown");
+        catch (gsmlib::GsmException &e)
+	  {
+          std::cout << _("  unknown");
         }
-        cout << endl;
+        try
+	  {
+	    if (m->getFacilityLockStatus(*i, gsmlib::FaxFacility))
+	      std::cout << _("  Fax");
+	  }
+        catch (gsmlib::GsmException &e)
+	  {
+	    std::cout << _("  unknown");
+	  }
+        std::cout << std::endl;
         ++count;
       }
     break;
   }
   case FacilityLockCapabilityInfo:
   {
-    cout << "<FLCAP0>  ";
-    vector<string> fclc = m->getFacilityLockCapabilities();
-    for (vector<string>::iterator i = fclc.begin(); i != fclc.end(); ++i)
-      cout << "'" << *i << "' ";
-    cout << endl;
+    std::cout << "<FLCAP0>  ";
+    std::vector<std::string> fclc = m->getFacilityLockCapabilities();
+    for (std::vector<std::string>::iterator i = fclc.begin(); i != fclc.end(); ++i)
+      std::cout << "'" << *i << "' ";
+    std::cout << std::endl;
     break;
   }
   case PasswordInfo:
   {
-    vector<PWInfo> pwi = m->getPasswords();
+    std::vector<gsmlib::PWInfo> pwi = m->getPasswords();
     int count = 0;
-    for (vector<PWInfo>::iterator i = pwi.begin(); i != pwi.end(); ++i)
+    for (std::vector<gsmlib::PWInfo>::iterator i = pwi.begin(); i != pwi.end(); ++i)
     {
-      cout << "<PW" << count <<  ">  '"
-           << i->_facility << "' " << i->_maxPasswdLen << endl;
+      std::cout << "<PW" << count <<  ">  '"
+           << i->_facility << "' " << i->_maxPasswdLen << std::endl;
       ++count;
     }
     break;
   }
   case PINInfo:
   {
-    cout << "<PIN0> " << m->getPINStatus() << endl;
+    std::cout << "<PIN0> " << m->getPINStatus() << std::endl;
     break;
   }
   case CLIPInfo:
   {
-    cout << "<CLIP0>  " << (m->getNetworkCLIP() ? _("on") : _("off")) << endl;
+    std::cout << "<CLIP0>  " << (m->getNetworkCLIP() ? _("on") : _("off")) << std::endl;
     break;
   }
   case CallForwardingInfo:
   {
     for (int r = 0; r < 4; ++r)
     {
-      string text;
+      std::string text;
       switch (r)
       {
       case 0: text = _("UnconditionalReason"); break;
@@ -241,57 +237,57 @@ static void printInfo(InfoParameter ip)
       case 2: text = _("NoReplyReason"); break;
       case 3: text = _("NotReachableReason"); break;
       }
-      ForwardInfo voice, fax, data;
-      m->getCallForwardInfo((ForwardReason)r, voice, fax, data);
-      cout << "<FORW" << r << ".";
+      gsmlib::ForwardInfo voice, fax, data;
+      m->getCallForwardInfo((gsmlib::ForwardReason)r, voice, fax, data);
+      std::cout << "<FORW" << r << ".";
       printForwardReason("0>  " + text + _("  Voice"), voice);
-      cout << "<FORW" << r << ".";
+      std::cout << "<FORW" << r << ".";
       printForwardReason("1>  " + text + _("  Data"), data);
-      cout << "<FORW" << r << ".";
+      std::cout << "<FORW" << r << ".";
       printForwardReason("2>  " + text + _("  Fax"), fax);
     }
     break;
   }
   case BatteryInfo:
   {
-    cout << "<BATT0>  ";
+    std::cout << "<BATT0>  ";
     int bcs = m->getBatteryChargeStatus();
     switch (bcs)
     {
-    case 0: cout << _("0 ME is powered by the battery") << endl; break;
-    case 1: cout << _("1 ME has a battery connected, but is not powered by it")
-                 << endl; break;
-    case 2: cout << _("2 ME does not have a battery connected") << endl; break;
+    case 0: std::cout << _("0 ME is powered by the battery") << std::endl; break;
+    case 1: std::cout << _("1 ME has a battery connected, but is not powered by it")
+                 << std::endl; break;
+    case 2: std::cout << _("2 ME does not have a battery connected") << std::endl; break;
     case 3:
-      cout << _("3 Recognized power fault, calls inhibited") << endl;
+      std::cout << _("3 Recognized power fault, calls inhibited") << std::endl;
       break;
     }
-    cout << "<BATT1>  " << m->getBatteryCharge() << endl;
+    std::cout << "<BATT1>  " << m->getBatteryCharge() << std::endl;
     break;
   }
   case BitErrorInfo:
   {
-    cout << "<BITERR0>  " << m->getBitErrorRate() << endl;
+    std::cout << "<BITERR0>  " << m->getBitErrorRate() << std::endl;
     break;
   }
   case SCAInfo:
   {
-    cout << "<SCA0>  " << m->getServiceCentreAddress() << endl;
+    std::cout << "<SCA0>  " << m->getServiceCentreAddress() << std::endl;
     break;
   }
   case CharSetInfo:
   {
-    cout << "<CSET0>  ";
-    vector<string> cs = m->getSupportedCharSets();
-    for (vector<string>::iterator i = cs.begin(); i != cs.end(); ++i)
-      cout << "'" << *i << "' ";
-    cout << endl;
-    cout << "<CSET1>  '" << m->getCurrentCharSet() << "'" << endl;
+    std::cout << "<CSET0>  ";
+    std::vector<std::string> cs = m->getSupportedCharSets();
+    for (std::vector<std::string>::iterator i = cs.begin(); i != cs.end(); ++i)
+      std::cout << "'" << *i << "' ";
+    std::cout << std::endl;
+    std::cout << "<CSET1>  '" << m->getCurrentCharSet() << "'" << std::endl;
     break;
   }
   case SignalInfo:
   {
-    cout << "<SIG0>  " << m->getSignalStrength() << endl;
+    std::cout << "<SIG0>  " << m->getSignalStrength() << std::endl;
     break;
   }
   default:
@@ -303,25 +299,25 @@ static void printInfo(InfoParameter ip)
 // convert facility class string of the form "", "all", or any combination
 // of "v" (voice), "d" (data), or "f" (fax) to numeric form
 
-FacilityClass strToFacilityClass(string facilityClassS)
+gsmlib::FacilityClass strToFacilityClass(std::string facilityClassS)
 {
-  facilityClassS = lowercase(facilityClassS);
-  FacilityClass facilityClass = (FacilityClass)0;
+  facilityClassS = gsmlib::lowercase(facilityClassS);
+  gsmlib::FacilityClass facilityClass = (gsmlib::FacilityClass)0;
   if (facilityClassS == "all" || facilityClassS == "")
-    return (FacilityClass)ALL_FACILITIES;
+    return (gsmlib::FacilityClass)gsmlib::ALL_FACILITIES;
 
   // OR in facility class bits
   for (unsigned int i = 0; i < facilityClassS.length(); ++i)
     if (facilityClassS[i] == 'v')
-      facilityClass = (FacilityClass)(facilityClass | VoiceFacility);
+      facilityClass = (gsmlib::FacilityClass)(facilityClass | gsmlib::VoiceFacility);
     else if (facilityClassS[i] == 'd')
-      facilityClass = (FacilityClass)(facilityClass | DataFacility);
+      facilityClass = (gsmlib::FacilityClass)(facilityClass | gsmlib::DataFacility);
     else if (facilityClassS[i] == 'f')
-      facilityClass = (FacilityClass)(facilityClass | FaxFacility);
+      facilityClass = (gsmlib::FacilityClass)(facilityClass | gsmlib::FaxFacility);
     else
-      throw GsmException(
-        stringPrintf(_("unknown facility class parameter '%c'"),
-                     facilityClassS[i]), ParameterError);
+      throw gsmlib::GsmException(
+        gsmlib::stringPrintf(_("unknown facility class parameter '%c'"),
+                     facilityClassS[i]), gsmlib::ParameterError);
 
   return facilityClass;
 }
@@ -333,13 +329,13 @@ void checkParamCount(int optind, int argc, int min, int max)
 {
   int paramCount = argc - optind;
   if (paramCount < min)
-    throw GsmException(stringPrintf(_("not enough parameters, minimum number "
+    throw gsmlib::GsmException(gsmlib::stringPrintf(_("not enough parameters, minimum number "
                                       "of parameters is %d"), min),
-                       ParameterError);
+                       gsmlib::ParameterError);
   else if (paramCount > max)
-    throw GsmException(stringPrintf(_("too many parameters, maximum number "
+    throw gsmlib::GsmException(gsmlib::stringPrintf(_("too many parameters, maximum number "
                                       "of parameters is %d"), max),
-                       ParameterError);
+                       gsmlib::ParameterError);
 }
 
 // *** main program
@@ -349,10 +345,10 @@ int main(int argc, char *argv[])
   try
   {
     // handle command line options
-    string device = "/dev/mobilephone";
-    string operation;
-    string baudrate;
-    string initString = DEFAULT_INIT_STRING;
+    std::string device = "/dev/mobilephone";
+    std::string operation;
+    std::string baudrate;
+    std::string initString = gsmlib::DEFAULT_INIT_STRING;
     bool swHandshake = false;
 
     int opt;
@@ -377,62 +373,62 @@ int main(int argc, char *argv[])
         baudrate = optarg;
         break;
       case 'v':
-        cerr << argv[0] << stringPrintf(_(": version %s [compiled %s]"),
-                                        VERSION, __DATE__) << endl;
+	std::cerr << argv[0] << gsmlib::stringPrintf(_(": version %s [compiled %s]"),
+						     VERSION, __DATE__) << std::endl;
         exit(0);
         break;
       case 'h':
-        cerr << argv[0] << _(": [-b baudrate][-d device][-h]"
-                             "[-I init string][-o operation]\n"
-                             "  [-v][-X]{parameters}") << endl
-             << endl
-             << _("  -b, --baudrate    baudrate to use for device "
-                  "(default: 38400)")
-             << endl
-             << _("  -d, --device      sets the destination device to "
-                  "connect to") << endl
-             << _("  -h, --help        prints this message") << endl
-             << _("  -I, --init        device AT init sequence") << endl
-             << _("  -o, --operation   operation to perform on the mobile \n"
-                  "                    phone with the specified parameters")
-             << endl
-             << _("  -v, --version     prints version and exits") << endl
-             << _("  -X, --xonxoff     switch on software handshake") << endl
-             << endl
-             << _("  parameters        parameters to use for the operation\n"
-                  "                    (if an operation is given) or\n"
-                  "                    a specification which kind of\n"
-                  "                    information to read from the mobile "
-                  "phone")
-             << endl << endl
-             << _("Refer to gsmctl(1) for details on the available parameters"
-                  " and operations.")
-             << endl << endl;
+	std::cerr << argv[0] << _(": [-b baudrate][-d device][-h]"
+				  "[-I init string][-o operation]\n"
+				  "  [-v][-X]{parameters}") << std::endl
+		  << std::endl
+		  << _("  -b, --baudrate    baudrate to use for device "
+		       "(default: 38400)")
+		  << std::endl
+		  << _("  -d, --device      sets the destination device to "
+		       "connect to") << std::endl
+		  << _("  -h, --help        prints this message") << std::endl
+		  << _("  -I, --init        device AT init sequence") << std::endl
+		  << _("  -o, --operation   operation to perform on the mobile \n"
+		       "                    phone with the specified parameters")
+		  << std::endl
+		  << _("  -v, --version     prints version and exits") << std::endl
+		  << _("  -X, --xonxoff     switch on software handshake") << std::endl
+		  << std::endl
+		  << _("  parameters        parameters to use for the operation\n"
+		       "                    (if an operation is given) or\n"
+		       "                    a specification which kind of\n"
+		       "                    information to read from the mobile "
+		       "phone")
+		  << std::endl << std::endl
+		  << _("Refer to gsmctl(1) for details on the available parameters"
+		       " and operations.")
+		  << std::endl << std::endl;
         exit(0);
         break;
       case '?':
-        throw GsmException(_("unknown option"), ParameterError);
+        throw gsmlib::GsmException(_("unknown option"), gsmlib::ParameterError);
         break;
       }
 
     // open the port and ME/TA
-    m = new MeTa(new
+    m = new gsmlib::MeTa(new
 #ifdef WIN32
-                 Win32SerialPort
+			 gsmlib::Win32SerialPort
 #else
-                 UnixSerialPort
+			 gsmlib::UnixSerialPort
 #endif
-                 (device,
-                  baudrate == "" ?
-                  DEFAULT_BAUD_RATE :
-                  baudRateStrToSpeed(baudrate),
-                  initString, swHandshake));
+			 (device,
+			  baudrate == "" ?
+			  gsmlib::DEFAULT_BAUD_RATE :
+			  gsmlib::baudRateStrToSpeed(baudrate),
+			  initString, swHandshake));
     
     if (operation == "")
     {                           // process info parameters
       for (int i = optind; i < argc; ++i)
       {
-        string param = lowercase(argv[i]);
+        std::string param = gsmlib::lowercase(argv[i]);
         if (param == "all")
           for (int ip = MeInfo; ip <= SignalInfo; ++ip)
             printInfo((InfoParameter)ip);
@@ -467,15 +463,15 @@ int main(int argc, char *argv[])
         else if (param == "cset")
           printInfo(CharSetInfo);
         else
-          throw GsmException(
-            stringPrintf(_("unknown information parameter '%s'"),
+          throw gsmlib::GsmException(
+            gsmlib::stringPrintf(_("unknown information parameter '%s'"),
                          param.c_str()),
-            ParameterError);
+            gsmlib::ParameterError);
       }
     }
     else
     {                           // process operation
-      operation = lowercase(operation);
+      operation = gsmlib::lowercase(operation);
       if (operation == "dial")
       {
         // dial: number
@@ -506,53 +502,53 @@ int main(int argc, char *argv[])
       {
         // setop: opmode numeric FIXME allow long and numeric too
         checkParamCount(optind, argc, 2, 2);
-        string opmodeS = lowercase(argv[optind]);
-        OPModes opmode;
+        std::string opmodeS = gsmlib::lowercase(argv[optind]);
+	gsmlib::OPModes opmode;
         if (opmodeS == "automatic")
-          opmode = AutomaticOPMode;
+          opmode = gsmlib::AutomaticOPMode;
         else if (opmodeS == "manual")
-          opmode = ManualOPMode;
+          opmode = gsmlib::ManualOPMode;
         else if (opmodeS == "deregister")
-          opmode = DeregisterOPMode;
+          opmode = gsmlib::DeregisterOPMode;
         else if (opmodeS == "manualautomatic")
-          opmode = ManualAutomaticOPMode;
+          opmode = gsmlib::ManualAutomaticOPMode;
         else
-          throw GsmException(stringPrintf(_("unknown opmode parameter '%s'"),
-                                          opmodeS.c_str()), ParameterError);
+          throw gsmlib::GsmException(gsmlib::stringPrintf(_("unknown opmode parameter '%s'"),
+                                          opmodeS.c_str()), gsmlib::ParameterError);
 
-        m->setCurrentOPInfo(opmode, "" , "", checkNumber(argv[optind + 1]));
+        m->setCurrentOPInfo(opmode, "" , "", gsmlib::checkNumber(argv[optind + 1]));
       }
       else if (operation == "lock")
       {
         // lock: facility [facilityclass] [passwd]
         checkParamCount(optind, argc, 1, 3);
-        string passwd = (argc - optind == 3) ?
-          (string)argv[optind + 2] : (string)"";
+        std::string passwd = (argc - optind == 3) ?
+          (std::string)argv[optind + 2] : (std::string)"";
         
         m->lockFacility(argv[optind],
                         (argc - optind >= 2) ?
                         strToFacilityClass(argv[optind + 1]) :
-                        (FacilityClass)ALL_FACILITIES,
+                        (gsmlib::FacilityClass)gsmlib::ALL_FACILITIES,
                         passwd);
       }
       else if (operation == "unlock")
       {
         // unlock: facility [facilityclass] [passwd]
         checkParamCount(optind, argc, 1, 3);
-        string passwd = argc - optind == 3 ? argv[optind + 2] : "";
+        std::string passwd = argc - optind == 3 ? argv[optind + 2] : "";
         
         m->unlockFacility(argv[optind],
                           (argc - optind >= 2) ?
                           strToFacilityClass(argv[optind + 1]) :
-                          (FacilityClass)ALL_FACILITIES,
+                          (gsmlib::FacilityClass)gsmlib::ALL_FACILITIES,
                           passwd);
       }
       else if (operation == "setpw")
       {
         // set password: facility oldpasswd newpasswd
         checkParamCount(optind, argc, 1, 3);
-        string oldPasswd = argc - optind >= 2 ? argv[optind + 1] : "";
-        string newPasswd = argc - optind == 3 ? argv[optind + 2] : "";
+        std::string oldPasswd = argc - optind >= 2 ? argv[optind + 1] : "";
+        std::string newPasswd = argc - optind == 3 ? argv[optind + 2] : "";
 
         m->setPassword(argv[optind], oldPasswd, newPasswd);
       }
@@ -562,47 +558,47 @@ int main(int argc, char *argv[])
         checkParamCount(optind, argc, 2, 5);
 
         // get optional parameters facility class and forwardtime
-        int forwardTime = argc - optind == 5 ? checkNumber(argv[optind + 4]) :
-          NOT_SET;
-        FacilityClass facilityClass =
+        int forwardTime = argc - optind == 5 ? gsmlib::checkNumber(argv[optind + 4]) :
+          gsmlib::NOT_SET;
+        gsmlib::FacilityClass facilityClass =
           argc - optind >= 4 ? strToFacilityClass(argv[optind + 3]) :
-          (FacilityClass)ALL_FACILITIES;
+          (gsmlib::FacilityClass)gsmlib::ALL_FACILITIES;
         
         // get forward reason
-        string reasonS = lowercase(argv[optind + 1]);
-        ForwardReason reason;
+        std::string reasonS = gsmlib::lowercase(argv[optind + 1]);
+	gsmlib::ForwardReason reason;
         if (reasonS == "unconditional")
-          reason = UnconditionalReason;
+          reason = gsmlib::UnconditionalReason;
         else if (reasonS == "mobilebusy")
-          reason = MobileBusyReason;
+          reason = gsmlib::MobileBusyReason;
         else if (reasonS == "noreply")
-          reason = NoReplyReason;
+          reason = gsmlib::NoReplyReason;
         else if (reasonS == "notreachable")
-          reason = NotReachableReason;
+          reason = gsmlib::NotReachableReason;
         else if (reasonS == "all")
-          reason = AllReasons;
+          reason = gsmlib::AllReasons;
         else if (reasonS == "allconditional")
-          reason = AllConditionalReasons;
+          reason = gsmlib::AllConditionalReasons;
         else
-          throw GsmException(
-            stringPrintf(_("unknown forward reason parameter '%s'"),
-                         reasonS.c_str()), ParameterError);
+          throw gsmlib::GsmException(
+            gsmlib::stringPrintf(_("unknown forward reason parameter '%s'"),
+				 reasonS.c_str()), gsmlib::ParameterError);
         
         // get mode
-        string modeS = lowercase(argv[optind]);
-        ForwardMode mode;
+        std::string modeS = gsmlib::lowercase(argv[optind]);
+	gsmlib::ForwardMode mode;
         if (modeS == "disable")
-          mode = DisableMode;
+          mode = gsmlib::DisableMode;
         else if (modeS == "enable")
-          mode = EnableMode;
+          mode = gsmlib::EnableMode;
         else if (modeS == "register")
-          mode = RegistrationMode;
+          mode = gsmlib::RegistrationMode;
         else if (modeS == "erase")
-          mode = ErasureMode;
+          mode = gsmlib::ErasureMode;
         else
-          throw GsmException(
-            stringPrintf(_("unknown forward mode parameter '%s'"),
-                         modeS.c_str()), ParameterError);
+          throw gsmlib::GsmException(
+            gsmlib::stringPrintf(_("unknown forward mode parameter '%s'"),
+				 modeS.c_str()), gsmlib::ParameterError);
 
         m->setCallForwarding(reason, mode,
                              (argc - optind >= 3) ? argv[optind + 2] : "",
@@ -622,13 +618,13 @@ int main(int argc, char *argv[])
         m->setCharSet(argv[optind]);
       }
       else
-         throw GsmException(stringPrintf(_("unknown operation '%s'"),
-                                         operation.c_str()), ParameterError);
+         throw gsmlib::GsmException(gsmlib::stringPrintf(_("unknown operation '%s'"),
+						 operation.c_str()), gsmlib::ParameterError);
     }
   }
-  catch (GsmException &ge)
+  catch (gsmlib::GsmException &ge)
   {
-    cerr << argv[0] << _("[ERROR]: ") << ge.what() << endl;
+    std::cerr << argv[0] << _("[ERROR]: ") << ge.what() << std::endl;
     return 1;
   }
   return 0;

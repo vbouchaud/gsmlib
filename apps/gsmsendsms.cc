@@ -31,9 +31,6 @@
 #include <gsmlib/gsm_util.h>
 #include <iostream>
 
-using namespace std;
-using namespace gsmlib;
-
 // options
 
 #ifdef HAVE_GETOPT_LONG
