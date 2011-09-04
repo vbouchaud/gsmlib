@@ -35,7 +35,7 @@ CBDataCodingScheme::CBDataCodingScheme(unsigned char dcs) : _dcs(dcs)
 	_language = (Language)_dcs;
     }
   else
-    _language = Unknown;
+    _language = (Language)Unknown;
 }
 
 std::string CBDataCodingScheme::toString() const
@@ -83,6 +83,9 @@ std::string CBDataCodingScheme::toString() const
     break;
   case Turkish:
     result += _("Turkish");
+    break;
+  case Unknown:
+    result += _("Unknown");
     break;
   }
   result += "   ";
