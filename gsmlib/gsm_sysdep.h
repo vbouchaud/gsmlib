@@ -25,7 +25,9 @@ extern "C" {
   // this is mostly taken from the autoconf documentation (WIN32 added)
 
 #ifdef __GNUC__
-# define alloca __builtin_alloca
+# ifndef alloca
+#  define alloca __builtin_alloca
+# endif
 #else
 # if HAVE_ALLOCA_H
 #  include <alloca.h>
