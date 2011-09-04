@@ -33,7 +33,7 @@ PhonebookEntry::PhonebookEntry(const PhonebookEntryBase &e)
   set(e.telephone(), e.text(), e.index(), e.useIndex());
 }
 
-void PhonebookEntry::set(string telephone, string text, int index,
+void PhonebookEntry::set(std::string telephone, std::string text, int index,
                          bool useIndex)
   throw(GsmException)
 {
@@ -70,7 +70,7 @@ void PhonebookEntry::set(string telephone, string text, int index,
   _changed = true;
 }
 
-string PhonebookEntry::text() const throw(GsmException)
+std::string PhonebookEntry::text() const throw(GsmException)
 {
   if (! cached())
   {
@@ -83,7 +83,7 @@ string PhonebookEntry::text() const throw(GsmException)
   return _text;
 }
 
-string PhonebookEntry::telephone() const throw(GsmException)
+std::string PhonebookEntry::telephone() const throw(GsmException)
 {
   if (! cached())
   {
@@ -118,8 +118,8 @@ PhonebookEntry &PhonebookEntry::operator=(const PhonebookEntry &e)
 
 // Phonebook members
 
-int Phonebook::parsePhonebookEntry(string response,
-                                   string &telephone, string &text)
+int Phonebook::parsePhonebookEntry(std::string response,
+                                   std::string &telephone, std::string &text)
 {
   // this is a workaround for a bug that occurs with my ME/TA combination
   // some texts are truncated and don't have a trailing "
@@ -143,8 +143,8 @@ int Phonebook::parsePhonebookEntry(string response,
   unsigned int numberFormat = p.parseInt();
   if (numberFormat != UnknownNumberFormat &&
       numberFormat != InternationalNumberFormat)
-    cerr << "*** GSMLIB WARNING: Unexpected number format when reading from "
-         << "phonebook: " << numberFormat << " ***" << endl;
+    std::cerr << "*** GSMLIB WARNING: Unexpected number format when reading from "
+	      << "phonebook: " << numberFormat << " ***" << std::endl;
   p.parseComma();
   text = p.parseString(false, true);
   if (lowercase(_myMeTa.getCurrentCharSet()) == "gsm")
@@ -160,14 +160,14 @@ int Phonebook::parsePhonebookEntry(string response,
   return index;
 }
 
-void Phonebook::readEntry(int index, string &telephone, string &text)
+void Phonebook::readEntry(int index, std::string &telephone, std::string &text)
   throw(GsmException)
 {
   // select phonebook
   _myMeTa.setPhonebook(_phonebookName);
 
   // read entry
-  string response = _at->chat("+CPBR=" + intToStr(index), "+CPBR:",
+  std::string response = _at->chat("+CPBR=" + intToStr(index), "+CPBR:",
                               false, // dont't ignore errors
                               true); // but accept empty responses
   // (the latter is necessary for some mobile phones that return nothing
@@ -182,19 +182,19 @@ void Phonebook::readEntry(int index, string &telephone, string &text)
 
 #ifndef NDEBUG
   if (debugLevel() >= 1)
-    cerr << "*** Reading PB entry " << index << " number " << telephone 
-         << " text " << text << endl;
+    std::cerr << "*** Reading PB entry " << index << " number " << telephone 
+	      << " text " << text << std::endl;
 #endif
 }
 
-void Phonebook::findEntry(string text, int &index, string &telephone)
+void Phonebook::findEntry(std::string text, int &index, std::string &telephone)
   throw(GsmException)
 {
   // select phonebook
   _myMeTa.setPhonebook(_phonebookName);
 
   // read entry
-  string response = _at->chat("+CPBF=\"" + text + "\"", "+CPBF:",
+  std::string response = _at->chat("+CPBF=\"" + text + "\"", "+CPBF:",
                               false, // dont't ignore errors
                               true); // but accept empty responses
   // (the latter is necessary for some mobile phones that return nothing
@@ -210,18 +210,18 @@ void Phonebook::findEntry(string text, int &index, string &telephone)
 
 #ifndef NDEBUG
   if (debugLevel() >= 1)
-    cerr << "*** Finding PB entry " << text << " number " << telephone 
-         << " index " << index << endl;
+    std::cerr << "*** Finding PB entry " << text << " number " << telephone 
+	      << " index " << index << std::endl;
 #endif
 }
 
-void Phonebook::writeEntry(int index, string telephone, string text)
+void Phonebook::writeEntry(int index, std::string telephone, std::string text)
   throw(GsmException)
 {
 #ifndef NDEBUG
   if (debugLevel() >= 1)
-    cerr << "*** Writing PB entry #" << index << " number '" << telephone
-         << "' text '" << text << "'" << endl;
+    std::cerr << "*** Writing PB entry #" << index << " number '" << telephone
+	      << "' text '" << text << "'" << std::endl;
 #endif
   // select phonebook
   _myMeTa.setPhonebook(_phonebookName);
@@ -232,14 +232,13 @@ void Phonebook::writeEntry(int index, string telephone, string text)
   {
     std::ostringstream os;
     os << "+CPBW=" << index;
-    os << ends;
-    const char *ss = os.str().c_str();
-    s = string(ss);
+    os << std::ends;
+    s = os.str();
   }
   else
   {
     int type;
-    if (telephone.find('+') == string::npos)
+    if (telephone.find('+') == std::string::npos)
       type = UnknownNumberFormat;
     else
       type = InternationalNumberFormat;
@@ -249,9 +248,8 @@ void Phonebook::writeEntry(int index, string telephone, string text)
     std::ostringstream os;
     os << "+CPBW=" << index << ",\"" << telephone << "\"," << type
        << ",\"";
-    os << ends;
-    const char *ss = os.str().c_str();
-    s = string(ss);
+    os << std::ends;
+    s = os.str();
     // this cannot be added with ostrstream because the gsmText can
     // contain a zero (GSM default alphabet for '@')
     s += gsmText + "\"";
@@ -259,7 +257,7 @@ void Phonebook::writeEntry(int index, string telephone, string text)
   _at->chat(s);
 }
 
-Phonebook::iterator Phonebook::insertFirstEmpty(string telephone, string text)
+Phonebook::iterator Phonebook::insertFirstEmpty(std::string telephone, std::string text)
   throw(GsmException)
 {
   for (int i = 0; i < _maxSize; i++)
@@ -272,8 +270,8 @@ Phonebook::iterator Phonebook::insertFirstEmpty(string telephone, string text)
   throw GsmException(_("phonebook full"), OtherError);
 }
 
-Phonebook::iterator Phonebook::insert(const string telephone,
-                                      const string text,
+Phonebook::iterator Phonebook::insert(const std::string telephone,
+                                      const std::string text,
                                       const int index)
 {
   for (int i = 0; i < _maxSize; i++)
@@ -292,7 +290,7 @@ Phonebook::iterator Phonebook::insert(const string telephone,
   return end();
 }
 
-Phonebook::Phonebook(string phonebookName, Ref<GsmAt> at, MeTa &myMeTa,
+Phonebook::Phonebook(std::string phonebookName, Ref<GsmAt> at, MeTa &myMeTa,
                      bool preload) throw(GsmException) :
   _phonebookName(phonebookName), _at(at), _myMeTa(myMeTa), _useCache(true)
 {
@@ -303,7 +301,7 @@ Phonebook::Phonebook(string phonebookName, Ref<GsmAt> at, MeTa &myMeTa,
   _size = -1;                   // -1 means not known yet
   _maxSize = -1;
   Parser q(_at->chat("+CPBS?", "+CPBS:"));
-  string dummy = q.parseString();
+  std::string dummy = q.parseString();
   if (q.parseComma(true))       // this means that
   {                             // used and total result is supported by ME
     _size = q.parseInt();
@@ -315,7 +313,7 @@ Phonebook::Phonebook(string phonebookName, Ref<GsmAt> at, MeTa &myMeTa,
   Parser p(_at->chat("+CPBR=?", "+CPBR:"));
 
   // get index of actually available entries in the phonebook
-  vector<bool> availablePositions = p.parseIntList();
+  std::vector<bool> availablePositions = p.parseIntList();
   p.parseComma();
   _maxNumberLength = p.parseInt();
   p.parseComma();
@@ -332,7 +330,7 @@ Phonebook::Phonebook(string phonebookName, Ref<GsmAt> at, MeTa &myMeTa,
   if (_maxSize == -1)
   {
     _maxSize = 0;
-    for (vector<bool>::iterator i = availablePositions.begin();
+    for (std::vector<bool>::iterator i = availablePositions.begin();
          i != availablePositions.end(); ++i)
       if (*i) ++_maxSize;
   }
@@ -381,7 +379,7 @@ Phonebook::Phonebook(string phonebookName, Ref<GsmAt> at, MeTa &myMeTa,
     while (entriesRead < _size)
     {
       reportProgress(0, _maxSize); // chatv also calls reportProgress()
-      vector<string> responses =
+      std::vector<std::string> responses =
         _at->chatv("+CPBR=" + intToStr(startIndex) +
                    "," + intToStr(_maxSize + firstIndex - 1),
                    "+CPBR:", true);
@@ -394,16 +392,16 @@ Phonebook::Phonebook(string phonebookName, Ref<GsmAt> at, MeTa &myMeTa,
       {
 #ifndef NDEBUG
         if (debugLevel() >= 1)
-          cerr << "*** error when preloading phonebook: "
-            "not all entries returned" << endl;
+	  std::cerr << "*** error when preloading phonebook: "
+		    << "not all entries returned" << std::endl;
 #endif
         break;
       }
 
-      for (vector<string>::iterator i = responses.begin();
+      for (std::vector<std::string>::iterator i = responses.begin();
            i != responses.end(); ++i)
       {
-        string telephone, text;
+	std::string telephone, text;
         int meIndex = parsePhonebookEntry(*i, telephone, text);
         _phonebook[meToPhonebookIndexMap[meIndex]]._cached = true;
         _phonebook[meToPhonebookIndexMap[meIndex]]._telephone = telephone;
@@ -414,9 +412,9 @@ Phonebook::Phonebook(string phonebookName, Ref<GsmAt> at, MeTa &myMeTa,
         startIndex = meIndex + 1;
 #ifndef NDEBUG
         if (debugLevel() >= 1)
-          cerr << "*** Preloading PB entry " << meIndex
-               << " number " << telephone 
-               << " text " << text << endl;
+	  std::cerr << "*** Preloading PB entry " << meIndex
+		    << " number " << telephone 
+		    << " text " << text << std::endl;
 #endif
       }
     }
@@ -545,10 +543,10 @@ void Phonebook::clear() throw(GsmException)
     erase(i);
 }
 
-Phonebook::iterator Phonebook::find(string text) throw(GsmException)
+Phonebook::iterator Phonebook::find(std::string text) throw(GsmException)
 {
   int index;
-  string telephone;
+  std::string telephone;
 
   int i;
   for (i = 0; i < _maxSize; i++)

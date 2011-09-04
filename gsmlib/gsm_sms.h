@@ -42,7 +42,7 @@ namespace gsmlib
   protected:
     // fields of the different TPDUs
     // all PDUs
-    string _userData;
+    std::string _userData;
     UserDataHeader _userDataHeader;
     Address _serviceCentreAddress;
     MessageType _messageTypeIndicator;// 2 bits
@@ -53,15 +53,15 @@ namespace gsmlib
     // return SMSMessage of the appropriate type
     // differentiate between SMS transfer directions SC to ME, ME to SC
     // also give GsmAt object for send()
-    static Ref<SMSMessage> decode(string pdu,
+    static Ref<SMSMessage> decode(std::string pdu,
                                   bool SCtoMEdirection = true,
                                   GsmAt *at = NULL)
       throw(GsmException);
 
-    static Ref<SMSMessage> decode(istream& s) throw(GsmException);
+    static Ref<SMSMessage> decode(std::istream& s) throw(GsmException);
 
     // encode pdu, return hexadecimal pdu string
-    virtual string encode() = 0;
+    virtual std::string encode() = 0;
 
     // send this PDU
     // returns message reference and ACK-PDU (if requested)
@@ -72,7 +72,7 @@ namespace gsmlib
     unsigned char send() throw(GsmException);
 
     // create textual representation of SMS
-    virtual string toString() const = 0;
+    virtual std::string toString() const = 0;
 
     // return deep copy of this message
     virtual Ref<SMSMessage> clone() = 0;
@@ -90,8 +90,8 @@ namespace gsmlib
     // return recipient, destination etc. address (for sorting by address)
     virtual Address address() const = 0;
 
-    virtual void setUserData(string x) {_userData = x;}
-    virtual string userData() const {return _userData;}
+    virtual void setUserData(std::string x) {_userData = x;}
+    virtual std::string userData() const {return _userData;}
     
     // return the size of user data (including user data header)
     unsigned char userDataLength() const;
@@ -111,7 +111,7 @@ namespace gsmlib
     virtual ~SMSMessage();
 
     // print ASCII hex representation of message
-    ostream& operator<<(ostream& s);
+    std::ostream& operator<<(std::ostream& s);
 
     // copy constructor and assignment
 //     SMSMessage(SMSMessage &m);
@@ -140,13 +140,13 @@ namespace gsmlib
     SMSDeliverMessage();
 
     // constructor with given pdu
-    SMSDeliverMessage(string pdu) throw(GsmException);
+    SMSDeliverMessage(std::string pdu) throw(GsmException);
 
     // encode pdu, return hexadecimal pdu string
-    virtual string encode();
+    virtual std::string encode();
 
     // create textual representation of SMS
-    virtual string toString() const;
+    virtual std::string toString() const;
 
     // inherited from SMSMessage
     Address address() const;
@@ -192,17 +192,17 @@ namespace gsmlib
     SMSSubmitMessage();
 
     // constructor with given pdu
-    SMSSubmitMessage(string pdu) throw(GsmException);
+    SMSSubmitMessage(std::string pdu) throw(GsmException);
 
     // convenience constructor
     // given the text and recipient telephone number
-    SMSSubmitMessage(string text, string number);
+    SMSSubmitMessage(std::string text, std::string number);
 
     // encode pdu, return hexadecimal pdu string
-    virtual string encode();
+    virtual std::string encode();
 
     // create textual representation of SMS
-    virtual string toString() const;
+    virtual std::string toString() const;
 
     // inherited from SMSMessage
     Address address() const;
@@ -253,13 +253,13 @@ namespace gsmlib
     SMSStatusReportMessage() {init();}
 
     // constructor with given pdu
-    SMSStatusReportMessage(string pdu) throw(GsmException);
+    SMSStatusReportMessage(std::string pdu) throw(GsmException);
 
     // encode pdu, return hexadecimal pdu string
-    virtual string encode();
+    virtual std::string encode();
 
     // create textual representation of SMS
-    virtual string toString() const;
+    virtual std::string toString() const;
 
     // inherited from SMSMessage
     Address address() const;
@@ -302,7 +302,7 @@ namespace gsmlib
     unsigned char _messageNumber;
     Address _destinationAddress;
     unsigned char _commandDataLength;
-    string _commandData;
+    std::string _commandData;
 
     // initialize members to sensible values
     void init();
@@ -312,13 +312,13 @@ namespace gsmlib
     SMSCommandMessage() {init();}
 
     // constructor with given pdu
-    SMSCommandMessage(string pdu) throw(GsmException);
+    SMSCommandMessage(std::string pdu) throw(GsmException);
 
     // encode pdu, return hexadecimal pdu string
-    virtual string encode();
+    virtual std::string encode();
 
     // create textual representation of SMS
-    virtual string toString() const;
+    virtual std::string toString() const;
 
     // inherited from SMSMessage
     Address address() const;
@@ -332,7 +332,7 @@ namespace gsmlib
     unsigned char messageNumber() const {return _messageNumber;}
     Address destinationAddress() const {return _destinationAddress;}
     unsigned char commandDataLength() const {return _commandDataLength;}
-    string commandData() const {return _commandData;}
+    std::string commandData() const {return _commandData;}
 
     void setMessageReference(unsigned char x) {_messageReference = x;}
     void setStatusReportRequest(bool x) {_statusReportRequest = x;}
@@ -341,7 +341,7 @@ namespace gsmlib
     void setMessageNumber(unsigned char x) {_messageNumber = x;}
     void setDestinationAddress(Address &x) {_destinationAddress = x;}
     void setCommandDataLength(unsigned char x) {_commandDataLength = x;}
-    void setCommandData(string x) {_commandData = x;}
+    void setCommandData(std::string x) {_commandData = x;}
 
     virtual ~SMSCommandMessage() {}
   };
@@ -364,13 +364,13 @@ namespace gsmlib
     SMSDeliverReportMessage() {init();}
 
     // constructor with given pdu
-    SMSDeliverReportMessage(string pdu) throw(GsmException);
+    SMSDeliverReportMessage(std::string pdu) throw(GsmException);
 
     // encode pdu, return hexadecimal pdu string
-    virtual string encode();
+    virtual std::string encode();
 
     // create textual representation of SMS
-    virtual string toString() const;
+    virtual std::string toString() const;
 
     // inherited from SMSMessage
     Address address() const;
@@ -386,7 +386,7 @@ namespace gsmlib
       {assert(_dataCodingSchemePresent); return _dataCodingScheme;}
     UserDataHeader userDataHeader() const
       {assert(_userDataLengthPresent); return _userDataHeader;}
-    string userData() const
+    std::string userData() const
       {assert(_userDataLengthPresent); return _userData;}
     
     void setProtocolIdentifier(unsigned char x)
@@ -398,7 +398,7 @@ namespace gsmlib
       _userDataLengthPresent = true;
       _userDataHeader = x;
     }
-    void setUserData(string x)
+    void setUserData(std::string x)
     {
       _userDataLengthPresent = true;
       _userData = x;
@@ -427,13 +427,13 @@ namespace gsmlib
     SMSSubmitReportMessage() {init();}
 
     // constructor with given pdu
-    SMSSubmitReportMessage(string pdu) throw(GsmException);
+    SMSSubmitReportMessage(std::string pdu) throw(GsmException);
 
     // encode pdu, return hexadecimal pdu string
-    virtual string encode();
+    virtual std::string encode();
 
     // create textual representation of SMS
-    virtual string toString() const;
+    virtual std::string toString() const;
 
     // inherited from SMSMessage
     Address address() const;
@@ -450,7 +450,7 @@ namespace gsmlib
       {assert(_dataCodingSchemePresent); return _dataCodingScheme;}
     UserDataHeader userDataHeader() const
       {assert(_userDataLengthPresent); return _userDataHeader;}
-    string userData() const
+    std::string userData() const
       {assert(_userDataLengthPresent); return _userData;}
 
     void setServiceCentreTimestamp(Timestamp &x) {_serviceCentreTimestamp = x;}
@@ -463,7 +463,7 @@ namespace gsmlib
       _userDataLengthPresent = true;
       _userDataHeader = x;
     }
-    void setUserData(string x)
+    void setUserData(std::string x)
     {
       _userDataLengthPresent = true;
       _userData = x;

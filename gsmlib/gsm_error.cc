@@ -16,11 +16,10 @@
 #include <gsmlib/gsm_nls.h>
 #include <gsmlib/gsm_error.h>
 #include <gsmlib/gsm_util.h>
-#include <strstream>
 
 using namespace gsmlib;
 
-string gsmlib::getMEErrorText(const int errorCode) throw(GsmException)
+std::string gsmlib::getMEErrorText(const int errorCode) throw(GsmException)
 {
   switch (errorCode)
   {
@@ -108,7 +107,7 @@ string gsmlib::getMEErrorText(const int errorCode) throw(GsmException)
   }
 }
 
-string gsmlib::getSMSErrorText(const int errorCode) throw(GsmException)
+std::string gsmlib::getSMSErrorText(const int errorCode) throw(GsmException)
 {
   switch (errorCode)
   {
@@ -323,9 +322,9 @@ string gsmlib::getSMSErrorText(const int errorCode) throw(GsmException)
   }
 }
 
-string gsmlib::getSMSStatusString(unsigned char status)
+std::string gsmlib::getSMSStatusString(unsigned char status)
 {
-  string result;
+  std::string result;
   if (status < SMS_STATUS_TEMPORARY_BIT)
   {
     switch (status)

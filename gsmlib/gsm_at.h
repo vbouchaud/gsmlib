@@ -34,13 +34,13 @@ namespace gsmlib
     GsmEvent *_eventHandler;
     
     // return true if response matches
-    bool matchResponse(string answer, string responseToMatch);
+    bool matchResponse(std::string answer, std::string responseToMatch);
 
     // cut response and normalize
-    string cutResponse(string answer, string responseToMatch);
+    std::string cutResponse(std::string answer, std::string responseToMatch);
 
     // parse CME error contained in string and throw MeTaException
-    void throwCmeException(string s) throw(GsmException);
+    void throwCmeException(std::string s) throw(GsmException);
 
   public:
     GsmAt(MeTa &meTa);
@@ -59,37 +59,37 @@ namespace gsmlib
     // additionally, accept empty responses (just an OK)
     //   if acceptEmptyResponse == true
     //   in this case an empty string is returned
-    string chat(string atCommand = "",
-                string response = "",
-                bool ignoreErrors = false,
-                bool acceptEmptyResponse = false) throw(GsmException);
+    std::string chat(std::string atCommand = "",
+		     std::string response = "",
+		     bool ignoreErrors = false,
+		     bool acceptEmptyResponse = false) throw(GsmException);
 
     // same as chat() above but also get pdu if expectPdu == true
-    string chat(string atCommand,
-                string response,
-                string &pdu,
-                bool ignoreErrors = false,
-                bool expectPdu = true,
-                bool acceptEmptyResponse = false) throw(GsmException);
+    std::string chat(std::string atCommand,
+		     std::string response,
+		     std::string &pdu,
+		     bool ignoreErrors = false,
+		     bool expectPdu = true,
+		     bool acceptEmptyResponse = false) throw(GsmException);
 
     // same as above, but expect several response lines
-    vector<string> chatv(string atCommand = "",
-                         string response = "",
-                         bool ignoreErrors = false)
+    std::vector<std::string> chatv(std::string atCommand = "",
+				   std::string response = "",
+				   bool ignoreErrors = false)
       throw(GsmException);
 
     // removes whitespace at beginning and end of string
-    string normalize(string s);
+    std::string normalize(std::string s);
 
     // send pdu (wait for <CR><LF><greater_than><space> and send <CTRL-Z>
     // at the end
     // return text after response
-    string sendPdu(string atCommand, string response, string pdu,
-		   bool acceptEmptyResponse = false) throw(GsmException);
-
+    std::string sendPdu(std::string atCommand, std::string response, std::string pdu,
+			bool acceptEmptyResponse = false) throw(GsmException);
+    
     // functions from class Port
-    string getLine() throw(GsmException);
-    void putLine(string line,
+    std::string getLine() throw(GsmException);
+    void putLine(std::string line,
                  bool carriageReturn = true) throw(GsmException);
     bool wait(GsmTime timeout) throw(GsmException);
     int readByte() throw(GsmException);

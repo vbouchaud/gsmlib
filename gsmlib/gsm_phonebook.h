@@ -83,7 +83,7 @@ namespace gsmlib
     unsigned int _maxNumberLength; // maximum length of telephone number
     unsigned int _maxTextLength; // maximum length of descriptive text
     Ref<GsmAt> _at;             // my GsmAt class
-    vector<int> _positionMap;   // maps in-memory index to ME index
+    std::vector<int> _positionMap;   // maps in-memory index to ME index
     MeTa &_myMeTa;              // the MeTa object that created this Phonebook
     bool _useCache;             // true if entries should be cached
 
@@ -187,7 +187,7 @@ namespace gsmlib
 
   // useful phonebook types
   typedef Ref<Phonebook> PhonebookRef;
-  typedef vector<PhonebookRef> PhonebookVector;
+  typedef std::vector<PhonebookRef> PhonebookVector;
 };
 
 #endif // GSM_PHONEBOOK_H

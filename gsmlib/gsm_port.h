@@ -28,10 +28,10 @@ namespace gsmlib
   {
   public:
     // read line from port(including eol characters)
-    virtual string getLine() throw(GsmException) =0;
+    virtual std::string getLine() throw(GsmException) =0;
     
     // write line to port
-    virtual void putLine(string line,
+    virtual void putLine(std::string line,
                          bool carriageReturn = true) throw(GsmException) =0;
 
     // wait for new data to become available, return after timeout

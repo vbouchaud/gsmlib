@@ -20,14 +20,14 @@
 #include <gsmlib/gsm_event.h>
 #include <gsmlib/gsm_me_ta.h>
 #include <ctype.h>
-#include <strstream>
+#include <sstream>
 #include <string>
 
 using namespace gsmlib;
 
 // GsmAt members
 
-bool GsmAt::matchResponse(string answer, string responseToMatch)
+bool GsmAt::matchResponse(std::string answer, std::string responseToMatch)
 {
   if (answer.substr(0, responseToMatch.length()) == responseToMatch)
     return true;
@@ -41,7 +41,7 @@ bool GsmAt::matchResponse(string answer, string responseToMatch)
   return false;
 }
 
-string GsmAt::cutResponse(string answer, string responseToMatch)
+std::string GsmAt::cutResponse(std::string answer, std::string responseToMatch)
 {
   if (answer.substr(0, responseToMatch.length()) == responseToMatch)
     return normalize(answer.substr(responseToMatch.length(),
@@ -60,7 +60,7 @@ string GsmAt::cutResponse(string answer, string responseToMatch)
   return "";
 }
 
-void GsmAt::throwCmeException(string s) throw(GsmException)
+void GsmAt::throwCmeException(std::string s) throw(GsmException)
 {
   if (matchResponse(s, "ERROR"))
     throw GsmException(_("unspecified ME/TA error"), ChatError);
@@ -70,7 +70,7 @@ void GsmAt::throwCmeException(string s) throw(GsmException)
     s = cutResponse(s, "+CME ERROR:");
   else
     s = cutResponse(s, "+CMS ERROR:");
-  istrstream is(s.c_str());
+  std::istringstream is(s.c_str());
   int error;
   is >> error;
   throw GsmException(_("ME/TA error '") +
@@ -86,20 +86,20 @@ GsmAt::GsmAt(MeTa &meTa) :
 {
 }
 
-string GsmAt::chat(string atCommand, string response,
-                   bool ignoreErrors, bool acceptEmptyResponse)
+std::string GsmAt::chat(std::string atCommand, std::string response,
+			bool ignoreErrors, bool acceptEmptyResponse)
   throw(GsmException)
 {
-  string dummy;
+  std::string dummy;
   return chat(atCommand, response, dummy, ignoreErrors, false,
               acceptEmptyResponse);
 }
 
-string GsmAt::chat(string atCommand, string response, string &pdu,
-                   bool ignoreErrors, bool expectPdu,
-                   bool acceptEmptyResponse) throw(GsmException)
+std::string GsmAt::chat(std::string atCommand, std::string response, std::string &pdu,
+			bool ignoreErrors, bool expectPdu,
+			bool acceptEmptyResponse) throw(GsmException)
 {
-  string s;
+  std::string s;
   bool gotOk = false;           // special handling for empty SMS entries
 
   // send AT command
@@ -110,9 +110,9 @@ string GsmAt::chat(string atCommand, string response, string &pdu,
   // like "at+cmgf=0" with "+CMGF: 0" on success as well as the "OK"
   // status -- so gobble that (but not if that sort of response was expected)
   // FIXME: this is a gross hack, should be done via capabilities or sth
-  string::size_type loc = atCommand.find( "=", 1 );
-  string expect;
-  if (loc != string::npos) {
+  std::string::size_type loc = atCommand.find( "=", 1 );
+  std::string expect;
+  if (loc != std::string::npos) {
     expect = atCommand;
     expect.replace(loc, 1, " ");
     expect.insert(loc, ":");
@@ -151,7 +151,7 @@ string GsmAt::chat(string atCommand, string response, string &pdu,
   // handle PDU if one is expected
   if (expectPdu)
     {
-      string ps;
+      std::string ps;
       do
 	{
 	  ps = normalize(getLine());
@@ -176,7 +176,7 @@ string GsmAt::chat(string atCommand, string response, string &pdu,
     }
   else
     {
-      string result;
+      std::string result;
       // some TA/TEs don't prefix their response with the response string
       // as proscribed by the standard: just handle either case
       if (matchResponse(s, response))
@@ -205,11 +205,11 @@ string GsmAt::chat(string atCommand, string response, string &pdu,
 		     ChatError);
 }
 
-vector<string> GsmAt::chatv(string atCommand, string response,
-                            bool ignoreErrors) throw(GsmException)
+std::vector<std::string> GsmAt::chatv(std::string atCommand, std::string response,
+				      bool ignoreErrors) throw(GsmException)
 {
-  string s;
-  vector<string> result;
+  std::string s;
+  std::vector<std::string> result;
 
   // send AT command
   putLine("AT" + atCommand);
@@ -264,7 +264,7 @@ vector<string> GsmAt::chatv(string atCommand, string response,
   return result;
 }
 
-string GsmAt::normalize(string s)
+std::string GsmAt::normalize(std::string s)
 {
   size_t start = 0, end = s.length();
   bool changed = true;
@@ -287,10 +287,10 @@ string GsmAt::normalize(string s)
   return s.substr(start, end - start);
 }
 
-string GsmAt::sendPdu(string atCommand, string response, string pdu,
+std::string GsmAt::sendPdu(std::string atCommand, std::string response, std::string pdu,
                       bool acceptEmptyResponse) throw(GsmException)
 {
-  string s;
+  std::string s;
   bool errorCondition;
   bool retry = false;
   int tries = 5;                // How many error conditions do we accept
@@ -372,7 +372,7 @@ string GsmAt::sendPdu(string atCommand, string response, string pdu,
 
   if (matchResponse(s, response))
     {
-      string result = cutResponse(s, response);
+      std::string result = cutResponse(s, response);
       // get the final "OK"
       do
 	{
@@ -389,19 +389,19 @@ string GsmAt::sendPdu(string atCommand, string response, string pdu,
 		     ChatError);
 }
 
-string GsmAt::getLine() throw(GsmException)
+std::string GsmAt::getLine() throw(GsmException)
 {
   if (_eventHandler == (GsmEvent*)NULL)
     return _port->getLine();
   else
     {
       bool eventOccurred;
-      string result;
+      std::string result;
       do
 	{
 	  eventOccurred = false;
 	  result = _port->getLine();
-	  string s = normalize(result);
+	  std::string s = normalize(result);
 	  if (matchResponse(s, "+CMT:") ||
 	      matchResponse(s, "+CBM:") ||
 	      matchResponse(s, "+CDS:") ||
@@ -423,7 +423,7 @@ string GsmAt::getLine() throw(GsmException)
     }
 }
 
-void GsmAt::putLine(string line,
+void GsmAt::putLine(std::string line,
                     bool carriageReturn) throw(GsmException)
 {
   _port->putLine(line, carriageReturn);

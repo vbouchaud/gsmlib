@@ -56,7 +56,7 @@ namespace gsmlib
       {return _language == Unknown ? _dcs & (3 << 2) : DCS_DEFAULT_ALPHABET;}
 
     // create textual representation of CB data coding scheme
-    string toString() const;
+    std::string toString() const;
   };
 
   // representation of Cell Broadcast message (CBM)
@@ -77,11 +77,11 @@ namespace gsmlib
     CBDataCodingScheme _dataCodingScheme;
     int _totalPageNumber;
     int _currentPageNumber;
-    string _data;
+    std::string _data;
 
   public:
     // constructor with given pdu
-    CBMessage(string pdu) throw(GsmException);
+    CBMessage(std::string pdu) throw(GsmException);
 
     // accessor functions
     GeographicalScope getGeographicalScope() const {return _geographicalScope;}
@@ -91,10 +91,10 @@ namespace gsmlib
     CBDataCodingScheme getDataCodingScheme() const {return _dataCodingScheme;}
     int getTotalPageNumber() const {return _totalPageNumber;}
     int getCurrentPageNumber() const {return _currentPageNumber;}
-    string getData() const {return _data;}
+    std::string getData() const {return _data;}
 
     // create textual representation of CBM
-    string toString() const;
+    std::string toString() const;
   };
 
   // some useful typdefs
