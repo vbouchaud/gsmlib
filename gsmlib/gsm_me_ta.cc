@@ -1016,8 +1016,9 @@ void MeTa::getSMSRoutingToTA(bool &smsRouted,
   int smsMode = 0;
   int cbsMode = 0;
   int statMode = 0;
-  int bufferMode = 0;
+  int bufferMode;
 
+  bufferMode = 0;
   if (p.parseComma(true))
   {
     smsMode = p.parseInt();
@@ -1034,7 +1035,7 @@ void MeTa::getSMSRoutingToTA(bool &smsRouted,
       }
     }
   }
-  
+
   smsRouted = (smsMode == 2) || (smsMode == 3);
   cbsRouted = (cbsMode == 2) || (cbsMode == 3);
   statusReportsRouted = (statMode == 1);
@@ -1187,10 +1188,12 @@ void MeTa::setSMSRoutingToTA(bool enableSMS, bool enableCBS,
   // handle buffer mode but only if it was reported by the +CNMI=? command
   // the Ericsson GM12 GSM modem does not like it otherwise
   if (bufferModesSet)
-    if (isSet(bufferModes, 1))
-      chatString += ",1";
-    else
-      chatString += ",0";
+    {
+      if (isSet(bufferModes, 1))
+	chatString += ",1";
+      else
+	chatString += ",0";
+    }
 
   _at->chat("+CNMI=" + chatString);
 }

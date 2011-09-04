@@ -281,15 +281,17 @@ Phonebook::iterator Phonebook::insert(const string telephone,
 {
   for (int i = 0; i < _maxSize; i++)
     if (_phonebook[i].index() == index)
-      if (_phonebook[i].empty())
       {
-        _phonebook[i].set(telephone, text);
-        adjustSize(1);
-        return begin() + i;
+	if (_phonebook[i].empty())
+	  {
+	    _phonebook[i].set(telephone, text);
+	    adjustSize(1);
+	    return begin() + i;
+	  }
+	else
+	  throw GsmException(_("attempt to overwrite phonebook entry"),
+			     OtherError);
       }
-      else
-        throw GsmException(_("attempt to overwrite phonebook entry"),
-                           OtherError);
   return end();
 }
 
@@ -557,24 +559,26 @@ Phonebook::iterator Phonebook::find(string text) throw(GsmException)
       return begin() + i;
 
   findEntry(text, index, telephone);
-  
+
   for (i = 0; i < _maxSize; i++)
     if (_phonebook[i].index() == index)
-      if (_phonebook[i].cached())
       {
-        // if entry was already (= cached) and is now different
-        // the SIM card or it's contents were changed
-        if (_phonebook[i]._telephone != telephone ||
-            _phonebook[i]._text != text)
-          throw GsmException(_("SIM card changed while accessing phonebook"),
-                             OtherError);
-      }
-      else
-      {
-        _phonebook[i]._cached = true;
-        _phonebook[i]._telephone = telephone;
-        _phonebook[i]._text = text;
-        return begin() + i;
+	if (_phonebook[i].cached())
+	  {
+	    // if entry was already (= cached) and is now different
+	    // the SIM card or it's contents were changed
+	    if (_phonebook[i]._telephone != telephone ||
+		_phonebook[i]._text != text)
+	      throw GsmException(_("SIM card changed while accessing phonebook"),
+				 OtherError);
+	  }
+	else
+	  {
+	    _phonebook[i]._cached = true;
+	    _phonebook[i]._telephone = telephone;
+	    _phonebook[i]._text = text;
+	    return begin() + i;
+	  }
       }
   return end();
 }

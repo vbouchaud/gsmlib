@@ -16,8 +16,6 @@
 #include <string>
 #include <assert.h>
 
-using namespace std;
-
 namespace gsmlib
 {
   // this struct represents a telephone number
@@ -33,7 +31,7 @@ namespace gsmlib
                         PrivatePlan = 9, Ermes = 10, ReservedPlan = 15};
     Type _type;
     NumberingPlan _plan;
-    string _number;    
+    std::string _number;
 
     Address() : _type(Unknown), _plan(UnknownPlan) {}
     // the constructor sets _type and _plan to defaults
@@ -43,8 +41,8 @@ namespace gsmlib
     // number must be of the form "+123456" or "123456"
     Address(string number);
 
-    // return string representation
-    string toString() const;
+    // return std::string representation
+    std::string toString() const;
 
     friend bool operator<(const Address &x, const Address &y);
     friend bool operator==(const Address &x, const Address &y);
@@ -66,8 +64,8 @@ namespace gsmlib
     // return true if the time stamp is empty (ie. contains only zeroes)
     bool empty() const;
 
-    // return string representation
-    string toString(bool appendTimeZone = true) const;
+    // return std::string representation
+    std::string toString(bool appendTimeZone = true) const;
 
     friend bool operator<(const Timestamp &x, const Timestamp &y);
     friend bool operator==(const Timestamp &x, const Timestamp &y);
@@ -88,19 +86,19 @@ namespace gsmlib
 
     TimePeriod() : _format(NotPresent), _relativeTime(0) {}
 
-    // return string representation (already translated)
-    string toString() const;
+    // return std::string representation (already translated)
+    std::string toString() const;
   };
 
   // representation of DataCodingScheme
   // the data coding scheme is described in detail in ETSI GSM 03.38, section 4
   const unsigned char DCS_COMPRESSED = 0x20; // bit 5
-  
+
   const unsigned char DCS_DEFAULT_ALPHABET = 0 << 2; // bit 2..3 == 0
   const unsigned char DCS_EIGHT_BIT_ALPHABET = 1 << 2; // bit 2..3 == 01
   const unsigned char DCS_SIXTEEN_BIT_ALPHABET = 2 << 2; // bit 2..3 == 10
   const unsigned char DCS_RESERVED_ALPHABET = 3 << 2; // bit 2..3 == 11
-  
+
   const unsigned char DCS_MESSAGE_WAITING_INDICATION = 0xc0; // bit 7..6 == 11
   const unsigned char DCS_VOICEMAIL_MESSAGE_WAITING = 0;
   const unsigned char DCS_FAX_MESSAGE_WAITING = 1;
@@ -115,28 +113,36 @@ namespace gsmlib
   public:
     // initialize with data coding scheme octet
     DataCodingScheme(unsigned char dcs) : _dcs(dcs) {}
-    
+
     // set to default values (no message waiting, no message class indication,
     // default 7-bit alphabet)
     DataCodingScheme() : _dcs(DCS_DEFAULT_ALPHABET) {}
 
     // return type of alphabet used (if messageWaitingIndication == false)
-    unsigned char getAlphabet() const {return _dcs & (3 << 2);}
-    
+    unsigned char getAlphabet() const
+    {
+      return _dcs & (3 << 2);
+    }
+
     // return true if message compressed
     // (if messageWaitingIndication == false)
-    bool compressed() const {return _dcs & DCS_COMPRESSED == DCS_COMPRESSED;}
+    bool compressed() const
+    {
+      return (_dcs & DCS_COMPRESSED) == DCS_COMPRESSED;
+    }
 
     // return true if message waiting indication
     bool messageWaitingIndication() const
-      {return _dcs & DCS_MESSAGE_WAITING_INDICATION == 
-         DCS_MESSAGE_WAITING_INDICATION;}
+    {
+      return (_dcs & DCS_MESSAGE_WAITING_INDICATION) ==
+	      DCS_MESSAGE_WAITING_INDICATION;
+    }
 
     // return type of waiting message (if messageWaitingIndication == true)
     unsigned char getMessageWaitingType() const {return _dcs & 3;}
 
-    // return string representation (already translated)
-    string toString() const;
+    // return std::string representation (already translated)
+    std::string toString() const;
 
     operator unsigned char() const {return _dcs;}
   };
@@ -153,18 +159,18 @@ namespace gsmlib
     unsigned char *_maxop;      // pointer to last byte after _p
 
   public:
-    // initialize with a hexadecimal octet string containing SMS TPDU
+    // initialize with a hexadecimal octet std::string containing SMS TPDU
     SMSDecoder(string pdu);
 
     // align to octet border
     void alignOctet();
-    
+
     // remember starting point of septets (important for alignSeptet())
     void markSeptet() {alignOctet(); _septetStart = _op;}
 
     // align to septet border
     void alignSeptet();
-    
+
     // get single bit
     bool getBit()
     {
@@ -186,11 +192,11 @@ namespace gsmlib
     // get one octet
     unsigned char getOctet();
 
-    // get string of octets of specified length
+    // get std::string of octets of specified length
     void getOctets(unsigned char* octets, unsigned short length);
 
-    // get length semi-octets (bcd-coded number) as ASCII string of numbers
-    string getSemiOctets(unsigned short length);
+    // get length semi-octets (bcd-coded number) as ASCII std::string of numbers
+    std::string getSemiOctets(unsigned short length);
 
     // get length semi-octets (bcd-coded number) as integer
     unsigned long getSemiOctetsInteger(unsigned short length);
@@ -203,7 +209,7 @@ namespace gsmlib
 
     // get length number of alphanumeric 7-bit characters
     // markSeptet() must be called before this function
-    string getString(unsigned short length);
+    std::string getString(unsigned short length);
 
     // get address/telephone number
     // service centre address has special format
@@ -240,7 +246,7 @@ namespace gsmlib
 
     // align to septet border
     void alignSeptet();
-    
+
     // set single bit
     void setBit(bool bit = false)
     {
@@ -261,10 +267,10 @@ namespace gsmlib
     // set one octet
     void setOctet(unsigned char octet);
 
-    // set string of octets of specified length
+    // set std::string of octets of specified length
     void setOctets(const unsigned char* octets, unsigned short length);
 
-    // set semi-octets semiOctets (given as ASCII string of numbers)
+    // set semi-octets semiOctets (given as ASCII std::string of numbers)
     void setSemiOctets(string semiOctets);
 
     // set semi-octets (given as integer)
@@ -290,9 +296,9 @@ namespace gsmlib
     void setTimePeriod(TimePeriod period);
 
     // return constructed TPDU as hex-encoded string
-    string getHexString();
+    std::string getHexString();
 
-    // return current length of TPDU 
+    // return current length of TPDU
     unsigned int getLength();
   };
 
@@ -300,8 +306,8 @@ namespace gsmlib
   class UserDataHeader
   {
   private:
-    string _udh;
-    
+    std::string _udh;
+
   public:
     // empty user data header
     UserDataHeader() {}
@@ -316,8 +322,8 @@ namespace gsmlib
     void decode(SMSDecoder &d);
 
     // return a given information element, if present, or an empty string
-    string getIE(unsigned char id);
-    
+    std::string getIE(unsigned char id);
+
     // return the size of the header
     unsigned int length() const {return _udh.length();}
 

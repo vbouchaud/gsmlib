@@ -11,7 +11,7 @@
 // *************************************************************************
 
 #ifdef HAVE_CONFIG_H
-#include <gsm_config.h>
+  #include <gsm_config.h>
 #endif
 #include <gsmlib/gsm_nls.h>
 #include <gsmlib/gsm_util.h>
@@ -24,16 +24,20 @@
 #include <ctype.h>
 #include <errno.h>
 #if !defined(HAVE_CONFIG_H) || defined(HAVE_UNISTD_H)
-#include <unistd.h>
+  #include <unistd.h>
 #endif
 #if !defined(HAVE_CONFIG_H) || defined(HAVE_MALLOC_H)
-#include <malloc.h>
+  #include <malloc.h>
 #endif
 #include <stdarg.h>
 #ifdef HAVE_VSNPRINTF
 // switch on vsnprintf() prototype in stdio.h
-#define __USE_GNU
-#define _GNU_SOURCE
+  #ifndef __USE_GNU
+    #define __USE_GNU
+  #endif
+  #ifndef _GNU_SOURCE
+    #define _GNU_SOURCE
+  #endif
 #endif
 #include <cstdlib>
 #include <stdio.h>
