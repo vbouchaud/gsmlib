@@ -33,7 +33,7 @@ namespace gsmlib
     NumberingPlan _plan;
     std::string _number;
 
-    Address() : _type(Unknown), _plan(UnknownPlan) {}
+  Address() : _type(Unknown), _plan(UnknownPlan) {}
     // the constructor sets _type and _plan to defaults
     // _plan == ISDN_Telephone
     // _type == International if number starts with "+"
@@ -58,7 +58,7 @@ namespace gsmlib
     short _year, _month, _day, _hour, _minute, _seconds, _timeZoneMinutes;
     bool _negativeTimeZone;
 
-    Timestamp() : _year(0), _month(0), _day(0), _hour(0),
+  Timestamp() : _year(0), _month(0), _day(0), _hour(0),
       _minute(0), _seconds(0), _timeZoneMinutes(0), _negativeTimeZone(false) {}
 
     // return true if the time stamp is empty (ie. contains only zeroes)
@@ -84,7 +84,7 @@ namespace gsmlib
     Timestamp _absoluteTime;
     unsigned char _relativeTime;
 
-    TimePeriod() : _format(NotPresent), _relativeTime(0) {}
+  TimePeriod() : _format(NotPresent), _relativeTime(0) {}
 
     // return std::string representation (already translated)
     std::string toString() const;
@@ -112,11 +112,11 @@ namespace gsmlib
 
   public:
     // initialize with data coding scheme octet
-    DataCodingScheme(unsigned char dcs) : _dcs(dcs) {}
+  DataCodingScheme(unsigned char dcs) : _dcs(dcs) {}
 
     // set to default values (no message waiting, no message class indication,
     // default 7-bit alphabet)
-    DataCodingScheme() : _dcs(DCS_DEFAULT_ALPHABET) {}
+  DataCodingScheme() : _dcs(DCS_DEFAULT_ALPHABET) {}
 
     // return type of alphabet used (if messageWaitingIndication == false)
     unsigned char getAlphabet() const
@@ -135,7 +135,7 @@ namespace gsmlib
     bool messageWaitingIndication() const
     {
       return (_dcs & DCS_MESSAGE_WAITING_INDICATION) ==
-	      DCS_MESSAGE_WAITING_INDICATION;
+	DCS_MESSAGE_WAITING_INDICATION;
     }
 
     // return type of waiting message (if messageWaitingIndication == true)
@@ -177,10 +177,10 @@ namespace gsmlib
       assert(_op < _maxop);
       bool result = ((*_op >> _bi) & 1);
       if (_bi == 7)
-      {
-        _bi = 0;
-        ++_op;
-      }
+	{
+	  _bi = 0;
+	  ++_op;
+	}
       else
         ++_bi;
       return result;
@@ -253,10 +253,10 @@ namespace gsmlib
       if (bit)
         *_op |= (1 << _bi);
       if (_bi == 7)
-      {
-        _bi = 0;
-        ++_op;
-      }
+	{
+	  _bi = 0;
+	  ++_op;
+	}
       else
         ++_bi;
     }

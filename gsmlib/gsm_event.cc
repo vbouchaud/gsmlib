@@ -19,12 +19,11 @@
 #include <gsmlib/gsm_at.h>
 #include <gsmlib/gsm_me_ta.h>
 
-using namespace std;
 using namespace gsmlib;
 
 // GsmEvent members
 
-void GsmEvent::dispatch(string s, GsmAt &at) throw(GsmException)
+void GsmEvent::dispatch(std::string s, GsmAt &at) throw(GsmException)
 {
   SMSMessageType messageType;
   bool indication = false;
@@ -70,7 +69,7 @@ void GsmEvent::dispatch(string s, GsmAt &at) throw(GsmException)
     //    <number>,<type>[,<subaddr>,<satype>[,<alpha>]]
     s = s.substr(6);
     Parser p(s);
-    string num = p.parseString();
+    std::string num = p.parseString();
     if (p.parseComma(true))
     {
       unsigned int numberFormat;
@@ -80,8 +79,8 @@ void GsmEvent::dispatch(string s, GsmAt &at) throw(GsmException)
         throw GsmException(stringPrintf(_("unexpected number format %d"),
                                         numberFormat), OtherError);
     }
-    string subAddr;
-    string alpha;
+    std::string subAddr;
+    std::string alpha;
     if (p.parseComma(true))
     {
       subAddr = p.parseString(true);
@@ -105,7 +104,7 @@ void GsmEvent::dispatch(string s, GsmAt &at) throw(GsmException)
     // handle SMS storage indication
     s = s.substr(6);
     Parser p(s);
-    string storeName = p.parseString();
+    std::string storeName = p.parseString();
     p.parseComma();
     unsigned int index = p.parseInt();
     SMSReceptionIndication(storeName, index - 1, messageType);
@@ -114,7 +113,7 @@ void GsmEvent::dispatch(string s, GsmAt &at) throw(GsmException)
     if (messageType == CellBroadcastSMS)
     {
       // handle CB message
-      string pdu = at.getLine();
+      std::string pdu = at.getLine();
 
       CBMessageRef cb = new CBMessage(pdu);
 
@@ -124,7 +123,7 @@ void GsmEvent::dispatch(string s, GsmAt &at) throw(GsmException)
     else
     {
       // handle SMS
-      string pdu = at.getLine();
+      std::string pdu = at.getLine();
       
       // add missing service centre address if required by ME
       if (! at.getMeTa().getCapabilities()._hasSMSSCAprefix)
@@ -141,7 +140,7 @@ void GsmEvent::dispatch(string s, GsmAt &at) throw(GsmException)
     }
 }
 
-void GsmEvent::callerLineID(string number, string subAddr, string alpha)
+void GsmEvent::callerLineID(std::string number, std::string subAddr, std::string alpha)
 {
   // ignore event
 }
@@ -157,7 +156,7 @@ void GsmEvent::CBReception(CBMessageRef newMessage)
   // ignore event
 }
 
-void GsmEvent::SMSReceptionIndication(string storeName, unsigned int index,
+void GsmEvent::SMSReceptionIndication(std::string storeName, unsigned int index,
                                       SMSMessageType messageType)
 {
   // ignore event
