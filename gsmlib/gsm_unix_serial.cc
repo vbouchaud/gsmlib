@@ -19,7 +19,7 @@
 #include <termios.h>
 #include <fcntl.h>
 #include <iostream>
-#include <strstream>
+#include <sstream>
 #include <cassert>
 #include <errno.h>
 #include <stdio.h>
@@ -29,11 +29,10 @@
 #include <pthread.h>
 #include <cstring>
 
-using namespace std;
 using namespace gsmlib;
 
 static const int holdoff[] = {2000000, 1000000, 400000};
-static const int holdoffArraySize = sizeof(holdoff)/sizeof(int);
+static const int holdoffArraySize = sizeof(holdoff) / sizeof(int);
   
 // alarm handling for socket read/write
 // the timerMtx is necessary since several threads cannot use the
@@ -84,15 +83,12 @@ static void stopTimer()
 
 // UnixSerialPort members
 
-void UnixSerialPort::throwModemException(string message) throw(GsmException)
+void UnixSerialPort::throwModemException(std::string message) throw(GsmException)
 {
-  ostrstream os;
+  std::ostringstream os;
   os << message << " (errno: " << errno << "/" << strerror(errno) << ")"
      << ends;
-  char *ss = os.str();
-  string s(ss);
-  delete[] ss;
-  throw GsmException(s, OSError, errno);
+  throw GsmException(os.str(), OSError, errno);
 }
 
 void UnixSerialPort::putBack(unsigned char c)
@@ -115,7 +111,7 @@ int UnixSerialPort::readByte() throw(GsmException)
   struct timeval oneSecond;
   bool readDone = false;
 
-  while (! readDone && timeElapsed < _timeoutVal)
+  while (!readDone && timeElapsed < _timeoutVal)
   {
     if (interrupted())
       throwModemException(_("interrupted when reading from TA"));
@@ -130,14 +126,14 @@ int UnixSerialPort::readByte() throw(GsmException)
     switch (select(FD_SETSIZE, &fdSet, NULL, NULL, &oneSecond))
     {
     case 1:
-    {
-      int res = read(_fd, &c, 1);
-      if (res != 1)
-        throwModemException(_("end of file when reading from TA"));
-      else
-        readDone = true;
-      break;
-    }
+      {
+	int res = read(_fd, &c, 1);
+	if (res != 1)
+	  throwModemException(_("end of file when reading from TA"));
+	else
+	  readDone = true;
+	break;
+      }
     case 0:
       ++timeElapsed;
       break;
@@ -147,7 +143,7 @@ int UnixSerialPort::readByte() throw(GsmException)
       break;
     }
   }
-  if (! readDone)
+  if (!readDone)
     throwModemException(_("timeout when reading from TA"));
 
 #ifndef NDEBUG
@@ -155,18 +151,18 @@ int UnixSerialPort::readByte() throw(GsmException)
   {
     // some useful debugging code
     if (c == LF)
-      cerr << "<LF>";
+      std::cerr << "<LF>";
     else if (c == CR)
-      cerr << "<CR>";
+      std::cerr << "<CR>";
     else cerr << "<'" << (char) c << "'>";
-    cerr.flush();
+    std::cerr.flush();
   }
 #endif
   return c;
 }
 
 UnixSerialPort::UnixSerialPort(string device, speed_t lineSpeed,
-                               string initString, bool swHandshake)
+				       string initString, bool swHandshake)
   throw(GsmException) :
   _oldChar(-1), _timeoutVal(TIMEOUT_SECS)
 {
@@ -180,124 +176,127 @@ UnixSerialPort::UnixSerialPort(string device, speed_t lineSpeed,
 
   // switch off non-blocking mode
   int fdFlags;
-  if ((fdFlags = fcntl(_fd, F_GETFL)) == -1) {
-    close(_fd);
-    throwModemException(_("getting file status flags failed"));
-  }
+  if ((fdFlags = fcntl(_fd, F_GETFL)) == -1)
+    {
+      close(_fd);
+      throwModemException(_("getting file status flags failed"));
+    }
   fdFlags &= ~O_NONBLOCK;
-  if (fcntl(_fd, F_SETFL, fdFlags) == -1) {
-    close(_fd);
-    throwModemException(_("switching of non-blocking mode failed"));
-  }
+  if (fcntl(_fd, F_SETFL, fdFlags) == -1)
+    {
+      close(_fd);
+      throwModemException(_("switching of non-blocking mode failed"));
+    }
 
   long int saveTimeoutVal = _timeoutVal;
   _timeoutVal = 3;
   int initTries = holdoffArraySize;
   while (initTries-- > 0)
-  {
-    // flush all pending output
-    tcflush(_fd, TCOFLUSH);
-
-    // toggle DTR to reset modem
-    int mctl = TIOCM_DTR;
-    if (ioctl(_fd, TIOCMBIC, &mctl) < 0) {
-      close(_fd);
-      throwModemException(_("clearing DTR failed"));
-    }
-    // the waiting time for DTR toggling is increased with each loop
-    usleep(holdoff[initTries]);
-    if (ioctl(_fd, TIOCMBIS, &mctl) < 0) {
-      close(_fd);
-      throwModemException(_("setting DTR failed"));
-    }
-    // get line modes
-    if (tcgetattr(_fd, &t) < 0) {
-      close(_fd);
-      throwModemException(stringPrintf(_("tcgetattr device '%s'"),
-                                       device.c_str()));
-    }
-
-    // set line speed
-    cfsetispeed(&t, lineSpeed);
-    cfsetospeed(&t, lineSpeed);
-
-    // set the device to a sane state
-    t.c_iflag |= IGNPAR | (swHandshake ? IXON | IXOFF : 0);
-    t.c_iflag &= ~(INPCK | ISTRIP | IMAXBEL |
-                   (swHandshake ? 0 : IXON |  IXOFF)
-                   | IXANY | IGNCR | ICRNL | IMAXBEL | INLCR | IGNBRK);
-    t.c_oflag &= ~(OPOST);
-    // be careful, only touch "known" flags
-    t.c_cflag &= ~(CSIZE | CSTOPB | PARENB | PARODD |
-                  (swHandshake ? CRTSCTS : 0 ));
-    t.c_cflag |= CS8 | CREAD | HUPCL | (swHandshake ? 0 : CRTSCTS) | CLOCAL;
-    t.c_lflag &= ~(ECHO | ECHOE | ECHOPRT | ECHOK | ECHOKE | ECHONL |
-                   ECHOCTL | ISIG | IEXTEN | TOSTOP | FLUSHO | ICANON);
-    t.c_lflag |= NOFLSH;
-    t.c_cc[VMIN] = 1;
-    t.c_cc[VTIME] = 0;
-
-    t.c_cc[VSUSP] = 0;
-
-    // write back
-    if(tcsetattr (_fd, TCSANOW, &t) < 0) {
-      close(_fd);
-      throwModemException(stringPrintf(_("tcsetattr device '%s'"),
-                                       device.c_str()));
-    }
-    // the waiting time for writing to the ME/TA is increased with each loop
-    usleep(holdoff[initTries]);
-
-    // flush all pending input
-    tcflush(_fd, TCIFLUSH);
-
-    try
     {
-      // reset modem
-      putLine("ATZ");
-      bool foundOK = false;
-      int readTries = 5;
-      while (readTries-- > 0)
-      {
-        // for the first call getLine() waits only 3 seconds
-        // because of _timeoutVal = 3
-        string s = getLine();
-        if (s.find("OK") != string::npos ||
-            s.find("CABLE: GSM") != string::npos)
-        {
-          foundOK = true;
-          readTries = 0;        // found OK, exit loop
-        }
-        else if (s.find("ERROR") != string::npos)
-          readTries = 0;        // error, exit loop
+      // flush all pending output
+      tcflush(_fd, TCOFLUSH);
+      
+      // toggle DTR to reset modem
+      int mctl = TIOCM_DTR;
+      if (ioctl(_fd, TIOCMBIC, &mctl) < 0) {
+	close(_fd);
+	throwModemException(_("clearing DTR failed"));
       }
-
-      // set getLine/putLine timeout back to old value
-      _timeoutVal = saveTimeoutVal;
-
-      if (foundOK)
-      {
-        // init modem
-        readTries = 5;
-        putLine("AT" + initString);
-        while (readTries-- > 0)
-        {
-          string s = getLine();
-          if (s.find("OK") != string::npos ||
-              s.find("CABLE: GSM") != string::npos)
-            return;                 // found OK, return
-        }
+      // the waiting time for DTR toggling is increased with each loop
+      usleep(holdoff[initTries]);
+      if (ioctl(_fd, TIOCMBIS, &mctl) < 0) {
+	close(_fd);
+	throwModemException(_("setting DTR failed"));
       }
+      // get line modes
+      if (tcgetattr(_fd, &t) < 0) {
+	close(_fd);
+	throwModemException(stringPrintf(_("tcgetattr device '%s'"),
+					 device.c_str()));
+      }
+      
+      // set line speed
+      cfsetispeed(&t, lineSpeed);
+      cfsetospeed(&t, lineSpeed);
+      
+      // set the device to a sane state
+      t.c_iflag |= IGNPAR | (swHandshake ? IXON | IXOFF : 0);
+      t.c_iflag &= ~(INPCK | ISTRIP | IMAXBEL |
+		     (swHandshake ? 0 : IXON |  IXOFF)
+		     | IXANY | IGNCR | ICRNL | IMAXBEL | INLCR | IGNBRK);
+      t.c_oflag &= ~(OPOST);
+      // be careful, only touch "known" flags
+      t.c_cflag &= ~(CSIZE | CSTOPB | PARENB | PARODD |
+		     (swHandshake ? CRTSCTS : 0 ));
+      t.c_cflag |= CS8 | CREAD | HUPCL | (swHandshake ? 0 : CRTSCTS) | CLOCAL;
+      t.c_lflag &= ~(ECHO | ECHOE | ECHOPRT | ECHOK | ECHOKE | ECHONL |
+		     ECHOCTL | ISIG | IEXTEN | TOSTOP | FLUSHO | ICANON);
+      t.c_lflag |= NOFLSH;
+      t.c_cc[VMIN] = 1;
+      t.c_cc[VTIME] = 0;
+      
+      t.c_cc[VSUSP] = 0;
+      
+      // write back
+      if(tcsetattr (_fd, TCSANOW, &t) < 0)
+	{
+	  close(_fd);
+	  throwModemException(stringPrintf(_("tcsetattr device '%s'"),
+					   device.c_str()));
+	}
+      // the waiting time for writing to the ME/TA is increased with each loop
+      usleep(holdoff[initTries]);
+      
+      // flush all pending input
+      tcflush(_fd, TCIFLUSH);
+      
+      try
+	{
+	  // reset modem
+	  putLine("ATZ");
+	  bool foundOK = false;
+	  int readTries = 5;
+	  while (readTries-- > 0)
+	    {
+	      // for the first call getLine() waits only 3 seconds
+	      // because of _timeoutVal = 3
+	      string s = getLine();
+	      if (s.find("OK") != string::npos ||
+		  s.find("CABLE: GSM") != string::npos)
+		{
+		  foundOK = true;
+		  readTries = 0;        // found OK, exit loop
+		}
+	      else if (s.find("ERROR") != string::npos)
+		readTries = 0;        // error, exit loop
+	    }
+	  
+	  // set getLine/putLine timeout back to old value
+	  _timeoutVal = saveTimeoutVal;
+	  
+	  if (foundOK)
+	    {
+	      // init modem
+	      readTries = 5;
+	      putLine("AT" + initString);
+	      while (readTries-- > 0)
+		{
+		  string s = getLine();
+		  if (s.find("OK") != string::npos ||
+		      s.find("CABLE: GSM") != string::npos)
+		    return;                 // found OK, return
+		}
+	    }
+	}
+      catch (GsmException &e)
+	{
+	  _timeoutVal = saveTimeoutVal;
+	  if (initTries == 0) {
+	    close(_fd);
+	    throw e;
+	  }
+	}
     }
-    catch (GsmException &e)
-    {
-      _timeoutVal = saveTimeoutVal;
-      if (initTries == 0) {
-        close(_fd);
-        throw e;
-      }
-    }
-  }
   // no response after 3 tries
   close(_fd);
   throw GsmException(stringPrintf(_("reset modem failed '%s'"),
@@ -306,14 +305,12 @@ UnixSerialPort::UnixSerialPort(string device, speed_t lineSpeed,
 
 string UnixSerialPort::getLine() throw(GsmException)
 {
-  string result;
+  std::string result;
   int c;
   while ((c = readByte()) >= 0)
   {
     while (c == CR)
-    {
       c = readByte();
-    }
     if (c == LF)
       break;
     result += c;
@@ -321,18 +318,18 @@ string UnixSerialPort::getLine() throw(GsmException)
 
 #ifndef NDEBUG
   if (debugLevel() >= 1)
-    cerr << "<-- " << result << endl;
+    std::cerr << "<-- " << result << endl;
 #endif
 
   return result;
 }
 
-void UnixSerialPort::putLine(string line,
-                             bool carriageReturn) throw(GsmException)
+void UnixSerialPort::putLine(std::string line, bool carriageReturn)
+  throw(GsmException)
 {
 #ifndef NDEBUG
   if (debugLevel() >= 1)
-    cerr << "--> " << line << endl;
+    std::cerr << "--> " << line << endl;
 #endif
 
   if (carriageReturn) line += CR;
@@ -355,23 +352,23 @@ void UnixSerialPort::putLine(string line,
     FD_SET(_fd, &fdSet);
 
     switch (select(FD_SETSIZE, NULL, &fdSet, NULL, &oneSecond))
-    {
-    case 1:
-    {
-      ssize_t bw = write(_fd, l + bytesWritten, line.length() - bytesWritten);
-      if (bw < 0)
-        throwModemException(_("writing to TA"));
-      bytesWritten += bw;
-      break;
-    }
-    case 0:
-      ++timeElapsed;
-      break;
-    default:
-      if (errno != EINTR)
-        throwModemException(_("writing to TA"));
-      break;
-    }
+      {
+      case 1:
+	{
+	  ssize_t bw = write(_fd, l + bytesWritten, line.length() - bytesWritten);
+	  if (bw < 0)
+	    throwModemException(_("writing to TA"));
+	  bytesWritten += bw;
+	  break;
+	}
+      case 0:
+	++timeElapsed;
+	break;
+      default:
+	if (errno != EINTR)
+	  throwModemException(_("writing to TA"));
+	break;
+      }
   }
   
   while (timeElapsed < _timeoutVal)
@@ -416,7 +413,7 @@ UnixSerialPort::~UnixSerialPort()
     close(_fd);
 }
 
-speed_t gsmlib::baudRateStrToSpeed(string baudrate) throw(GsmException)
+speed_t baudRateStrToSpeed(string baudrate) throw(GsmException)
 {
   if (baudrate == "300")
     return B300;

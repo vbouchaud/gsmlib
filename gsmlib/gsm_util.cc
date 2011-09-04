@@ -43,6 +43,8 @@
 #include <stdio.h>
 #include <sys/stat.h>
 
+using namespace gsmlib;
+
 // Latin-1 undefined character (code 172 (Latin-1 boolean not, "¬"))
 const int NOP = 172;
 
