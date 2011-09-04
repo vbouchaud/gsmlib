@@ -55,7 +55,7 @@ bool Parser::checkEmptyParameter(bool allowNoParameter) throw(GsmException)
   return false;
 }
 
-string Parser::parseString2(bool stringWithQuotationMarks)
+std::string Parser::parseString2(bool stringWithQuotationMarks)
   throw(GsmException)
 {
   int c;
@@ -109,14 +109,14 @@ int Parser::parseInt2() throw(GsmException)
   if (s.length() == 0)
     throwParseException(_("expected number"));
 
-  istrstream is(s.c_str());
+  std::istrstream is(s.c_str());
   is >> result;
   return result;
 }
 
 void Parser::throwParseException(std::string message) throw(GsmException)
 {
-  ostrstream os;
+  std::ostrstream os;
   if (message.length() == 0)
     throw GsmException(stringPrintf(_("unexpected end of std::string '%s'"),
                                     _s.c_str()), ParserError);
@@ -328,7 +328,7 @@ int Parser::parseInt(bool allowNoInt) throw(GsmException)
   return result;
 }
 
-string Parser::parseString(bool allowNoString,
+std::string Parser::parseString(bool allowNoString,
                            bool stringWithQuotationMarks)
   throw(GsmException)
 {
@@ -356,7 +356,7 @@ bool Parser::parseComma(bool allowNoComma) throw(GsmException)
   return true;
 }
 
-string Parser::parseEol() throw(GsmException)
+std::string Parser::parseEol() throw(GsmException)
 {
   std::string result;
   int c;
@@ -374,7 +374,7 @@ void Parser::checkEol() throw(GsmException)
     }
 }
 
-string Parser::getEol()
+std::string Parser::getEol()
 {
   std::string result;
   int c;
