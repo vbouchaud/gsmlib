@@ -18,10 +18,11 @@
 #include <gsmlib/gsm_sms_codec.h>
 #include <gsmlib/gsm_util.h>
 #include <time.h>
-#include <strstream>
+#include <sstream>
 #include <iomanip>
 #include <climits>
 #include <string>
+#include <cstring>
 
 using namespace gsmlib;
 
@@ -121,14 +122,11 @@ std::string Timestamp::toString(bool appendTimeZone) const
   if (! appendTimeZone)
     return formattedTime;
 
-  std::ostrstream os;
+  std::ostringstream os;
   os << formattedTime << " (" << (_negativeTimeZone ? '-' : '+')
-     << setfill('0') << setw(2) << timeZoneHours 
-     << setw(2) << timeZoneMinutes << ')' << ends;
-  char *ss = os.str();
-  std::string result(ss);
-  delete[] ss;
-  return result;
+     << std::setfill('0') << std::setw(2) << timeZoneHours 
+     << std::setw(2) << timeZoneMinutes << ')' << std::ends;
+  return os.str();
 }
 
 bool gsmlib::operator<(const Timestamp &x, const Timestamp &y)
@@ -181,7 +179,7 @@ std::string TimePeriod::toString() const
       return _("not present");
     case Relative:
       {
-	std::ostrstream os;
+	std::ostringstream os;
 	if (_relativeTime <= 143)
 	  os << ((int)_relativeTime + 1) * 5 << _(" minutes");
 	else if (_relativeTime <= 167)
@@ -190,11 +188,8 @@ std::string TimePeriod::toString() const
 	  os << (int)_relativeTime - 166 << _(" days");
 	else if (_relativeTime <= 143)
 	  os << (int)_relativeTime - 192 << _(" weeks");
-	os << ends;
-	char *ss = os.str();
-	std::string result(ss);
-	delete[] ss;
-	return result;
+	os << std::ends;
+	return os.str();
       }
     case Absolute:
       return _absoluteTime.toString();
@@ -543,11 +538,9 @@ void SMSEncoder::setSemiOctets(std::string semiOctets)
 void SMSEncoder::setSemiOctetsInteger(unsigned long intValue,
 				      unsigned short length)
 {
-  std::ostrstream os;
-  os << intValue << ends;
-  char *ss = os.str();
-  std::string s(ss);
-  delete[] ss;
+  std::ostringstream os;
+  os << intValue << std::ends;
+  std::string s(os.str());
   assert(s.length() <= length);
   while (s.length() < length) s = '0' + s;
   setSemiOctets(s);
