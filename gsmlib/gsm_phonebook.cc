@@ -255,7 +255,7 @@ void Phonebook::writeEntry(int index, string telephone, string text)
     s = string(ss);
     // this cannot be added with ostrstream because the gsmText can
     // contain a zero (GSM default alphabet for '@')
-    s +=  gsmText + "\"";
+    s += gsmText + "\"";
   }
   _at->chat(s);
 }

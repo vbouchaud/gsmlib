@@ -21,8 +21,6 @@
 #endif
 #include <stdio.h>
 
-using namespace std;
-
 namespace gsmlib
 {
   // time type
@@ -39,18 +37,18 @@ namespace gsmlib
   // convert gsm to Latin-1
   // characters that have no counterpart in Latin-1 are converted to
   // code 172 (Latin-1 boolean not, "¬")
-  string gsmToLatin1(string s);
+  std::string gsmToLatin1(std::string s);
 
   // convert Latin-1 to gsm
   // characters that have no counterpart in GSM are converted to
   // code 16 (GSM Delta)
-  string latin1ToGsm(string s);
+  std::string latin1ToGsm(std::string s);
 
   // convert byte buffer of length to hexadecimal string
-  string bufToHex(const unsigned char *buf, unsigned long length);
+  std::string bufToHex(const unsigned char *buf, unsigned long length);
 
   // convert hexString to byte buffer, return false if no hexString
-  bool hexToBuf(const string &hexString, unsigned char *buf);
+  bool hexToBuf(const std::string &hexString, unsigned char *buf);
 
   // indicate that a value is not set
   const int NOT_SET = -1;
@@ -59,31 +57,29 @@ namespace gsmlib
   struct IntRange
   {
     int _high, _low;
-
     IntRange() : _high(NOT_SET), _low(NOT_SET) {}
   };
 
   // A valid integer range for a given parameter
   struct ParameterRange
   {
-    string _parameter;
+    std::string _parameter;
     IntRange _range;
   };
 
   // *** general-purpose pointer wrapper with reference counting
-
   class RefBase
   {
   private:
     int _refCount;
-
+    
   public:
     RefBase() : _refCount(0) {}
     int ref() {return _refCount++;}
     int unref() {return --_refCount;}
     int refCount() const {return _refCount;}
   };
-
+  
   template <class T>
     class Ref
     {
@@ -126,24 +122,24 @@ namespace gsmlib
       if (_rep != (T*)NULL && _rep->unref() == 0) delete _rep;
     }
 
-  // utility function return string given an int
-  string intToStr(int i);
+  // utility function return std::string given an int
+  std::string intToStr(int i);
 
-  // remove white space from the string
-  string removeWhiteSpace(string s);
+  // remove white space from the std::string
+  std::string removeWhiteSpace(std::string s);
 
   // return true if bit is set in vector<bool>
-  inline bool isSet(vector<bool> &b, unsigned int bit)
-    {
-      return b.size() > bit && b[bit];
-    }
+  bool isSet(std::vector<bool> &b, unsigned int bit)
+  {
+    return b.size() > bit && b[bit];
+  }
 
   // return true if filename refers to a file
   // throws exception if filename is neither file nor device
-  bool isFile(string filename);
+  bool isFile(std::string filename);
 
   // make backup file adequate for this operating system
-  void renameToBackupFile(string filename) throw(GsmException);
+  void renameToBackupFile(std::string filename) throw(GsmException);
 
   // Base class for class for which copying is not allow
   // only used for debugging
@@ -160,15 +156,15 @@ namespace gsmlib
 #endif
   };
 
-  // convert string to lower case
-  string lowercase(string s);
+  // convert std::string to lower case
+  std::string lowercase(std::string s);
 
-  // convert string to number and check for all digits
-  int checkNumber(string s) throw(GsmException);
+  // convert std::string to number and check for all digits
+  int checkNumber(std::string s) throw(GsmException);
 
-  // like printf, but return C++ string
+  // like printf, but return C++ std::string
 #ifdef HAVE_VSNPRINTF
-  string stringPrintf(const char *format, ...)
+  std::string stringPrintf(const char *format, ...)
 #if	__GNUC__ > 2 || (__GNUC__ == 2 && __GNUC_MINOR__ > 4)
      __attribute__((format (printf, 1, 2)))
 #endif
@@ -178,7 +174,7 @@ namespace gsmlib
   // - not threadsafe
   // - subject to buffer overruns
 #define stringPrintf(format, args...)                   \
-        (sprintf(__s, format, ## args), string(__s))
+        (sprintf(__s, format, ## args), std::string(__s))
 
   extern char __s[];
 #endif // HAVE_VSNPRINTF
@@ -225,7 +221,7 @@ namespace gsmlib
 
   // check for valid text and telephone number
   // throw exception if error
-  extern void checkTextAndTelephone(string text, string telephone)
+  extern void checkTextAndTelephone(std::string text, std::string telephone)
     throw(GsmException);
 };
 

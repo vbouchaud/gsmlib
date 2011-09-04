@@ -20,8 +20,6 @@
 #include <iterator>
 #include <vector>
 
-using namespace std;
-
 namespace gsmlib
 {
   // forward declarations
@@ -39,18 +37,18 @@ namespace gsmlib
     Phonebook *_myPhonebook;
 
   public:
-    PhonebookEntry(string telephone, string text) :
+    PhonebookEntry(std::string telephone, std::string text) :
       PhonebookEntryBase(telephone, text),
       _cached(true), _myPhonebook(NULL) {}
     PhonebookEntry(const PhonebookEntryBase &e) throw(GsmException);
 
     // accessor functions, inherited from PhonebookEntryBase
     // set() does not use the index argument
-    void set(string telephone, string text, int index = -1,
+    void set(std::string telephone, std::string text, int index = -1,
              bool useIndex = false)
       throw(GsmException);
-    string text() const throw(GsmException);
-    string telephone() const throw(GsmException);
+    std::string text() const throw(GsmException);
+    std::string telephone() const throw(GsmException);
 
     // return true if entry is cached (and caching is enabled)
     bool cached() const;
@@ -81,7 +79,7 @@ namespace gsmlib
     PhonebookEntry *_phonebook; // array of size _maxSize of entries
     int _maxSize;               // maximum size of pb (-1 == not known yet)
     int _size;                  // current size of pb (-1 == not known yet)
-    string _phonebookName;      // name of the phonebook, 2-byte like "ME"
+    std::string _phonebookName;      // name of the phonebook, 2-byte like "ME"
     unsigned int _maxNumberLength; // maximum length of telephone number
     unsigned int _maxTextLength; // maximum length of descriptive text
     Ref<GsmAt> _at;             // my GsmAt class
@@ -91,15 +89,15 @@ namespace gsmlib
 
     // helper function, parse phonebook response returned by ME/TA
     // returns index of entry
-    int parsePhonebookEntry(string response, string &telephone, string &text);
+    int parsePhonebookEntry(std::string response, std::string &telephone, std::string &text);
 
     // internal access functions
     // read/write/find entry from/to ME
-    void readEntry(int index, string &telephone, string &text)
+    void readEntry(int index, std::string &telephone, std::string &text)
       throw(GsmException);
-    void writeEntry(int index, string telephone, string text)
+    void writeEntry(int index, std::string telephone, std::string text)
       throw(GsmException);
-    void findEntry(string text, int &index, string &telephone)
+    void findEntry(std::string text, int &index, std::string &telephone)
       throw(GsmException);
 
     // adjust size only if it was set once
@@ -109,25 +107,25 @@ namespace gsmlib
       }
 
     // insert into first empty position and return position where inserted
-    iterator insertFirstEmpty(const string telephone, const string text)
+    iterator insertFirstEmpty(const std::string telephone, const std::string text)
       throw(GsmException);
 
     // insert into specified index position
-    iterator insert(const string telephone, const string text,
+    iterator insert(const std::string telephone, const std::string text,
                     const int index);
 
     // used my class MeTa
     // load phonebook name phonebookName, use AT handler at
     // preload entire phonebook if preload == true
-    Phonebook(string phonebookName, Ref<GsmAt> at,
+    Phonebook(std::string phonebookName, Ref<GsmAt> at,
               MeTa &myMeTa, bool preload = false) throw(GsmException);
 
   public:
     // set cache mode on or off
     void setCaching(bool useCache) {_useCache = useCache;}
 
-    // return name of this phonebook (2-character string)
-    string name() const {return _phonebookName;}
+    // return name of this phonebook (2-character std::string)
+    std::string name() const {return _phonebookName;}
 
     // return maximum telephone number length
     unsigned int getMaxTelephoneLen() const {return _maxNumberLength;}
@@ -178,7 +176,7 @@ namespace gsmlib
     void clear() throw(GsmException);
 
     // finds an entry given the text
-    iterator find(string text) throw(GsmException);
+    iterator find(std::string text) throw(GsmException);
     
     // destructor
     virtual ~Phonebook();

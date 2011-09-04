@@ -16,8 +16,6 @@
 #include <string>
 #include <stdexcept>
 
-using namespace std;
-
 namespace gsmlib
 {
   // different classes of GSM errors
@@ -33,18 +31,18 @@ namespace gsmlib
 
   // all gsmlib exceptions
 
-  class GsmException : public runtime_error
+  class GsmException : public std::runtime_error
   {
   private:
     GsmErrorClass _errorClass;
     int _errorCode;
 
   public:
-    GsmException(string errorText, GsmErrorClass errorClass) :
-      runtime_error(errorText), _errorClass(errorClass), _errorCode(-1) {}
+    GsmException(std::string errorText, GsmErrorClass errorClass) :
+      std::runtime_error(errorText), _errorClass(errorClass), _errorCode(-1) {}
 
-    GsmException(string errorText, GsmErrorClass errorClass, int errorCode) :
-      runtime_error(errorText), _errorClass(errorClass),
+    GsmException(std::string errorText, GsmErrorClass errorClass, int errorCode) :
+      std::runtime_error(errorText), _errorClass(errorClass),
       _errorCode(errorCode) {}
 
     int getErrorCode() const {return _errorCode;}
@@ -83,7 +81,7 @@ namespace gsmlib
 
   // return descriptive text for the given error code
   // the text is already translated
-  extern string getMEErrorText(const int errorCode) throw(GsmException);
+  extern std::string getMEErrorText(const int errorCode) throw(GsmException);
 
   // SMS error codes
 
@@ -164,7 +162,7 @@ namespace gsmlib
 
   // return descriptive text for the given error code
   // the text is already translated
-  extern string getSMSErrorText(const int errorCode) throw(GsmException);
+  extern std::string getSMSErrorText(const int errorCode) throw(GsmException);
 
   // SMS status handling
   // success codes
@@ -203,7 +201,7 @@ namespace gsmlib
 
   // return text for SMS status code
   // the text is already translated
-  string getSMSStatusString(unsigned char status);
+  std::string getSMSStatusString(unsigned char status);
 };
 
 #endif // GSM_ERROR_H

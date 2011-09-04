@@ -33,7 +33,7 @@ namespace gsmlib
     Address _addressKey;
     Timestamp _timeKey;
     int _intKey;
-    string _strKey;
+    std::string _strKey;
 
   public:
     // constructors for the different sort keys
@@ -43,7 +43,7 @@ namespace gsmlib
       _myStore(myStore), _timeKey(key) {}
     MapKey(SortedStore &myStore, int key) :
       _myStore(myStore), _intKey(key) {}
-    MapKey(SortedStore &myStore, string key) :
+    MapKey(SortedStore &myStore, std::string key) :
       _myStore(myStore), _strKey(key) {}
 
 /*
