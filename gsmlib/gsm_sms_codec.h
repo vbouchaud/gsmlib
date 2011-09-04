@@ -39,7 +39,7 @@ namespace gsmlib
     // _type == International if number starts with "+"
     // _type == unknown otherwise
     // number must be of the form "+123456" or "123456"
-    Address(string number);
+    Address(std::string number);
 
     // return std::string representation
     std::string toString() const;
@@ -160,7 +160,7 @@ namespace gsmlib
 
   public:
     // initialize with a hexadecimal octet std::string containing SMS TPDU
-    SMSDecoder(string pdu);
+    SMSDecoder(std::string pdu);
 
     // align to octet border
     void alignOctet();
@@ -271,7 +271,7 @@ namespace gsmlib
     void setOctets(const unsigned char* octets, unsigned short length);
 
     // set semi-octets semiOctets (given as ASCII std::string of numbers)
-    void setSemiOctets(string semiOctets);
+    void setSemiOctets(std::string semiOctets);
 
     // set semi-octets (given as integer)
     void setSemiOctetsInteger(unsigned long intValue, unsigned short length);
@@ -283,7 +283,7 @@ namespace gsmlib
     void setInteger(unsigned long intvalue, unsigned short length);
 
     // set alphanumeric 7-bit characters
-    void setString(string stringValue);
+    void setString(std::string stringValue);
 
     // set address/telephone number
     // service centre address has special format
@@ -313,7 +313,7 @@ namespace gsmlib
     UserDataHeader() {}
 
     // initialize with user data header
-    UserDataHeader (string udh) : _udh(udh) {}
+    UserDataHeader (std::string udh) : _udh(udh) {}
 
     // encode header
     void encode(SMSEncoder &e);
