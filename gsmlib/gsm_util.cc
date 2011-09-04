@@ -379,3 +379,8 @@ void gsmlib::reportProgress(int part, int total)
   if (progressObject != NULL)
     progressObject->reportProgress(part, total);
 }
+
+bool gsmlib::isSet(std::vector<bool> &b, unsigned int bit)
+{
+  return b.size() > bit && b[bit];
+}

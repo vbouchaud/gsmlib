@@ -16,13 +16,13 @@
 #include <gsmlib/gsm_sysdep.h>
 #include <gsmlib/gsm_cb.h>
 #include <gsmlib/gsm_nls.h>
-#include <strstream>
+#include <sstream>
 
 using namespace gsmlib;
 
 // local constants
 
-static const string dashes =
+static const std::string dashes =
 "---------------------------------------------------------------------------";
 
 // CBDataCodingScheme members
@@ -30,16 +30,19 @@ static const string dashes =
 CBDataCodingScheme::CBDataCodingScheme(unsigned char dcs) : _dcs(dcs)
 {
   if ((_dcs & 0xf0) <= 0x30)    // bits 7..4 in the range 0000..0011
-    if ((_dcs & 0x30) == 0)
-      _language = (Language)_dcs;
+    {
+      if ((_dcs & 0x30) == 0)
+	_language = (Language)_dcs;
+    }
   else
     _language = Unknown;
 }
 
-string CBDataCodingScheme::toString() const
+std::string CBDataCodingScheme::toString() const
 {
-  string result;
-  if (compressed()) result += _("compressed   ");
+  std::string result;
+  if (compressed())
+    result += _("compressed   ");
   switch (getLanguage())
   {
   case German:
@@ -103,7 +106,7 @@ string CBDataCodingScheme::toString() const
 
 // CBMessage members
 
-CBMessage::CBMessage(string pdu) throw(GsmException)
+CBMessage::CBMessage(std::string pdu) throw(GsmException)
 {
   SMSDecoder d(pdu);
   _messageCode = d.getInteger(6) << 4;
@@ -132,44 +135,41 @@ CBMessage::CBMessage(string pdu) throw(GsmException)
   }
 }
 
-string CBMessage::toString() const
+std::string CBMessage::toString() const
 {
-  ostrstream os;
-  os << dashes << endl
-     << _("Message type: CB") << endl
+  std::ostringstream os;
+  os << dashes << std::endl
+     << _("Message type: CB") << std::endl
      << _("Geographical scope: ");
   switch (_geographicalScope)
   {
   case CellWide:
-    os << "Cell wide" << endl;
+    os << "Cell wide" << std::endl;
     break;
   case PLMNWide:
-    os << "PLMN wide" << endl;
+    os << "PLMN wide" << std::endl;
     break;
   case LocationAreaWide:
-    os << "Location area wide" << endl;
+    os << "Location area wide" << std::endl;
     break;
   case CellWide2:
-    os << "Cell wide (2)" << endl;
+    os << "Cell wide (2)" << std::endl;
     break;
   }
   // remove trailing \r characters for output
-  string data = _data;
-  string::iterator i;
+  std::string data = _data;
+  std::string::iterator i;
   for (i = data.end(); i > data.begin() && *(i - 1) == '\r';
        --i);
   data.erase(i, data.end());
 
-  os << _("Message Code: ") << _messageCode << endl
-     << _("Update Number: ") << _updateNumber << endl
-     << _("Message Identifer: ") << _messageIdentifier << endl
-     << _("Data coding scheme: ") << _dataCodingScheme.toString() << endl
-     << _("Total page number: ") << _totalPageNumber << endl
-     << _("Current page number: ") << _currentPageNumber << endl
-     << _("Data: '") << data << "'" << endl
-     << dashes << endl << endl << ends;
-  char *ss = os.str();
-  string result(ss);
-  delete[] ss;
-  return result;
+  os << _("Message Code: ") << _messageCode << std::endl
+     << _("Update Number: ") << _updateNumber << std::endl
+     << _("Message Identifer: ") << _messageIdentifier << std::endl
+     << _("Data coding scheme: ") << _dataCodingScheme.toString() << std::endl
+     << _("Total page number: ") << _totalPageNumber << std::endl
+     << _("Current page number: ") << _currentPageNumber << std::endl
+     << _("Data: '") << data << "'" << std::endl
+     << dashes << std::endl << std::endl << std::ends;
+  return os.str();
 }

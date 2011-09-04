@@ -25,7 +25,7 @@ top_srcdir = ..
 top_builddir = ..
 
 
-prefix = /usr
+prefix = /usr/local
 exec_prefix = ${prefix}
 transform = s,x,x,
 libdir = $(exec_prefix)/lib
@@ -37,14 +37,14 @@ gettextsrcdir = ${prefix}/share/gettext/intl
 aliaspath = $(localedir):.
 subdir = intl
 
-INSTALL = /usr/bin/install -c
+INSTALL = /bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
 MKINSTALLDIRS = $(top_builddir)/scripts/mkinstalldirs
 
 l = @l@
 
 AR = ar
-CC = i486-linux-gnu-gcc
+CC = gcc
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
 RANLIB = ranlib
 

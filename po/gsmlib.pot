@@ -8,10 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-06 14:36+1100\n"
+"POT-Creation-Date: 2011-09-04 17:09+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -230,7 +231,7 @@ msgid "cell broadcast message\n"
 msgstr ""
 
 #: apps/gsmsmsd.cc:701 apps/gsmsmsd.cc:703 apps/gsmsendsms.cc:253
-#: apps/gsmpb.cc:503 apps/gsmctl.cc:631 apps/gsmsmsstore.cc:430
+#: apps/gsmpb.cc:503 apps/gsmctl.cc:631 apps/gsmsmsstore.cc:434
 msgid "[ERROR]: "
 msgstr ""
 
@@ -429,8 +430,8 @@ msgstr ""
 msgid ">  Status: "
 msgstr ""
 
-#: apps/gsmctl.cc:131 gsmlib/gsm_error.cc:104 gsmlib/gsm_sms.cc:441
-#: gsmlib/gsm_sms_codec.cc:205
+#: apps/gsmctl.cc:131 gsmlib/gsm_error.cc:102 gsmlib/gsm_sms.cc:430
+#: gsmlib/gsm_sms_codec.cc:197
 msgid "unknown"
 msgstr ""
 
@@ -599,7 +600,7 @@ msgstr ""
 msgid "unknown operation '%s'"
 msgstr ""
 
-#: apps/gsmsmsstore.cc:91 apps/gsmsmsstore.cc:358 apps/gsmsmsstore.cc:375
+#: apps/gsmsmsstore.cc:91 apps/gsmsmsstore.cc:362 apps/gsmsmsstore.cc:379
 #, c-format
 msgid "inserting entry #%d from source into destination"
 msgstr ""
@@ -676,7 +677,7 @@ msgstr ""
 msgid "destination required"
 msgstr ""
 
-#: apps/gsmsmsstore.cc:254 gsmlib/gsm_util.cc:286
+#: apps/gsmsmsstore.cc:254 gsmlib/gsm_util.cc:288
 #, c-format
 msgid "expected number, got '%s'"
 msgstr ""
@@ -689,30 +690,30 @@ msgstr ""
 msgid "unexpected parameters"
 msgstr ""
 
-#: apps/gsmsmsstore.cc:280 apps/gsmsmsstore.cc:312
+#: apps/gsmsmsstore.cc:281 apps/gsmsmsstore.cc:315
 msgid "store name must be given"
 msgstr ""
 
-#: apps/gsmsmsstore.cc:339 apps/gsmsmsstore.cc:372
+#: apps/gsmsmsstore.cc:343 apps/gsmsmsstore.cc:376
 #, c-format
 msgid "no index '%s' in source"
 msgstr ""
 
-#: apps/gsmsmsstore.cc:387
+#: apps/gsmsmsstore.cc:391
 #, c-format
 msgid "index #%d"
 msgstr ""
 
-#: apps/gsmsmsstore.cc:401
+#: apps/gsmsmsstore.cc:405
 msgid "inserting new entry into destination"
 msgstr ""
 
-#: apps/gsmsmsstore.cc:416
+#: apps/gsmsmsstore.cc:420
 #, c-format
 msgid "deleting entry #%d from destination"
 msgstr ""
 
-#: apps/gsmsmsstore.cc:421
+#: apps/gsmsmsstore.cc:425
 #, c-format
 msgid "no index '%s' in destination"
 msgstr ""
@@ -730,471 +731,471 @@ msgstr ""
 msgid "(code %s)"
 msgstr ""
 
-#: gsmlib/gsm_at.cc:125 gsmlib/gsm_at.cc:215 gsmlib/gsm_at.cc:344
+#: gsmlib/gsm_at.cc:143 gsmlib/gsm_at.cc:237 gsmlib/gsm_at.cc:366
 msgid "ME/TA error '<unspecified>' (code not known)"
 msgstr ""
 
-#: gsmlib/gsm_at.cc:184 gsmlib/gsm_at.cc:365
+#: gsmlib/gsm_at.cc:203 gsmlib/gsm_at.cc:387
 #, c-format
 msgid "unexpected response '%s' when sending 'AT%s'"
 msgstr ""
 
-#: gsmlib/gsm_at.cc:318
+#: gsmlib/gsm_at.cc:340
 msgid "unexpected character in PDU handshake"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:29
+#: gsmlib/gsm_error.cc:27
 msgid "phone failure"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:32
+#: gsmlib/gsm_error.cc:30
 msgid "no connection to phone"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:35
+#: gsmlib/gsm_error.cc:33
 msgid "phone adaptor link reserved"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:38 gsmlib/gsm_error.cc:259
+#: gsmlib/gsm_error.cc:36 gsmlib/gsm_error.cc:257
 msgid "operation not allowed"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:41 gsmlib/gsm_error.cc:262
+#: gsmlib/gsm_error.cc:39 gsmlib/gsm_error.cc:260
 msgid "operation not supported"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:44
+#: gsmlib/gsm_error.cc:42
 msgid "ph SIM PIN required"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:47 gsmlib/gsm_error.cc:271
+#: gsmlib/gsm_error.cc:45 gsmlib/gsm_error.cc:269
 msgid "SIM not inserted"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:50 gsmlib/gsm_error.cc:274
+#: gsmlib/gsm_error.cc:48 gsmlib/gsm_error.cc:272
 msgid "SIM PIN required"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:53 gsmlib/gsm_error.cc:289
+#: gsmlib/gsm_error.cc:51 gsmlib/gsm_error.cc:287
 msgid "SIM PUK required"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:56 gsmlib/gsm_error.cc:280
+#: gsmlib/gsm_error.cc:54 gsmlib/gsm_error.cc:278
 msgid "SIM failure"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:59 gsmlib/gsm_error.cc:283
+#: gsmlib/gsm_error.cc:57 gsmlib/gsm_error.cc:281
 msgid "SIM busy"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:62 gsmlib/gsm_error.cc:286
+#: gsmlib/gsm_error.cc:60 gsmlib/gsm_error.cc:284
 msgid "SIM wrong"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:65
+#: gsmlib/gsm_error.cc:63
 msgid "incorrect password"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:68 gsmlib/gsm_error.cc:292
+#: gsmlib/gsm_error.cc:66 gsmlib/gsm_error.cc:290
 msgid "SIM PIN2 required"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:71 gsmlib/gsm_error.cc:295
+#: gsmlib/gsm_error.cc:69 gsmlib/gsm_error.cc:293
 msgid "SIM PUK2 required"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:74 gsmlib/gsm_error.cc:304
+#: gsmlib/gsm_error.cc:72 gsmlib/gsm_error.cc:302
 msgid "memory full"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:77
+#: gsmlib/gsm_error.cc:75
 msgid "invalid index"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:80
+#: gsmlib/gsm_error.cc:78
 msgid "not found"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:83 gsmlib/gsm_error.cc:298
+#: gsmlib/gsm_error.cc:81 gsmlib/gsm_error.cc:296
 msgid "memory failure"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:86
+#: gsmlib/gsm_error.cc:84
 msgid "text string too long"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:89
+#: gsmlib/gsm_error.cc:87
 msgid "invalid characters in text string"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:92
+#: gsmlib/gsm_error.cc:90
 msgid "dial string too long"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:95
+#: gsmlib/gsm_error.cc:93
 msgid "invalid characters in dial string"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:98 gsmlib/gsm_error.cc:310
+#: gsmlib/gsm_error.cc:96 gsmlib/gsm_error.cc:308
 msgid "no network service"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:101 gsmlib/gsm_error.cc:313
+#: gsmlib/gsm_error.cc:99 gsmlib/gsm_error.cc:311
 msgid "network timeout"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:107
+#: gsmlib/gsm_error.cc:105
 #, c-format
 msgid "invalid ME error %d"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:117
+#: gsmlib/gsm_error.cc:115
 msgid "Unassigned (unallocated) number"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:120
+#: gsmlib/gsm_error.cc:118
 msgid "Operator determined barring"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:123
+#: gsmlib/gsm_error.cc:121
 msgid "Call barred"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:126
+#: gsmlib/gsm_error.cc:124
 msgid "Network failure"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:129
+#: gsmlib/gsm_error.cc:127
 msgid "Short message transfer rejected"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:133 gsmlib/gsm_error.cc:355
+#: gsmlib/gsm_error.cc:131 gsmlib/gsm_error.cc:353
 msgid "Congestion"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:136
+#: gsmlib/gsm_error.cc:134
 msgid "Destination out of service"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:139
+#: gsmlib/gsm_error.cc:137
 msgid "Unidentified subscriber"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:142
+#: gsmlib/gsm_error.cc:140
 msgid "Facility rejected"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:145
+#: gsmlib/gsm_error.cc:143
 msgid "Unknown subscriber"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:148
+#: gsmlib/gsm_error.cc:146
 msgid "Network out of order"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:151
+#: gsmlib/gsm_error.cc:149
 msgid "Temporary failure"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:154
+#: gsmlib/gsm_error.cc:152
 msgid "Resources unavailable, unspecified"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:157
+#: gsmlib/gsm_error.cc:155
 msgid "Requested facility not subscribed"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:160
+#: gsmlib/gsm_error.cc:158
 msgid "Requested facility not implemented"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:163
+#: gsmlib/gsm_error.cc:161
 msgid "Invalid Transaction Identifier"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:166
+#: gsmlib/gsm_error.cc:164
 msgid "Semantically incorrect message"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:169
+#: gsmlib/gsm_error.cc:167
 msgid "Invalid mandatory information"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:172
+#: gsmlib/gsm_error.cc:170
 msgid "Message type non-existent or not implemented"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:175
+#: gsmlib/gsm_error.cc:173
 msgid "Message not compatible with short message protocol state"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:178
+#: gsmlib/gsm_error.cc:176
 msgid "Information element non-existent or not implemented"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:181
+#: gsmlib/gsm_error.cc:179
 msgid "Protocol error, unspecified"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:184
+#: gsmlib/gsm_error.cc:182
 msgid "Interworking, unspecified"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:187
+#: gsmlib/gsm_error.cc:185
 msgid "Telematic interworking not supported"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:190
+#: gsmlib/gsm_error.cc:188
 msgid "Short message Type 0 not supported"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:193
+#: gsmlib/gsm_error.cc:191
 msgid "Cannot replace short message"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:196
+#: gsmlib/gsm_error.cc:194
 msgid "Unspecified TP-PID error"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:199
+#: gsmlib/gsm_error.cc:197
 msgid "Data coding scheme (alphabet) not supported"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:202
+#: gsmlib/gsm_error.cc:200
 msgid "Message class not supported"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:205
+#: gsmlib/gsm_error.cc:203
 msgid "Unspecifiec TP-DCS error"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:208
+#: gsmlib/gsm_error.cc:206
 msgid "Command cannot be actioned"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:211
+#: gsmlib/gsm_error.cc:209
 msgid "Command unsupported"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:214
+#: gsmlib/gsm_error.cc:212
 msgid "Unspecified TP-Command error"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:217
+#: gsmlib/gsm_error.cc:215
 msgid "TPDU not supported"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:220
+#: gsmlib/gsm_error.cc:218
 msgid "SC busy"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:223
+#: gsmlib/gsm_error.cc:221
 msgid "No SC subscription"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:226
+#: gsmlib/gsm_error.cc:224
 msgid "SC system failure"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:229
+#: gsmlib/gsm_error.cc:227
 msgid "Invalid SME address"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:232
+#: gsmlib/gsm_error.cc:230
 msgid "Destination SME barred"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:235
+#: gsmlib/gsm_error.cc:233
 msgid "SM Rejected-Duplicated SM"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:238
+#: gsmlib/gsm_error.cc:236
 msgid "SIM SMS storage full"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:241
+#: gsmlib/gsm_error.cc:239
 msgid "No SMS storage capability in SIM"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:244
+#: gsmlib/gsm_error.cc:242
 msgid "Error in MS"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:247
+#: gsmlib/gsm_error.cc:245
 msgid "Memory Capacity Exceed"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:250
+#: gsmlib/gsm_error.cc:248
 msgid "Unspecified error cause"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:253
+#: gsmlib/gsm_error.cc:251
 msgid "ME failure"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:256
+#: gsmlib/gsm_error.cc:254
 msgid "SMS service of ME reserved"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:265
+#: gsmlib/gsm_error.cc:263
 msgid "invalid PDU mode parameter"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:268
+#: gsmlib/gsm_error.cc:266
 msgid "invalid text mode parameter"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:277
+#: gsmlib/gsm_error.cc:275
 msgid "PH-SIM PIN required"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:301
+#: gsmlib/gsm_error.cc:299
 msgid "invalid memory index"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:307
+#: gsmlib/gsm_error.cc:305
 msgid "SMSC address unknown"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:316
+#: gsmlib/gsm_error.cc:314
 msgid "no +CNMA acknowledgement expected"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:319
+#: gsmlib/gsm_error.cc:317
 msgid "unknown error"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:322
+#: gsmlib/gsm_error.cc:320
 #, c-format
 msgid "invalid SMS error %d"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:335
+#: gsmlib/gsm_error.cc:333
 msgid "Short message received by the SME"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:338
+#: gsmlib/gsm_error.cc:336
 msgid ""
 "Short message forwarded by the SC to the SME but the SC is unable to confirm "
 "delivery"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:342
+#: gsmlib/gsm_error.cc:340
 msgid "Short message replaced by the SC"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:345 gsmlib/gsm_error.cc:373 gsmlib/gsm_error.cc:418
+#: gsmlib/gsm_error.cc:343 gsmlib/gsm_error.cc:371 gsmlib/gsm_error.cc:416
 msgid "reserved"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:358
+#: gsmlib/gsm_error.cc:356
 msgid "SME busy"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:361
+#: gsmlib/gsm_error.cc:359
 msgid "No response from SME"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:364
+#: gsmlib/gsm_error.cc:362
 msgid "Service rejected"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:367 gsmlib/gsm_error.cc:400
+#: gsmlib/gsm_error.cc:365 gsmlib/gsm_error.cc:398
 msgid "Quality of service not available"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:370
+#: gsmlib/gsm_error.cc:368
 msgid "Error in SME"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:377
+#: gsmlib/gsm_error.cc:375
 msgid " (Temporary error, SC is not making any more transfer attempts)"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:380
+#: gsmlib/gsm_error.cc:378
 msgid " (Temporary error, SC still trying to transfer SM)"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:388
+#: gsmlib/gsm_error.cc:386
 msgid "Remote Procedure Error"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:391
+#: gsmlib/gsm_error.cc:389
 msgid "Incompatible destination"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:394
+#: gsmlib/gsm_error.cc:392
 msgid "Connection rejected by SME"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:397
+#: gsmlib/gsm_error.cc:395
 msgid "Not obtainable"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:403
+#: gsmlib/gsm_error.cc:401
 msgid "No interworking available"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:406
+#: gsmlib/gsm_error.cc:404
 msgid "SM validity period expired"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:409
+#: gsmlib/gsm_error.cc:407
 msgid "SM deleted by originating SME"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:412
+#: gsmlib/gsm_error.cc:410
 msgid "SM deleted by SC administration"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:415
+#: gsmlib/gsm_error.cc:413
 msgid "SM does not exit"
 msgstr ""
 
-#: gsmlib/gsm_error.cc:421
+#: gsmlib/gsm_error.cc:419
 msgid " (Permanent Error, SC is not making any more transfer attempts)"
 msgstr ""
 
-#: gsmlib/gsm_event.cc:80
+#: gsmlib/gsm_event.cc:79
 #, c-format
 msgid "unexpected number format %d"
 msgstr ""
 
-#: gsmlib/gsm_event.cc:100
+#: gsmlib/gsm_event.cc:99
 #, c-format
 msgid "unexpected unsolicited event '%s'"
 msgstr ""
 
-#: gsmlib/gsm_me_ta.cc:538
+#: gsmlib/gsm_me_ta.cc:537
 msgid "unable to set operator"
 msgstr ""
 
-#: gsmlib/gsm_me_ta.cc:665
+#: gsmlib/gsm_me_ta.cc:664
 msgid "call forward time must be in the range 0..30"
 msgstr ""
 
-#: gsmlib/gsm_me_ta.cc:813
+#: gsmlib/gsm_me_ta.cc:812
 msgid "Functionality Level commands not supported by ME"
 msgstr ""
 
 #. If the number was just out of range, we get here.
-#: gsmlib/gsm_me_ta.cc:832
+#: gsmlib/gsm_me_ta.cc:831
 msgid "Requested Functionality Level out of range"
 msgstr ""
 
-#: gsmlib/gsm_me_ta.cc:943
+#: gsmlib/gsm_me_ta.cc:942
 msgid "unsupported alphabet for SMS"
 msgstr ""
 
-#: gsmlib/gsm_me_ta.cc:952
+#: gsmlib/gsm_me_ta.cc:951
 msgid "SMS text is larger than allowed"
 msgstr ""
 
-#: gsmlib/gsm_me_ta.cc:964
+#: gsmlib/gsm_me_ta.cc:963
 msgid "not more than 255 concatenated SMSs allowed"
 msgstr ""
 
-#: gsmlib/gsm_me_ta.cc:997
+#: gsmlib/gsm_me_ta.cc:996
 msgid "only serviceLevel 0 or 1 supported"
 msgstr ""
 
@@ -1218,349 +1219,349 @@ msgstr ""
 msgid "expected parameter"
 msgstr ""
 
-#: gsmlib/gsm_parser.cc:71
+#: gsmlib/gsm_parser.cc:72
 msgid "expected '\"'"
 msgstr ""
 
-#: gsmlib/gsm_parser.cc:109
+#: gsmlib/gsm_parser.cc:110
 msgid "expected number"
 msgstr ""
 
-#: gsmlib/gsm_parser.cc:120
+#: gsmlib/gsm_parser.cc:121
 #, c-format
-msgid "unexpected end of string '%s'"
+msgid "unexpected end of std::string '%s'"
 msgstr ""
 
-#: gsmlib/gsm_parser.cc:124
+#: gsmlib/gsm_parser.cc:125
 #, c-format
-msgid " (at position %d of string '%s')"
+msgid " (at position %d of std::string '%s')"
 msgstr ""
 
-#: gsmlib/gsm_parser.cc:141
+#: gsmlib/gsm_parser.cc:143
 #, c-format
 msgid "expected '%c'"
 msgstr ""
 
-#: gsmlib/gsm_parser.cc:165
+#: gsmlib/gsm_parser.cc:168
 msgid "expected ')' or ','"
 msgstr ""
 
-#: gsmlib/gsm_parser.cc:251
+#: gsmlib/gsm_parser.cc:254
 msgid "expected ')', ',' or '-'"
 msgstr ""
 
-#: gsmlib/gsm_parser.cc:257
+#: gsmlib/gsm_parser.cc:260
 msgid "range of the form a-b-c not allowed"
 msgstr ""
 
-#: gsmlib/gsm_parser.cc:264
+#: gsmlib/gsm_parser.cc:267
 msgid "range of the form a- no allowed"
 msgstr ""
 
-#: gsmlib/gsm_parser.cc:350
+#: gsmlib/gsm_parser.cc:354
 msgid "expected comma"
 msgstr ""
 
-#: gsmlib/gsm_parser.cc:367
+#: gsmlib/gsm_parser.cc:373
 msgid "expected end of line"
 msgstr ""
 
-#: gsmlib/gsm_phonebook.cc:47
+#: gsmlib/gsm_phonebook.cc:46
 #, c-format
 msgid ""
 "length of text '%s' exceeds maximum text length (%d characters) of phonebook "
 "'%s'"
 msgstr ""
 
-#: gsmlib/gsm_phonebook.cc:55
+#: gsmlib/gsm_phonebook.cc:54
 #, c-format
 msgid ""
 "length of telephone number '%s' exceeds maximum telephone number length (%d "
 "characters) of phonebook '%s'"
 msgstr ""
 
-#: gsmlib/gsm_phonebook.cc:275
+#: gsmlib/gsm_phonebook.cc:270
 msgid "phonebook full"
 msgstr ""
 
-#: gsmlib/gsm_phonebook.cc:291
+#: gsmlib/gsm_phonebook.cc:287
 msgid "attempt to overwrite phonebook entry"
 msgstr ""
 
-#: gsmlib/gsm_phonebook.cc:569
+#: gsmlib/gsm_phonebook.cc:567
 msgid "SIM card changed while accessing phonebook"
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:66 gsmlib/gsm_sms.cc:85 gsmlib/gsm_sms.cc:175
+#: gsmlib/gsm_sms.cc:65 gsmlib/gsm_sms.cc:84 gsmlib/gsm_sms.cc:169
 msgid "unhandled SMS TPDU type"
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:107
+#: gsmlib/gsm_sms.cc:106
 msgid "can only send SMS-SUBMIT and SMS-COMMAND TPDUs"
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:111
+#: gsmlib/gsm_sms.cc:110
 msgid "no device given for sending SMS"
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:283
+#: gsmlib/gsm_sms.cc:275
 msgid "Message type: SMS-DELIVER"
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:284 gsmlib/gsm_sms.cc:426 gsmlib/gsm_sms.cc:531
-#: gsmlib/gsm_sms.cc:618 gsmlib/gsm_sms.cc:723 gsmlib/gsm_sms.cc:829
+#: gsmlib/gsm_sms.cc:276 gsmlib/gsm_sms.cc:415 gsmlib/gsm_sms.cc:517
+#: gsmlib/gsm_sms.cc:601 gsmlib/gsm_sms.cc:703 gsmlib/gsm_sms.cc:806
 msgid "SC address: '"
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:285 gsmlib/gsm_sms.cc:532
+#: gsmlib/gsm_sms.cc:277 gsmlib/gsm_sms.cc:518
 msgid "More messages to send: "
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:286 gsmlib/gsm_sms.cc:445
+#: gsmlib/gsm_sms.cc:278 gsmlib/gsm_sms.cc:434
 msgid "Reply path: "
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:287 gsmlib/gsm_sms.cc:446
+#: gsmlib/gsm_sms.cc:279 gsmlib/gsm_sms.cc:435
 msgid "User data header indicator: "
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:289
+#: gsmlib/gsm_sms.cc:281
 msgid "Status report indication: "
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:290
+#: gsmlib/gsm_sms.cc:282
 msgid "Originating address: '"
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:292 gsmlib/gsm_sms.cc:452 gsmlib/gsm_sms.cc:621
-#: gsmlib/gsm_sms.cc:729 gsmlib/gsm_sms.cc:836
+#: gsmlib/gsm_sms.cc:284 gsmlib/gsm_sms.cc:441 gsmlib/gsm_sms.cc:604
+#: gsmlib/gsm_sms.cc:709 gsmlib/gsm_sms.cc:813
 msgid "Protocol identifier: 0x"
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:294 gsmlib/gsm_sms.cc:454 gsmlib/gsm_sms.cc:733
-#: gsmlib/gsm_sms.cc:840
+#: gsmlib/gsm_sms.cc:286 gsmlib/gsm_sms.cc:443 gsmlib/gsm_sms.cc:713
+#: gsmlib/gsm_sms.cc:817
 msgid "Data coding scheme: "
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:295 gsmlib/gsm_sms.cc:536 gsmlib/gsm_sms.cc:830
+#: gsmlib/gsm_sms.cc:287 gsmlib/gsm_sms.cc:522 gsmlib/gsm_sms.cc:807
 msgid "SC timestamp: "
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:296 gsmlib/gsm_sms.cc:456 gsmlib/gsm_sms.cc:735
-#: gsmlib/gsm_sms.cc:842
+#: gsmlib/gsm_sms.cc:288 gsmlib/gsm_sms.cc:445 gsmlib/gsm_sms.cc:715
+#: gsmlib/gsm_sms.cc:819
 msgid "User data length: "
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:297 gsmlib/gsm_sms.cc:457
+#: gsmlib/gsm_sms.cc:289 gsmlib/gsm_sms.cc:446
 msgid "User data header: 0x"
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:302 gsmlib/gsm_sms.cc:461 gsmlib/gsm_sms.cc:736
-#: gsmlib/gsm_sms.cc:843
+#: gsmlib/gsm_sms.cc:294 gsmlib/gsm_sms.cc:450 gsmlib/gsm_sms.cc:716
+#: gsmlib/gsm_sms.cc:820
 msgid "User data: '"
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:425
+#: gsmlib/gsm_sms.cc:414
 msgid "Message type: SMS-SUBMIT"
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:427
+#: gsmlib/gsm_sms.cc:416
 msgid "Reject duplicates: "
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:428
+#: gsmlib/gsm_sms.cc:417
 msgid "Validity period format: "
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:432 gsmlib/gsm_sms_codec.cc:184
+#: gsmlib/gsm_sms.cc:421 gsmlib/gsm_sms_codec.cc:179
 msgid "not present"
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:435
+#: gsmlib/gsm_sms.cc:424
 msgid "relative"
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:438
+#: gsmlib/gsm_sms.cc:427
 msgid "absolute"
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:448 gsmlib/gsm_sms.cc:620
+#: gsmlib/gsm_sms.cc:437 gsmlib/gsm_sms.cc:603
 msgid "Status report request: "
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:449 gsmlib/gsm_sms.cc:534 gsmlib/gsm_sms.cc:619
+#: gsmlib/gsm_sms.cc:438 gsmlib/gsm_sms.cc:520 gsmlib/gsm_sms.cc:602
 msgid "Message reference: "
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:450 gsmlib/gsm_sms.cc:626
+#: gsmlib/gsm_sms.cc:439 gsmlib/gsm_sms.cc:609
 msgid "Destination address: '"
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:455
+#: gsmlib/gsm_sms.cc:444
 msgid "Validity period: "
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:530
+#: gsmlib/gsm_sms.cc:516
 msgid "Message type: SMS-STATUS-REPORT"
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:533
+#: gsmlib/gsm_sms.cc:519
 msgid "Status report qualifier: "
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:535
+#: gsmlib/gsm_sms.cc:521
 msgid "Recipient address: '"
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:537
+#: gsmlib/gsm_sms.cc:523
 msgid "Discharge time: "
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:538
+#: gsmlib/gsm_sms.cc:524
 msgid "Status: 0x"
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:617
+#: gsmlib/gsm_sms.cc:600
 msgid "Message type: SMS-COMMAND"
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:623
+#: gsmlib/gsm_sms.cc:606
 msgid "Command type: 0x"
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:625
+#: gsmlib/gsm_sms.cc:608
 msgid "Message number: "
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:628
+#: gsmlib/gsm_sms.cc:611
 msgid "Command data length: "
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:629
+#: gsmlib/gsm_sms.cc:612
 msgid "Command data: '"
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:722
+#: gsmlib/gsm_sms.cc:702
 msgid "Message type: SMS-DELIVER-REPORT"
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:724 gsmlib/gsm_sms.cc:831
+#: gsmlib/gsm_sms.cc:704 gsmlib/gsm_sms.cc:808
 msgid "Protocol identifier present: "
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:726 gsmlib/gsm_sms.cc:833
+#: gsmlib/gsm_sms.cc:706 gsmlib/gsm_sms.cc:810
 msgid "Data coding scheme present: "
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:727 gsmlib/gsm_sms.cc:834
+#: gsmlib/gsm_sms.cc:707 gsmlib/gsm_sms.cc:811
 msgid "User data length present: "
 msgstr ""
 
-#: gsmlib/gsm_sms.cc:828
+#: gsmlib/gsm_sms.cc:805
 msgid "Message type: SMS-SUBMIT-REPORT"
 msgstr ""
 
-#: gsmlib/gsm_sms_codec.cc:189 gsmlib/gsm_sms_codec.cc:191
+#: gsmlib/gsm_sms_codec.cc:184 gsmlib/gsm_sms_codec.cc:186
 msgid " minutes"
 msgstr ""
 
-#: gsmlib/gsm_sms_codec.cc:193
+#: gsmlib/gsm_sms_codec.cc:188
 msgid " days"
 msgstr ""
 
-#: gsmlib/gsm_sms_codec.cc:195
+#: gsmlib/gsm_sms_codec.cc:190
 msgid " weeks"
 msgstr ""
 
-#: gsmlib/gsm_sms_codec.cc:214
+#: gsmlib/gsm_sms_codec.cc:206
 msgid "compressed   "
 msgstr ""
 
-#: gsmlib/gsm_sms_codec.cc:219
+#: gsmlib/gsm_sms_codec.cc:211
 msgid "voicemail message waiting"
 msgstr ""
 
-#: gsmlib/gsm_sms_codec.cc:222
+#: gsmlib/gsm_sms_codec.cc:214
 msgid "fax message waiting"
 msgstr ""
 
-#: gsmlib/gsm_sms_codec.cc:225
+#: gsmlib/gsm_sms_codec.cc:217
 msgid "electronic mail message waiting"
 msgstr ""
 
-#: gsmlib/gsm_sms_codec.cc:228
+#: gsmlib/gsm_sms_codec.cc:220
 msgid "other message waiting"
 msgstr ""
 
-#: gsmlib/gsm_sms_codec.cc:235
+#: gsmlib/gsm_sms_codec.cc:227
 msgid "default alphabet"
 msgstr ""
 
-#: gsmlib/gsm_sms_codec.cc:238
+#: gsmlib/gsm_sms_codec.cc:230
 msgid "8-bit alphabet"
 msgstr ""
 
-#: gsmlib/gsm_sms_codec.cc:241
+#: gsmlib/gsm_sms_codec.cc:233
 msgid "16-bit alphabet"
 msgstr ""
 
-#: gsmlib/gsm_sms_codec.cc:244
+#: gsmlib/gsm_sms_codec.cc:236
 msgid "reserved alphabet"
 msgstr ""
 
-#: gsmlib/gsm_sms_codec.cc:257
+#: gsmlib/gsm_sms_codec.cc:249
 msgid "bad hexadecimal PDU format"
 msgstr ""
 
-#: gsmlib/gsm_sms_codec.cc:286 gsmlib/gsm_sms_codec.cc:296
-#: gsmlib/gsm_sms_codec.cc:311 gsmlib/gsm_sms_codec.cc:319
-#: gsmlib/gsm_sms_codec.cc:340 gsmlib/gsm_sms_codec.cc:348
-#: gsmlib/gsm_sms_codec.cc:369 gsmlib/gsm_sms_codec.cc:383
+#: gsmlib/gsm_sms_codec.cc:278 gsmlib/gsm_sms_codec.cc:288
+#: gsmlib/gsm_sms_codec.cc:303 gsmlib/gsm_sms_codec.cc:311
+#: gsmlib/gsm_sms_codec.cc:332 gsmlib/gsm_sms_codec.cc:340
+#: gsmlib/gsm_sms_codec.cc:361 gsmlib/gsm_sms_codec.cc:375
 msgid "premature end of PDU"
 msgstr ""
 
-#: gsmlib/gsm_sms_codec.cc:474
+#: gsmlib/gsm_sms_codec.cc:466
 msgid "unknown time period format"
 msgstr ""
 
-#: gsmlib/gsm_unix_serial.cc:121
+#: gsmlib/gsm_unix_serial.cc:117
 msgid "interrupted when reading from TA"
 msgstr ""
 
-#: gsmlib/gsm_unix_serial.cc:136
+#: gsmlib/gsm_unix_serial.cc:132
 msgid "end of file when reading from TA"
 msgstr ""
 
-#: gsmlib/gsm_unix_serial.cc:146
+#: gsmlib/gsm_unix_serial.cc:142
 msgid "reading from TA"
 msgstr ""
 
-#: gsmlib/gsm_unix_serial.cc:151
+#: gsmlib/gsm_unix_serial.cc:147
 msgid "timeout when reading from TA"
 msgstr ""
 
-#: gsmlib/gsm_unix_serial.cc:178
+#: gsmlib/gsm_unix_serial.cc:175
 #, c-format
 msgid "opening device '%s'"
 msgstr ""
 
-#: gsmlib/gsm_unix_serial.cc:185
+#: gsmlib/gsm_unix_serial.cc:183
 msgid "getting file status flags failed"
 msgstr ""
 
-#: gsmlib/gsm_unix_serial.cc:190
+#: gsmlib/gsm_unix_serial.cc:189
 msgid "switching of non-blocking mode failed"
 msgstr ""
 
-#: gsmlib/gsm_unix_serial.cc:205
+#: gsmlib/gsm_unix_serial.cc:204
 msgid "clearing DTR failed"
 msgstr ""
 
-#: gsmlib/gsm_unix_serial.cc:211
+#: gsmlib/gsm_unix_serial.cc:210
 msgid "setting DTR failed"
 msgstr ""
 
-#: gsmlib/gsm_unix_serial.cc:216
+#: gsmlib/gsm_unix_serial.cc:215
 #, c-format
 msgid "tcgetattr device '%s'"
 msgstr ""
@@ -1575,115 +1576,115 @@ msgstr ""
 msgid "reset modem failed '%s'"
 msgstr ""
 
-#: gsmlib/gsm_unix_serial.cc:348 gsmlib/gsm_unix_serial.cc:380
+#: gsmlib/gsm_unix_serial.cc:346 gsmlib/gsm_unix_serial.cc:378
 msgid "interrupted when writing to TA"
 msgstr ""
 
-#: gsmlib/gsm_unix_serial.cc:363 gsmlib/gsm_unix_serial.cc:372
+#: gsmlib/gsm_unix_serial.cc:361 gsmlib/gsm_unix_serial.cc:370
 msgid "writing to TA"
 msgstr ""
 
-#: gsmlib/gsm_unix_serial.cc:393
+#: gsmlib/gsm_unix_serial.cc:391
 msgid "timeout when writing to TA"
 msgstr ""
 
-#: gsmlib/gsm_unix_serial.cc:454
+#: gsmlib/gsm_unix_serial.cc:452
 #, c-format
 msgid "unknown baudrate '%s'"
 msgstr ""
 
-#: gsmlib/gsm_util.cc:206
+#: gsmlib/gsm_util.cc:208
 #, c-format
 msgid "error when calling stat('%s') (errno: %d/%s)"
 msgstr ""
 
-#: gsmlib/gsm_util.cc:237
+#: gsmlib/gsm_util.cc:239
 #, c-format
 msgid "file '%s' is neither file nor character device"
 msgstr ""
 
-#: gsmlib/gsm_util.cc:241
+#: gsmlib/gsm_util.cc:243
 msgid "maxmimum number of symbolic links exceeded"
 msgstr ""
 
-#: gsmlib/gsm_util.cc:251
+#: gsmlib/gsm_util.cc:253
 #, c-format
 msgid "error renaming '%s' to '%s'"
 msgstr ""
 
-#: gsmlib/gsm_util.cc:349
+#: gsmlib/gsm_util.cc:351
 #, c-format
 msgid "text '%s' contains illegal character '\"'"
 msgstr ""
 
-#: gsmlib/gsm_util.cc:359
+#: gsmlib/gsm_util.cc:361
 #, c-format
 msgid "illegal character in telephone number '%s'"
 msgstr ""
 
-#: gsmlib/gsm_sorted_phonebook.cc:96
+#: gsmlib/gsm_sorted_phonebook.cc:95
 #, c-format
 msgid "error reading from file '%s"
 msgstr ""
 
-#: gsmlib/gsm_sorted_phonebook.cc:110
+#: gsmlib/gsm_sorted_phonebook.cc:109
 #, c-format
 msgid "entry '%s' lacks index"
 msgstr ""
 
-#: gsmlib/gsm_sorted_phonebook.cc:119 gsmlib/gsm_sorted_phonebook.cc:125
+#: gsmlib/gsm_sorted_phonebook.cc:118 gsmlib/gsm_sorted_phonebook.cc:124
 #, c-format
 msgid "line '%s' has invalid format"
 msgstr ""
 
-#: gsmlib/gsm_sorted_phonebook.cc:174 gsmlib/gsm_sorted_sms_store.cc:159
+#: gsmlib/gsm_sorted_phonebook.cc:173 gsmlib/gsm_sorted_sms_store.cc:158
 #, c-format
 msgid "error opening file '%s' for writing"
 msgstr ""
 
-#: gsmlib/gsm_sorted_phonebook.cc:175 gsmlib/gsm_sorted_phonebook.cc:194
-#: gsmlib/gsm_sorted_sms_store.cc:67 gsmlib/gsm_sorted_sms_store.cc:160
+#: gsmlib/gsm_sorted_phonebook.cc:174 gsmlib/gsm_sorted_phonebook.cc:193
+#: gsmlib/gsm_sorted_sms_store.cc:66 gsmlib/gsm_sorted_sms_store.cc:159
 msgid "<STDOUT>"
 msgstr ""
 
-#: gsmlib/gsm_sorted_phonebook.cc:193 gsmlib/gsm_sorted_sms_store.cc:66
+#: gsmlib/gsm_sorted_phonebook.cc:192 gsmlib/gsm_sorted_sms_store.cc:65
 #, c-format
 msgid "error writing to file '%s'"
 msgstr ""
 
-#: gsmlib/gsm_sorted_phonebook.cc:217
+#: gsmlib/gsm_sorted_phonebook.cc:216
 msgid "attempt to change phonebook read from <STDIN>"
 msgstr ""
 
-#: gsmlib/gsm_sorted_phonebook.cc:230 gsmlib/gsm_sorted_sms_store.cc:215
+#: gsmlib/gsm_sorted_phonebook.cc:229 gsmlib/gsm_sorted_sms_store.cc:214
 #, c-format
 msgid "cannot open file '%s'"
 msgstr ""
 
-#: gsmlib/gsm_sorted_phonebook.cc:245 gsmlib/gsm_sorted_sms_store.cc:55
-#: gsmlib/gsm_sorted_sms_store.cc:228
+#: gsmlib/gsm_sorted_phonebook.cc:244 gsmlib/gsm_sorted_sms_store.cc:54
+#: gsmlib/gsm_sorted_sms_store.cc:227
 msgid "<STDIN>"
 msgstr ""
 
-#: gsmlib/gsm_sorted_phonebook.cc:362
+#: gsmlib/gsm_sorted_phonebook.cc:361
 msgid "indices must be unique in phonebook"
 msgstr ""
 
-#: gsmlib/gsm_sorted_sms_store.cc:54
+#: gsmlib/gsm_sorted_sms_store.cc:53
 #, c-format
 msgid "error reading from file '%s'"
 msgstr ""
 
-#: gsmlib/gsm_sorted_sms_store.cc:87
+#: gsmlib/gsm_sorted_sms_store.cc:86
 #, c-format
 msgid "file '%s' has wrong version"
 msgstr ""
 
-#: gsmlib/gsm_sorted_sms_store.cc:99 gsmlib/gsm_sorted_sms_store.cc:111
+#: gsmlib/gsm_sorted_sms_store.cc:98 gsmlib/gsm_sorted_sms_store.cc:110
 #, c-format
 msgid "corrupt SMS store file '%s'"
 msgstr ""
 
-#: gsmlib/gsm_sorted_sms_store.cc:204
+#: gsmlib/gsm_sorted_sms_store.cc:203
 msgid "attempt to change SMS store read from <STDIN>"
 msgstr ""

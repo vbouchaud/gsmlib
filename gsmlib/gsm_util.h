@@ -129,10 +129,7 @@ namespace gsmlib
   std::string removeWhiteSpace(std::string s);
 
   // return true if bit is set in vector<bool>
-  bool isSet(std::vector<bool> &b, unsigned int bit)
-  {
-    return b.size() > bit && b[bit];
-  }
+  bool isSet(std::vector<bool> &b, unsigned int bit);
 
   // return true if filename refers to a file
   // throws exception if filename is neither file nor device

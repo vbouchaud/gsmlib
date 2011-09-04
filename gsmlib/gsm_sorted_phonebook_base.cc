@@ -27,7 +27,7 @@ using namespace gsmlib;
 
 // PhonebookEntryBase members
 
-void PhonebookEntryBase::set(string telephone, string text, int index,
+void PhonebookEntryBase::set(std::string telephone, std::string text, int index,
                              bool useIndex)
   throw(GsmException)
 {
@@ -49,12 +49,12 @@ bool PhonebookEntryBase::operator==(const PhonebookEntryBase &e) const
     (! (_useIndex || e._useIndex) || _index == e._index);
 }
 
-string PhonebookEntryBase::text() const throw(GsmException)
+std::string PhonebookEntryBase::text() const throw(GsmException)
 {
   return _text;
 }
 
-string PhonebookEntryBase::telephone() const throw(GsmException)
+std::string PhonebookEntryBase::telephone() const throw(GsmException)
 {
   return _telephone;
 }
@@ -85,16 +85,16 @@ PhonebookEntryBase &PhonebookEntryBase::operator=(const PhonebookEntryBase &e)
 
 // CustomPhonebookRegistry members
 
-map<string, CustomPhonebookFactory*>
+std::map<std::string, CustomPhonebookFactory*>
 *CustomPhonebookRegistry::_factoryList = NULL;
 
 void CustomPhonebookRegistry::
-registerCustomPhonebookFactory(string backendName,
+registerCustomPhonebookFactory(std::string backendName,
                                CustomPhonebookFactory *factory)
   throw(GsmException)
 {
   if (_factoryList == NULL)
-    _factoryList = new map<string, CustomPhonebookFactory*>;
+    _factoryList = new std::map<std::string, CustomPhonebookFactory*>;
   backendName = lowercase(backendName);
   if (_factoryList->find(backendName) != _factoryList->end())
     throw GsmException(stringPrintf(_("backend '%s' already registered"),
@@ -102,10 +102,10 @@ registerCustomPhonebookFactory(string backendName,
 }
       
 SortedPhonebookRef CustomPhonebookRegistry::
-createPhonebook(string backendName, string source) throw(GsmException)
+createPhonebook(std::string backendName, std::string source) throw(GsmException)
 {
   if (_factoryList == NULL)
-    _factoryList = new map<string, CustomPhonebookFactory*>;
+    _factoryList = new std::map<std::string, CustomPhonebookFactory*>;
   backendName = lowercase(backendName);
   if (_factoryList->find(backendName) == _factoryList->end())
     throw GsmException(stringPrintf(_("backend '%s' not registered"),

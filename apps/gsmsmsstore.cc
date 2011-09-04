@@ -270,26 +270,28 @@ int main(int argc, char *argv[])
     
     // start accessing source store or file if required by operation
     if (operation == CopyOp || operation == BackupOp || operation == ListOp)
-      if (source == "-")
-        sourceStore = new SortedSMSStore(true);
-      else if (isFile(source))
-        sourceStore = new SortedSMSStore(source);
-      else
       {
-        if (storeName == "")
-          throw GsmException(_("store name must be given"), ParameterError);
-        
-        sourceMeTa = new MeTa(new
+	if (source == "-")
+	  sourceStore = new SortedSMSStore(true);
+	else if (isFile(source))
+	  sourceStore = new SortedSMSStore(source);
+	else
+	  {
+	    if (storeName == "")
+	      throw GsmException(_("store name must be given"), ParameterError);
+	    
+	    sourceMeTa = new MeTa(new
 #ifdef WIN32
-                              Win32SerialPort
+				  Win32SerialPort
 #else
-                              UnixSerialPort
+				  UnixSerialPort
 #endif
-                              (source,
-                               baudrate == "" ? DEFAULT_BAUD_RATE :
-                               baudRateStrToSpeed(baudrate), initString,
-                               swHandshake));
-        sourceStore = new SortedSMSStore(sourceMeTa->getSMSStore(storeName));
+				  (source,
+				   baudrate == "" ? DEFAULT_BAUD_RATE :
+				   baudRateStrToSpeed(baudrate), initString,
+				   swHandshake));
+	    sourceStore = new SortedSMSStore(sourceMeTa->getSMSStore(storeName));
+	  }
       }
       
     // make sure destination file exists if specified
@@ -302,26 +304,28 @@ int main(int argc, char *argv[])
     // start accessing destination store or file
     if (operation == CopyOp || operation == BackupOp || operation == AddOp ||
         operation == DeleteOp)
-      if (destination == "-")
-        destStore = new SortedSMSStore(false);
-      else if (isFile(destination))
-        destStore = new SortedSMSStore(destination);
-      else
       {
-        if (storeName == "")
-          throw GsmException(_("store name must be given"), ParameterError);
-        
-        destMeTa = new MeTa(new
+	if (destination == "-")
+	  destStore = new SortedSMSStore(false);
+	else if (isFile(destination))
+	  destStore = new SortedSMSStore(destination);
+	else
+	  {
+	    if (storeName == "")
+	      throw GsmException(_("store name must be given"), ParameterError);
+	    
+	    destMeTa = new MeTa(new
 #ifdef WIN32
-                            Win32SerialPort
+				Win32SerialPort
 #else
-                            UnixSerialPort
+				UnixSerialPort
 #endif
-                            (destination,
-                             baudrate == "" ? DEFAULT_BAUD_RATE :
-                             baudRateStrToSpeed(baudrate), initString,
-                             swHandshake));
-        destStore = new SortedSMSStore(destMeTa->getSMSStore(storeName));      
+				(destination,
+				 baudrate == "" ? DEFAULT_BAUD_RATE :
+				 baudRateStrToSpeed(baudrate), initString,
+				 swHandshake));
+	    destStore = new SortedSMSStore(destMeTa->getSMSStore(storeName));      
+	  }
       }
 
     // now do the actual work
