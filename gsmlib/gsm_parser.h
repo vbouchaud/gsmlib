@@ -15,7 +15,7 @@
 
 #include <gsmlib/gsm_util.h>
 #include <gsmlib/gsm_error.h>
-#include <std::string>
+#include <string>
 #include <vector>
 
 namespace gsmlib
