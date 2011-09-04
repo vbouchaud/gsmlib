@@ -3,49 +3,45 @@
 #include <gsmlib/gsm_phonebook.h>
 #include <algorithm>
 #include <iostream>
-#include <strstream>
 
-using namespace std;
-using namespace gsmlib;
-
-void printPb(PhonebookEntry &e)
+void printPb(gsmlib::PhonebookEntry &e)
 {
-  cout << "number: " << e.telephone()
-       << " text: " << e.text() << endl;
+  std::cout << "number: " << e.telephone()
+	    << " text: " << e.text() << std::endl;
 }
 
 int main(int argc, char *argv[])
 {
   try
   {
-    cout << (string)"Opening device " + argv[1] << endl;
-    Ref<Port> port = new UnixSerialPort((string)argv[1], B38400);
+    std::cout << "Opening device " << argv[1] << std::endl;
+    gsmlib::Ref<gsmlib::Port> port = new gsmlib::UnixSerialPort(std::string(argv[1]), B38400);
 
-    cout << "Creating MeTa object" << endl;
-    MeTa m(port);
+    std::cout << "Creating MeTa object" << std::endl;
+    gsmlib::MeTa m(port);
 
-    cout << "Getting phonebook entries" << endl;
-    vector<string> pbs = m.getPhoneBookStrings();
-    for (vector<string>::iterator i = pbs.begin(); i != pbs.end(); ++i)
+    std::cout << "Getting phonebook entries" << std::endl;
+    std::vector<std::string> pbs = m.getPhoneBookStrings();
+    for (std::vector<std::string>::iterator i = pbs.begin(); i != pbs.end(); ++i)
     {
-      PhonebookRef pb = m.getPhonebook(*i);
+      gsmlib::PhonebookRef pb = m.getPhonebook(*i);
 
-      cout << "Phonebook \"" << *i << "\" " << endl
-           << "  Max number length: " << pb->getMaxTelephoneLen() << endl
-           << "  Max text length: " << pb->getMaxTextLen() << endl
-           << "  Capacity: " << pb->capacity() << endl
-           << "  Size: " << pb->size() << endl;
+      std::cout << "Phonebook \"" << *i << "\" " << std::endl
+		<< "  Max number length: " << pb->getMaxTelephoneLen() << std::endl
+		<< "  Max text length: " << pb->getMaxTextLen() << std::endl
+		<< "  Capacity: " << pb->capacity() << std::endl
+		<< "  Size: " << pb->size() << std::endl;
 
-      for (Phonebook::iterator j = pb->begin(); j != pb->end(); ++j)
-        if (! j->empty())
-          cout << "  Entry #" << j - pb->begin()
-               << "Number: \"" << j->telephone() << "\""
-               << "Text: \"" << j->text() << "\"" << endl;
+      for (gsmlib::Phonebook::iterator j = pb->begin(); j != pb->end(); ++j)
+        if (!j->empty())
+	  std::cout << "  Entry #" << j - pb->begin()
+		    << "Number: \"" << j->telephone() << "\""
+		    << "Text: \"" << j->text() << "\"" << std::endl;
     }
   }
-  catch (GsmException &ge)
+  catch (gsmlib::GsmException &ge)
   {
-    cerr << "GsmException '" << ge.what() << "'" << endl;
+    std::cerr << "GsmException '" << ge.what() << "'" << std::endl;
     return 1;
   }
   return 0;

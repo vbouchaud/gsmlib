@@ -9,80 +9,76 @@
 #include <gsmlib/gsm_me_ta.h>
 #include <gsmlib/gsm_phonebook.h>
 #include <algorithm>
-#include <strstream>
+#include <sstream>
 #include <iostream>
-
-using namespace std;
-using namespace gsmlib;
 
 int main(int argc, char *argv[])
 {
   try
   {
-    cout << (string)"Opening device " + argv[1] << endl;
+    std::cout << "Opening device " << argv[1] << std::endl;
 #ifdef WIN32
-    Ref<Port> port = new Win32SerialPort((string)argv[1], 38400);
+    gsmlib::Ref<gsmlib::Port> port = new gsmlib::Win32SerialPort(std::string(argv[1]), 38400);
 #else
-	Ref<Port> port = new UnixSerialPort((string)argv[1], B38400);
+    gsmlib::Ref<gsmlib::Port> port = new gsmlib::UnixSerialPort(std::string(argv[1]), B38400);
 #endif
 
-    cout << "Creating MeTa object" << endl;
-    MeTa m(port);
+    std::cout << "Creating MeTa object" << std::endl;
+    gsmlib::MeTa m(port);
 
-    cout << "Setting message service level to 1" << endl;
+    std::cout << "Setting message service level to 1" << std::endl;
     m.setMessageService(1);
 
-    vector<string> storeList = m.getSMSStoreNames();
+    std::vector<std::string> storeList = m.getSMSStoreNames();
 
-    for (vector<string>::iterator stn = storeList.begin();
+    for (std::vector<std::string>::iterator stn = storeList.begin();
          stn != storeList.end(); ++stn)
     {
-      cout << "Getting store \"" << *stn << "\"" << endl;
-      SMSStoreRef st = m.getSMSStore(*stn);
+      std::cout << "Getting store \"" << *stn << "\"" << std::endl;
+      gsmlib::SMSStoreRef st = m.getSMSStore(*stn);
 
-      SMSMessageRef sms;
-      cout << "Creating SMS Submit Message and putting it into store" << endl;
-      SMSSubmitMessage *subsms = new SMSSubmitMessage();
+      gsmlib::SMSMessageRef sms;
+      std::cout << "Creating SMS Submit Message and putting it into store" << std::endl;
+      gsmlib::SMSSubmitMessage *subsms = new gsmlib::SMSSubmitMessage();
 //       Address scAddr("+491710760000");
 //       subsms->setServiceCentreAddress(scAddr);
-      Address destAddr("0177123456");
+      gsmlib::Address destAddr("0177123456");
       subsms->setDestinationAddress(destAddr);
       subsms->setUserData("This message was sent from the store.");
-      TimePeriod tp;
-      tp._format = TimePeriod::Relative;
+      gsmlib::TimePeriod tp;
+      tp._format = gsmlib::TimePeriod::Relative;
       tp._relativeTime = 100;
       /*subsms->setValidityPeriod(tp);
       subsms->setValidityPeriodFormat(tp._format);
       subsms->setStatusReportRequest(true);*/
       sms = subsms;
-      SMSStore::iterator smsIter = st->insert(st->end(), SMSStoreEntry(sms));
-      cout << "Message entered at index #"
-           << smsIter - st->begin() << endl;
+      gsmlib::SMSStore::iterator smsIter = st->insert(st->end(), gsmlib::SMSStoreEntry(sms));
+      std::cout << "Message entered at index #"
+		<< smsIter - st->begin() << std::endl;
 
       //m.sendSMS(sms);
-      SMSMessageRef ackPdu;
+      gsmlib::SMSMessageRef ackPdu;
       int messageRef = smsIter->send(ackPdu);
-      cout << "Message reference: " << messageRef << endl
-           << "ACK PDU:" << endl
-           << (ackPdu.isnull() ? "no ack pdu" : ackPdu->toString())
-           << endl;
+      std::cout << "Message reference: " << messageRef << std::endl
+		<< "ACK PDU:" << std::endl
+		<< (ackPdu.isnull() ? "no ack pdu" : ackPdu->toString())
+		<< std::endl;
 
       /*      cout << "Erasing all unsent messages" << endl;
       for (SMSStore::iterator s = st->begin(); s != st->end(); ++s)
         if (! s->empty() && s->status() == SMSStoreEntry::StoredUnsent)
         st->erase(s);*/
 
-      cout << "Printing store \"" << *stn << "\"" << endl;
-      for (SMSStore::iterator s = st->begin(); s != st->end(); ++s)
-        if (! s->empty())
-          cout << s->message()->toString();
-
+      std::cout << "Printing store \"" << *stn << "\"" << std::endl;
+      for (gsmlib::SMSStore::iterator s = st->begin(); s != st->end(); ++s)
+        if (!s->empty())
+	  std::cout << s->message()->toString();
       break;                    // only do one store
     }
   }
-  catch (GsmException &ge)
+  catch (gsmlib::GsmException &ge)
   {
-    cerr << "GsmException '" << ge.what() << "'" << endl;
+    std::cerr << "GsmException '" << ge.what() << "'" << std::endl;
     return 1;
   }
   return 0;

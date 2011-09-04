@@ -3,16 +3,12 @@
 #endif
 #include <gsmlib/gsm_sorted_phonebook.h>
 #include <algorithm>
-#include <strstream>
 #include <iostream>
 
-using namespace std;
-using namespace gsmlib;
-
-void printPb(PhonebookEntry &e)
+void printPb(gsmlib::PhonebookEntry &e)
 {
-  cout << "number: " << e.telephone()
-       << " text: " << e.text() << endl;
+  std::cout << "number: " << e.telephone()
+	    << " text: " << e.text() << std::endl;
 }
 
 int main(int argc, char *argv[])
@@ -20,61 +16,61 @@ int main(int argc, char *argv[])
   try
   {
     // open phonebook file
-    SortedPhonebook pb((string)"spb-copy.pb", false);
+    gsmlib::SortedPhonebook pb(std::string("spb-copy.pb"), false);
     
     // print all entries
-    cout << "Entries in pbs-copy.pb:" << endl;
-    for (SortedPhonebook::iterator i = pb.begin(); i != pb.end(); ++i)
-      cout << "  Text: " << i->text()
-           << "  Telephone: " << i->telephone() << endl;
+    std::cout << "Entries in pbs-copy.pb:" << std::endl;
+    for (gsmlib::SortedPhonebook::iterator i = pb.begin(); i != pb.end(); ++i)
+      std::cout << "  Text: " << i->text()
+		<< "  Telephone: " << i->telephone() << std::endl;
 
     // remove all entries with telephone == "0815"
-    cout << "Removing entries with telephone == 0815" << endl;
-    pb.setSortOrder(ByTelephone);
+    std::cout << "Removing entries with telephone == 0815" << std::endl;
+    pb.setSortOrder(gsmlib::ByTelephone);
 
-    string s = "0815";
+    std::string s = "0815";
     pb.erase(s);
 
-    cout << "Entries in pbs-copy.pb<2>:" << endl;
-    for (SortedPhonebook::iterator i = pb.begin(); i != pb.end(); ++i)
-      cout << "  Text: " << i->text()
-           << "  Telephone: " << i->telephone() << endl;
-
+    std::cout << "Entries in pbs-copy.pb<2>:" << std::endl;
+    for (gsmlib::SortedPhonebook::iterator i = pb.begin(); i != pb.end(); ++i)
+      std::cout << "  Text: " << i->text()
+		<< "  Telephone: " << i->telephone() << std::endl;
+    
     // insert some entries
-    cout << "Inserting some entries" << endl;
-    pb.insert(PhonebookEntryBase("08152", "new line with \r continued"));
-    pb.insert(PhonebookEntryBase("41598254", "Hans-Dieter Schmidt"));
-    pb.insert(PhonebookEntryBase("34058", "Hans-Dieter|Hofmann"));
+    std::cout << "Inserting some entries" << std::endl;
+    pb.insert(gsmlib::PhonebookEntryBase("08152", "new line with \r continued"));
+    pb.insert(gsmlib::PhonebookEntryBase("41598254", "Hans-Dieter Schmidt"));
+    pb.insert(gsmlib::PhonebookEntryBase("34058", "Hans-Dieter|Hofmann"));
 
-    pb.setSortOrder(ByText);
-    cout << "Entries in pbs-copy.pb<3>:" << endl;
-    for (SortedPhonebook::iterator i = pb.begin(); i != pb.end(); ++i)
-      cout << "  Text: " << i->text()
-           << "  Telephone: " << i->telephone() << endl;
+    pb.setSortOrder(gsmlib::ByText);
+    std::cout << "Entries in pbs-copy.pb<3>:" << std::endl;
+    for (gsmlib::SortedPhonebook::iterator i = pb.begin(); i != pb.end(); ++i)
+      std::cout << "  Text: " << i->text()
+		<< "  Telephone: " << i->telephone() << std::endl;
 
     // test erasing all "Hans-Dieter Schmidt" entries
-    cout << "Erasing all Hans-Dieter Schmidt entries" << endl;
+    std::cout << "Erasing all Hans-Dieter Schmidt entries" << std::endl;
     s = "Hans-Dieter Schmidt";
-    pair<SortedPhonebook::iterator, SortedPhonebook::iterator> range =
+    std::pair<gsmlib::SortedPhonebook::iterator, gsmlib::SortedPhonebook::iterator> range =
       pb.equal_range(s);
-    cout << "About to erase:" << endl;
-    for (SortedPhonebook::iterator i = range.first; i != range.second; ++i)
-      cout << "  Text: " << i->text()
-           << "  Telephone: " << i->telephone() << endl;
+    std::cout << "About to erase:" << std::endl;
+    for (gsmlib::SortedPhonebook::iterator i = range.first; i != range.second; ++i)
+      std::cout << "  Text: " << i->text()
+		<< "  Telephone: " << i->telephone() << std::endl;
     
     pb.erase(range.first, range.second);
 
     // write back to file
-    cout << "Writing back to file" << endl;
+    std::cout << "Writing back to file" << std::endl;
     pb.sync();
 
     // tests the NoCopy class
     //SortedPhonebook pb2("spb.pb");
     //pb2 = pb;
   }
-  catch (GsmException &ge)
+  catch (gsmlib::GsmException &ge)
   {
-    cerr << "GsmException '" << ge.what() << "'" << endl;
+    std::cerr << "GsmException '" << ge.what() << "'" << std::endl;
     return 1;
   }
   return 0;
