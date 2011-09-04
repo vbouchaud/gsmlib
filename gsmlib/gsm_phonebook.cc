@@ -23,7 +23,6 @@
 #include <assert.h>
 #include <ctype.h>
 
-using namespace std;
 using namespace gsmlib;
 
 // PhonebookEntry members
