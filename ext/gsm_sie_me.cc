@@ -40,7 +40,7 @@ SieMe::SieMe(Ref<Port> port) throw(GsmException) : MeTa::MeTa(port)
 std::vector<std::string> SieMe::getSupportedPhonebooks() throw(GsmException)
 {
   Parser p(_at->chat("^SPBS=?", "^SPBS:"));
-  return p.parseStd::StringList();
+  return p.parseStringList();
 }
 
 std::string SieMe::getCurrentPhonebook() throw(GsmException)
@@ -49,7 +49,7 @@ std::string SieMe::getCurrentPhonebook() throw(GsmException)
     {
       Parser p(_at->chat("^SPBS?", "^SPBS:"));
       // answer is e.g. ^SPBS: "SM",41,250
-      _lastPhonebookName = p.parseStd::String();
+      _lastPhonebookName = p.parseString();
       p.parseComma();
       p.parseInt();
       p.parseComma();
