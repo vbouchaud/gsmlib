@@ -184,7 +184,7 @@ BinaryObject SieMe::getBinary(std::string type, int subtype) throw(GsmException)
       ++fragmentCount;
       // parse header
       Parser p(*i);
-      std::string fragmentType = p.parseStd::String();
+      std::string fragmentType = p.parseString();
       if (fragmentType != type)
 	throw GsmException(_("bad PDU type"), ChatError);
       p.parseComma();
