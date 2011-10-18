@@ -186,6 +186,8 @@ namespace gsmlib
   class CustomPhonebookFactory
   {
   public:
+    virtual ~CustomPhonebookFactory() { }
+
     // return sorted phonebook object given the source specification
     // (eg. database name, URL, etc.)
     virtual SortedPhonebookRef createPhonebook(std::string source)

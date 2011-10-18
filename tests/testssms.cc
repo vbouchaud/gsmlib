@@ -3,7 +3,7 @@
 #include <gsmlib/gsm_phonebook.h>
 #include <algorithm>
 #include <iostream>
-#include <strstream>
+#include <sstream>
 
 using namespace std;
 using namespace gsmlib;

@@ -31,6 +31,8 @@ namespace gsmlib
     void dispatch(std::string s, GsmAt &at) throw(GsmException);
 
   public:
+    virtual ~GsmEvent() { }
+
     // for SMSReception, type of SMS
     enum SMSMessageType {NormalSMS, CellBroadcastSMS, StatusReportSMS};
 
