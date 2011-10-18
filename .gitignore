@@ -15,5 +15,5 @@ autom4te.cache
 config.log
 config.status
 configure
-gsm_config.h*
+gsm_config.h
 libtool
