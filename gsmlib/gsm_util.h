@@ -186,6 +186,8 @@ namespace gsmlib
   class InterruptBase
   {
   public:
+    virtual ~InterruptBase() { }
+
     // this member should return true if gsmlib is to be interrupted
     virtual bool interrupted() = 0;
   };
@@ -201,6 +203,8 @@ namespace gsmlib
   class ProgressBase
   {
   public:
+    virtual ~ProgressBase() { }
+
     // override this to receive progress reports
     virtual void reportProgress(int part, int total) = 0;
   };

@@ -19,7 +19,7 @@
 #include <gsmlib/gsm_util.h>
 #include <fcntl.h>
 #include <iostream>
-#include <strstream>
+#include <sstream>
 #include <errno.h>
 #include <stdio.h>
 #include <assert.h>

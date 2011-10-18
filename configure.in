@@ -108,7 +108,7 @@ AC_SUBST(GSM_VERSION)
 dnl national language support (NLS)
 LINGUAS="de"
 ALL_LINGUAS=$LINGUAS
-AM_GNU_GETTEXT
+AM_GLIB_GNU_GETTEXT
 
 dnl set locale dir (FIXME there must be a better way)
 _localedir=`eval "echo $datadir/locale"`
