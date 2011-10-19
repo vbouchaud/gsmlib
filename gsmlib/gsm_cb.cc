@@ -85,6 +85,7 @@ std::string CBDataCodingScheme::toString() const
     result += _("Turkish");
     break;
   case Unknown:
+  default:
     result += _("Unknown");
     break;
   }
