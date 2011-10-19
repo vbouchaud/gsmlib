@@ -274,6 +274,11 @@ std::string MeTa::getExtendedErrorReport() throw(GsmException)
   return _at->chat("+CEER", "+CEER:");
 }
 
+void MeTa::purgeStorage(std::string const& storage) throw(GsmException)
+{
+  _at->chat(std::string("^SPBD=") + storage);
+}
+
 void MeTa::dial(std::string number) throw(GsmException)
 {
   _at->chat("D" + number + ";");
@@ -833,6 +838,18 @@ void MeTa::setFunctionalityLevel(int level) throw(GsmException)
     }
     throw;
   }
+}
+
+void MeTa::reset() throw(GsmException)
+{
+  _at->chat("+CFUN=1,1", "", false, true);
+  std::string s = _at->getLine(); // Consume <CR><LF>
+  if (!s.empty())
+    throw GsmException(std::string("'' expected, got '") + s + "'", ChatError);
+  s = _at->getLine();
+  if (s != "^SYSSTART")
+    throw GsmException(std::string("^SYSSTART expected, got '") + s + "'",
+                       ChatError);
 }
 
 int MeTa::getSignalStrength() throw(GsmException)

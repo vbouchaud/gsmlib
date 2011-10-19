@@ -193,6 +193,11 @@ namespace gsmlib
     // get extended error report
     std::string getExtendedErrorReport() throw(GsmException);// (+CEER)
 
+    // purge memory phonebook storage
+    // the storage may be: "FD","SM","ON","ME","LD","MC","RC","BL"
+    // can be obtained via AT^SPBD=?
+    void purgeStorage(std::string const& storage) throw(GsmException);
+
     // dial a number, CLI presentation as defined in network
     void dial(std::string number) throw(GsmException);// (ATD)
 
@@ -291,6 +296,7 @@ namespace gsmlib
     // 5...127 implementation-defined
     int getFunctionalityLevel() throw(GsmException);
     void setFunctionalityLevel(int level) throw(GsmException);
+    void reset() throw(GsmException);
 
     // return battery charge status (+CBC):
     // 0 ME is powered by the battery
