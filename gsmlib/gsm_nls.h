@@ -40,22 +40,22 @@ namespace gsmlib
 {
   const class InitNLS
   {
-  static bool initialized;
-    
+    static bool initialized;
+
   public:
     InitNLS()
       {
         if (! initialized)      // do only once
-        {
-          setlocale(LC_ALL, "");
+	  {
+	    //          setlocale(LC_ALL, ""); /// FIXME LC_ALL deprecated not found but seems to be optional.
 #ifdef LOCAL_TRANSLATIONS
-          bindtextdomain(PACKAGE, "../po");
+	    bindtextdomain(PACKAGE, "../po");
 #else
-          bindtextdomain(PACKAGE, LOCALEDIR);
+	    bindtextdomain(PACKAGE, LOCALEDIR);
 #endif
-          textdomain(PACKAGE);
-          initialized = true;
-        }
+	    textdomain(PACKAGE);
+	    initialized = true;
+	  }
       }
   } initNLS;
 };
