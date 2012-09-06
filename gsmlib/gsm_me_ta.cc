@@ -88,7 +88,17 @@ void MeTa::init() throw(GsmException)
 
   // find out whether we are supposed to send an acknowledgment
   Parser p(_at->chat("+CSMS?", "+CSMS:"));
-  _capabilities._sendAck = p.parseInt() >= 1;
+  try {
+    _capabilities._sendAck = p.parseInt() >= 1;
+  }
+  catch (GsmException &e)
+  {
+    if (e.getErrorClass() == ParserError) {
+      _capabilities._sendAck = 0;
+    } else {
+      throw e;
+    }
+  }
       
   // set GSM default character set
   try
@@ -367,6 +377,20 @@ std::vector<OPInfo> MeTa::getAvailableOPInfo() throw(GsmException)
             // the Ericsson GM12 GSM modem returns the numeric ID as string
 	    std::string s = p.parseString();
             opi._numericName = checkNumber(s);
+          }
+          else
+            throw e;
+        }
+        try
+        {
+          opi._numericName = p.parseComma();
+          p.parseInt(true);
+        }
+        catch (GsmException &e)
+        {
+          if (e.getErrorClass() == ParserError)
+          {
+            /* okay */
           }
           else
             throw e;
@@ -1019,8 +1043,18 @@ void MeTa::setMessageService(int serviceLevel) throw(GsmException)
 
 unsigned int MeTa::getMessageService() throw(GsmException)
 {
-  Parser p(_at->chat("+CSMS?", "+CSMS:"));
-  return p.parseInt();
+  try {
+    Parser p(_at->chat("+CSMS?", "+CSMS:"));
+    return p.parseInt();
+  }
+  catch (GsmException &e)
+  {
+    if (e.getErrorClass() == ParserError) {
+      return 0;
+    } else {
+      throw e;
+    }
+  }
 }
 
 void MeTa::getSMSRoutingToTA(bool &smsRouted,
