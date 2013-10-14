@@ -376,6 +376,20 @@ std::vector<OPInfo> MeTa::getAvailableOPInfo() throw(GsmException)
           else
             throw e;
         }
+        try
+        {
+          opi._numericName = p.parseComma();
+          p.parseInt(true);
+        }
+        catch (GsmException &e)
+        {
+          if (e.getErrorClass() == ParserError)
+          {
+            /* okay */
+          }
+          else
+            throw e;
+        }
         if (expectClosingBracket) p.parseChar(')');
         result.push_back(opi);
         if (! p.parseComma(true)) break;
