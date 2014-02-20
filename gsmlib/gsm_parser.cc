@@ -50,8 +50,8 @@ bool Parser::checkEmptyParameter(bool allowNoParameter) throw(GsmException)
       else
 	throwParseException(_("expected parameter"));
 
-      putBackChar();
     }
+  putBackChar();
   return false;
 }
 
